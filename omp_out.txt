@@ -1,0 +1,10 @@
+OpenMP Execution
+
+Program Configuration
+Number of threads available = 32
+
+Input file(s): 
+  - files/small_test1.txt
+  - files/small_test2.txt
+
+Output file: omp_wc.txt
