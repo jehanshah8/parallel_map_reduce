@@ -1,5 +1,31 @@
 #include "../include/utils.hpp"
 
+/// @brief Reads a string and updates a hash map with the number of appearances for each word
+/// @param line_buffer 
+/// @param word_counts 
+void GetWordCountsFromLine(std::string& line_buffer, std::unordered_map<std::string, int>& word_counts) 
+{
+    std::istringstream buffer_string_stream(line_buffer);
+    std::string word;
+    while (buffer_string_stream >> word) {   
+        // Update hash map
+        UpdateWordCounts(word_counts, word);
+    }
+}
+
+
+/// @brief Increments map entry for the given key
+/// @param word_counts 
+/// @param word 
+void UpdateWordCounts(std::unordered_map<std::string, int>& word_counts, const std::string& word)
+{
+    if (word_counts.find(word) == word_counts.end()) {
+        word_counts.insert({word, 1});
+    } else {
+        word_counts[word] += 1; 
+    }
+}
+
 
 /// @brief Writes hash map to file
 /// @param word_counts 

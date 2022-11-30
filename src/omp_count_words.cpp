@@ -35,20 +35,20 @@ int main(int argc, char *argv[])
     std::string output_filename = argv[argc - 1]; 
     std::cout<<"\nOutput file: "<<output_filename<< std::endl; 
 
-
-
-    
-
     // Create reader threads 
     // Use multiple threads to read one file at a time before moving on to the next file
 
-    // Start with one thread-safe queue
-    // Readers put lines onto the queue, mappers take lines out of the queue
 
-    // Each mapper 
+    // Each reader thread will read one line and put it into the buffer of its corresponding mapper 
+    
+    // num_readers = k * num_mappers, where k is an integer
+    // There needs to be 1 lock for each mapper's queue
 
-    // Number of reducers are decided by number of cores 
-    // word w goes to the queue of reducer i such that i = h(w) % num_reducers 
+    // Each mapper will acquire a lock on the queue, pop the first line
+    
+    // Mapper will then process the line and update a local hash map
+
+    // Each time 
     
     // Mappers need to know when all readers are done
     // Reducers need to know when all mappers are done

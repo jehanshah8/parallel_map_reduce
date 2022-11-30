@@ -12,10 +12,6 @@
 // make -f Makefile.serial
 // ./serial_count_words files/small_test1.txt files/small_test2.txt serial_wc.txt > serial_out.txt
 
-void GetWordCountsFromLine(std::string& line_buffer, std::unordered_map<std::string, int>& word_counts); 
-void UpdateWordCounts(std::unordered_map<std::string, int>& word_counts, const std::string& word);
-
-
 int main(int argc, char *argv[])
 {
     if (argc < 3) {
@@ -74,6 +70,8 @@ int main(int argc, char *argv[])
     return 0; 
 }
 
+/**
+
 /// @brief Reads a string and updates a hash map with the number of appearances for each word
 /// @param line_buffer 
 /// @param word_counts 
@@ -98,3 +96,4 @@ void UpdateWordCounts(std::unordered_map<std::string, int>& word_counts, const s
         word_counts[word] += 1; 
     }
 }
+*/
