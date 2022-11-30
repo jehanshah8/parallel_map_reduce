@@ -1,0 +1,15 @@
+Serial Execution
+
+Input file(s): 
+  - files/small_test1.txt
+  - files/small_test2.txt
+
+Output file: serial_wc.txt
+
+Starting to count words for files/small_test1.txt
+Finished counting words for files/small_test1.txt
+
+Starting to count words for files/small_test2.txt
+Finished counting words for files/small_test2.txt
+
+Serial execution time 0.000238662seconds

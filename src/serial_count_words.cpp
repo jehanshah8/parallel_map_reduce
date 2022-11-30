@@ -1,18 +1,20 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
 
+#include <string>
 #include <unordered_map>
 
 #include <omp.h>
 
-// g++ -std=c++17 -Wall serial_count_words.cpp -o serial_count_words
-// ./serial_count_words ../files/small_test1.txt ../files/small_test2.txt ../serial_out.txt
+#include "../include/utils.hpp"
+
+// make -f Makefile.serial
+// ./serial_count_words files/small_test1.txt files/small_test2.txt serial_wc.txt > serial_out.txt
 
 void GetWordCountsFromLine(std::string& line_buffer, std::unordered_map<std::string, int>& word_counts); 
 void UpdateWordCounts(std::unordered_map<std::string, int>& word_counts, const std::string& word);
-void WriteWordCountsToFile(const std::unordered_map<std::string, int>& word_counts, const std::string filename); 
+
 
 int main(int argc, char *argv[])
 {
@@ -95,28 +97,4 @@ void UpdateWordCounts(std::unordered_map<std::string, int>& word_counts, const s
     } else {
         word_counts[word] += 1; 
     }
-}
-
-/// @brief Writes hash map to file
-/// @param word_counts 
-/// @param filename 
-void WriteWordCountsToFile(const std::unordered_map<std::string, int>& word_counts, const std::string filename) 
-{
-    std::ofstream out_file{filename};
-  
-    // Check if file was opened successfully
-    if (!out_file) {   
-        std::cerr << "Unable to open file for writing!" <<std::endl;
-        exit(1);
-    }
-
-    std::unordered_map<std::string, int>::const_iterator it; 
-    for (it = word_counts.begin(); it != word_counts.end(); it++) {
-    out_file << it->first    
-            << ':'
-            << it->second
-            << std::endl;
-    } 
-
-    out_file.close();
 }
