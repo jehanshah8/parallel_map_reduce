@@ -19,17 +19,19 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
+    char **input_files = &argv[1];
+    int num_input_files = argc - 2;
+    std::string output_filename = argv[argc - 1];
+
     // Program configuration
     std::cout << "Serial Execution" << std::endl;
 
     // Echo arguments
     std::cout << "\nInput file(s): " << std::endl;
-    for (int i = 1; i < argc - 1; i++)
+    for (int i = 0; i < num_input_files; i++)
     {
-        std::cout << "  - " << argv[i] << std::endl;
+        std::cout << "  - " << input_files[i] << std::endl;
     }
-
-    std::string output_filename = argv[argc - 1];
     std::cout << "\nOutput file: " << output_filename << std::endl;
 
     // Read files one by one and build a hash table to hold reduced data
@@ -38,17 +40,17 @@ int main(int argc, char *argv[])
     double runtime = -omp_get_wtime(); // Start timer
 
     // Go over each file
-    for (int i = 1; i < argc - 1; i++)
+    for (int i = 0; i < num_input_files; i++)
     {
-        std::cout << "\nStarting to count words for " << argv[i] << std::endl;
+        std::cout << "\nStarting to count words for " << input_files[i] << std::endl;
 
         std::ifstream in_file;
-        in_file.open(argv[i]);
+        in_file.open(input_files[i]);
 
         // Check if file was opened successfully
         if (!in_file)
         {
-            std::cerr << "Unable to open file!" << std::endl;
+            std::cerr << "Unable to open " << input_files[i] << "!" << std::endl;
             exit(1);
         }
 
@@ -61,7 +63,7 @@ int main(int argc, char *argv[])
         }
 
         in_file.close();
-        std::cout << "Finished counting words for " << argv[i] << std::endl;
+        std::cout << "Finished counting words for " << input_files[i] << std::endl;
     }
 
     // Write the word counts to file
