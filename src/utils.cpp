@@ -29,10 +29,11 @@ void UpdateWordCounts(std::unordered_map<std::string, int> &word_counts, const s
     }
 }
 
-/// @brief Writes hash map to file
-/// @param word_counts
-/// @param filename
-void WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_counts, const std::string &filename)
+/// @brief 
+/// @param word_counts 
+/// @param filename 
+/// @return 
+bool WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_counts, const std::string &filename)
 {
     std::ofstream out_file{filename};
 

@@ -67,7 +67,12 @@ int main(int argc, char *argv[])
     }
 
     // Write the word counts to file
-    WriteWordCountsToFile(word_counts, output_filename);
+    if (!WriteWordCountsToFile(word_counts, output_filename)) 
+    {
+        std::cerr << "Failed write to " << output_filename << "!" << std::endl;
+        exit(1);
+    }
+
 
     runtime += omp_get_wtime(); // Stop timer
     std::cout << "\nSerial execution time " << runtime << "seconds" << std::endl;
