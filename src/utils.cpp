@@ -3,7 +3,7 @@
 /// @brief Reads a string and updates a hash map with the number of appearances for each word
 /// @param line_buffer
 /// @param word_counts
-void GetWordCountsFromLine(std::string &line_buffer, std::unordered_map<std::string, int> &word_counts)
+void GetWordCountsFromString(std::string &line_buffer, std::unordered_map<std::string, int> &word_counts)
 {
     std::istringstream word_buffer(line_buffer);
     std::string word;

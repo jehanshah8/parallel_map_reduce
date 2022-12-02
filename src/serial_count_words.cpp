@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
         {
             std::string line_buffer;
             std::getline(in_file, line_buffer);
-            GetWordCountsFromLine(line_buffer, word_counts);
+            GetWordCountsFromString(line_buffer, word_counts);
         }
 
         in_file.close();
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 /// @brief Reads a string and updates a hash map with the number of appearances for each word
 /// @param line_buffer
 /// @param word_counts
-void GetWordCountsFromLine(std::string& line_buffer, std::unordered_map<std::string, int>& word_counts)
+void GetWordCountsFromString(std::string& line_buffer, std::unordered_map<std::string, int>& word_counts)
 {
     std::istringstream buffer_string_stream(line_buffer);
     std::string word;

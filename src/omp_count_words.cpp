@@ -11,7 +11,6 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include <cstring>
 
 #include <omp.h>
 
@@ -37,6 +36,7 @@ void *MmapFileToRead(int fd, size_t file_size);
 void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks);
 void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
                              std::vector<std::unordered_map<std::string, int>> &thread_local_word_counts);
+int GetReducerIdForWord(std::string &word);
 
 void PrintFileBuffer(const char *file_buffer);
 
@@ -180,6 +180,14 @@ void *MmapFileToRead(int fd, size_t file_size)
     return file_buffer;
 }
 
+void PrintFileBuffer(const char *file_buffer)
+{
+    // Print entire buffer for debugging
+    std::cout << "\nFile buffer: " << std::endl;
+    std::cout << '\t' << file_buffer << std::endl;
+    std::cout << "\nEnd file buffer" << std::endl;
+}
+
 void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks)
 {
     size_t target_chunk_size = file_size / target_num_chunks;
@@ -230,29 +238,21 @@ void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chu
 void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
                              std::vector<std::unordered_map<std::string, int>> &thread_local_word_counts)
 {
-    const char delimiters[] = " \n";
     // parallel for loop to take file chunks, tokenize, and update local maps
-    //#pragma omp parallel for schedule(guided)
+    #pragma omp parallel for schedule(guided)
     for (int i = 0; i < file_chunks.size(); i++)
     {
-        char chunk[file_chunks.at(i).size + 1];
-        strncpy (chunk, file_chunks.at(i).data, file_chunks.at(i).size);
-        chunk[file_chunks.at(i).size] = '\0';
-
-        //std::cout<<chunk<<std::endl;
-        
-        // char* word = strtok(chunk, delimiters);
-        // while (word) {
-        //     UpdateWordCounts(thread_local_word_counts.at(omp_get_thread_num()), word);
-        //     word = strtok(NULL, delimiters);
-        // }     
+        std::string chunk(file_chunks.at(i).data, file_chunks.at(i).size);
+        GetWordCountsFromString(chunk, thread_local_word_counts.at(omp_get_thread_num()));
     }
 }
 
-void PrintFileBuffer(const char *file_buffer)
-{
-    // Print entire buffer for debugging
-    std::cout << "\nFile buffer: " << std::endl;
-    std::cout << '\t' << file_buffer << std::endl;
-    std::cout << "\nEnd file buffer" << std::endl;
+/// @brief 
+/// @param word 
+/// @return int reducer_id -- the number/id of the reducer corresponding to this word 
+int GetReducerIdForWord(std::string &word) {
+    // get bucket number
+    // mod bucket number by num_reducers 
+    ;
 }
+
