@@ -54,4 +54,5 @@ bool WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_coun
     }
 
     out_file.close();
+    return true; 
 }
