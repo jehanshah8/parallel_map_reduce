@@ -27,11 +27,10 @@ struct file_chunk
 bool IsDelimiter(char c);
 size_t GetFileSize(const int fd);
 void *MmapFileToRead(const int fd, const int file_size);
+void SplitBufferToChunks(char* file_buffer, size_t file_size, int target_num_chunks, std::vector<file_chunk> &file_chunks);
 
 int main(int argc, char *argv[])
 {
-
-    // omp_set_num_threads(3);
     if (argc < 3)
     {
         std::cout << "Usage: count_words <input file 1> ... <input file n> <output file>" << std::endl;
@@ -47,7 +46,7 @@ int main(int argc, char *argv[])
     // Get sys info such as number of processors
     int num_max_threads = omp_get_max_threads(); // max number of threads available
     std::cout << "\nProgram Configuration" << std::endl;
-    std::cout << "\tNumber of threads available = " << num_max_threads << std::endl;
+    std::cout << "\tMaximm number of threads available = " << num_max_threads << std::endl;
 
     // int num_readers = std::min(num_max_threads / 2, num_input_files);
     // std::cout << "Number of reader threads = " << num_readers << std::endl;
@@ -88,75 +87,18 @@ int main(int argc, char *argv[])
         std::cout << "File size = " << file_size << std::endl;
 
         // Print entire buffer for debugging
-        std::cout << "\nFile buffer: " << std::endl;
-        std::cout << '\t' << file_buffer << std::endl;
-        std::cout << "\nEnd file buffer" << std::endl;
+        // std::cout << "\nFile buffer: " << std::endl;
+        // std::cout << '\t' << file_buffer << std::endl;
+        // std::cout << "\nEnd file buffer" << std::endl;
 
         // Split the entire character array (file_buffer) into (k * num_thread) small
         // character arrays. k * for better load balance
         int chunks_per_thread = 10; // TODO: def const?
         int target_num_chunks = chunks_per_thread * threads_per_file;
-        size_t target_chunk_size = file_size / target_num_chunks;
-
+        
+        // Split file into multiple chunks with ending at word boundries
         std::vector<file_chunk> file_chunks(target_num_chunks); // Vector to store file chunks
-
-        std::cout << "\nSplitting file into chunks" << std::endl;
-        int start_idx = 0;
-        int prev_start_idx = 0;
-        for (int j = 0; j < target_num_chunks && start_idx < file_size; j++)
-        {
-            std::cout << "\nStarting to build chunk " << j << std::endl;
-
-            try
-            {
-                file_chunks.at(j).data = &file_buffer[start_idx];
-            }
-            catch (const std::out_of_range &oor)
-            {
-                std::cerr << "Out of Range error: " << oor.what() << '\n';
-            }
-
-            prev_start_idx = start_idx;
-            start_idx += std::min(target_chunk_size, file_size - prev_start_idx); // move start idx to the end of chunk + 1th char
-
-            std::cout << "\nprev_start_idx: " << prev_start_idx << std::endl;
-            std::cout << "start_idx before fixing: " << start_idx << std::endl;
-            std::cout << "Chunk " << j << " before fixing " << std::endl;
-            for (int k = 0; k < start_idx - prev_start_idx; k++)
-            {
-                std::cout << file_chunks[j].data[k];
-            }
-            std::cout << '\0' << std::endl;
-
-            // Since the file size (in bytes) will be divided by the number of threads
-            // Some words will be split across two small character arrays, and this needs to be fixed
-            int k;
-            for (k = 0; !IsDelimiter(file_buffer[start_idx + k]); k++)
-                ;
-            std::cout << "Number of characters to add: " << k << std::endl;
-
-            start_idx += k;
-
-            try
-            {
-                file_chunks.at(j).size = start_idx - prev_start_idx;
-            }
-            catch (const std::out_of_range &oor)
-            {
-                std::cerr << "Out of Range error: " << oor.what() << '\n';
-            }
-
-            std::cout << "\nstart_idx after fixing: " << start_idx << std::endl;
-            std::cout << "Chunk " << j << " size: " << file_chunks[j].size << std::endl;
-            std::cout << "Chunk " << j << " after fixing " << std::endl;
-            for (int k = 0; k < start_idx - prev_start_idx; k++)
-            {
-                std::cout << file_chunks[j].data[k];
-            }
-            std::cout << '\0' << std::endl;
-
-            std::cout << "\nEnd chunk" << std::endl;
-        }
+        SplitBufferToChunks(file_buffer, file_size, target_num_chunks, file_chunks);
 
 // TODO: parallel for loop to take file chunks, tokenize, and update map
 #pragma omp parallel for schedule(guided)
@@ -184,6 +126,7 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
 
 bool IsDelimiter(char c)
 {
@@ -215,3 +158,78 @@ void *MmapFileToRead(const int fd, const int file_size)
 
     return file_buffer;
 }
+
+void SplitBufferToChunks(char* file_buffer, size_t file_size, int target_num_chunks, std::vector<file_chunk> &file_chunks)
+{
+    size_t target_chunk_size = file_size / target_num_chunks; 
+
+    std::cout << "\nSplitting file into chunks" << std::endl;
+    int start_idx = 0;
+    int prev_start_idx = 0;
+    for (int j = 0; j < target_num_chunks && start_idx < file_size; j++)
+    {
+        std::cout << "\nStarting to build chunk " << j << std::endl;
+
+        try
+        {
+            file_chunks.at(j).data = &file_buffer[start_idx];
+        }
+        catch (const std::out_of_range &oor)
+        {
+            std::cerr << "Out of Range error: " << oor.what() << '\n';
+        }
+
+        prev_start_idx = start_idx;
+        start_idx += std::min(target_chunk_size, file_size - prev_start_idx); // move start idx to the end of chunk + 1th char
+
+        // std::cout << "\nprev_start_idx: " << prev_start_idx << std::endl;
+        // std::cout << "start_idx before fixing: " << start_idx << std::endl;
+        // std::cout << "Chunk " << j << " before fixing " << std::endl;
+        // for (int k = 0; k < start_idx - prev_start_idx; k++)
+        // {
+        //     std::cout << file_chunks[j].data[k];
+        // }
+        // std::cout << '\0' << std::endl;
+
+        // Since the file size (in bytes) will be divided by the number of threads
+        // Some words will be split across two small character arrays, and this needs to be fixed
+        int k;
+        for (k = 0; !IsDelimiter(file_buffer[start_idx + k]); k++)
+            ;
+        //std::cout << "Number of characters to add: " << k << std::endl;
+
+        start_idx += k;
+
+        try
+        {
+            file_chunks.at(j).size = start_idx - prev_start_idx;
+        }
+        catch (const std::out_of_range &oor)
+        {
+            std::cerr << "Out of Range error: " << oor.what() << '\n';
+        }
+
+        // std::cout << "\nstart_idx after fixing: " << start_idx << std::endl;
+        // std::cout << "Chunk " << j << " size: " << file_chunks[j].size << std::endl;
+        // std::cout << "Chunk " << j << " after fixing " << std::endl;
+        // for (int k = 0; k < start_idx - prev_start_idx; k++)
+        // {
+        //     std::cout << file_chunks[j].data[k];
+        // }
+        // std::cout << '\0' << std::endl;
+
+        std::cout << "\nEnd chunk" << std::endl;
+    }
+}
+
+
+/** 
+ * Each Reader 
+ *  - Opens a file using mmap
+ *  - Splits file into a vector of chunks 
+ * 
+ * Each Mapper 
+ * 
+ * 
+ * Control FLow
+*/
