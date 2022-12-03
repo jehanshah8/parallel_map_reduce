@@ -10,6 +10,7 @@
 
 // make -f Makefile.serial
 // ./serial_count_words files/small_test1.txt files/small_test2.txt serial_wc.txt > serial_out.txt
+// ./serial_count_words files/1.txt files/2.txt files/3.txt serial_wc.txt > serial_out.txt
 
 int main(int argc, char *argv[])
 {
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "  - " << input_files[i] << std::endl;
     }
-    std::cout << "\nOutput file: " << output_filename << std::endl;
+    std::cout << "\nOutput file: \n  - " << output_filename << std::endl;
 
     // Read files one by one and build a hash table to hold reduced data
     std::unordered_map<std::string, int> word_counts;
@@ -66,16 +67,15 @@ int main(int argc, char *argv[])
         std::cout << "Finished counting words for " << input_files[i] << std::endl;
     }
 
+    runtime += omp_get_wtime(); // Stop timer
+    std::cout << "\nSerial execution time " << runtime << "seconds" << std::endl;
+    
     // Write the word counts to file
     if (!WriteWordCountsToFile(word_counts, output_filename)) 
     {
         std::cerr << "Failed write to " << output_filename << "!" << std::endl;
         exit(1);
     }
-
-
-    runtime += omp_get_wtime(); // Stop timer
-    std::cout << "\nSerial execution time " << runtime << "seconds" << std::endl;
 
     return 0;
 }
