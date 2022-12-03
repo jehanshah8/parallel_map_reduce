@@ -34,8 +34,8 @@ void UnmapAndCloseFile(int fd, char *file_buffer, size_t file_size);
 size_t GetFileSize(int fd);
 void *MmapFileToRead(int fd, size_t file_size);
 void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks);
-void InitLocks(std::vector<omp_lock_t> &map_locks);
-void DestroyLocks(std::vector<omp_lock_t> &map_locks);
+void InitLocks(std::vector<omp_lock_t> &locks);
+void DestroyLocks(std::vector<omp_lock_t> &locks);
 unsigned long Hash(std::string &str);
 void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
                              std::vector<std::unordered_map<std::string, int>> &word_count_maps,
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 
     // Write to one file by appending (produces one file with outputs of previous files by appending)
     // Convinient to compare with serial version
-    std::string output_filename("temp_omp_wc.txt");
+    std::string output_filename("combined_omp_wc.txt");
     std::ofstream out_file{output_filename};
     // Check if file was opened successfully
     if (!out_file)
@@ -291,21 +291,21 @@ unsigned long Hash(std::string &str)
     return hash;
 }
 
-void InitLocks(std::vector<omp_lock_t> &map_locks)
+void InitLocks(std::vector<omp_lock_t> &locks)
 {
     // init locks
-    for (int i = 0; i < map_locks.size(); i++)
+    for (int i = 0; i < locks.size(); i++)
     {
-        omp_init_lock(&(map_locks[i]));
+        omp_init_lock(&(locks[i]));
     }
 }
 
-void DestroyLocks(std::vector<omp_lock_t> &map_locks)
+void DestroyLocks(std::vector<omp_lock_t> &locks)
 {
     // give up locks
-    for (int i = 0; i < map_locks.size(); i++)
+    for (int i = 0; i < locks.size(); i++)
     {
-        omp_destroy_lock(&(map_locks[i]));
+        omp_destroy_lock(&(locks[i]));
     }
 }
 
