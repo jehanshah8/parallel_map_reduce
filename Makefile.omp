@@ -7,14 +7,14 @@ CXXFLAGS=-std=c++17 -qopenmp
 INCLUDEDIR = -I include
 SOURCEDIR = src
 
-SOURCES = serial_count_words.cpp utils.cpp
+SOURCES = omp_count_words.cpp utils.cpp
 _DEPS = utils.hpp
 DEPS = $(patsubst %,$(INCLUDEDIR)/%,$(_DEPS))
 
 OBJDIR = bin
 OBJECTS = $(SOURCES:%.cpp=$(OBJDIR)/%.o)
 
-EXECUTABLE = serial_count_words
+EXECUTABLE = omp_count_words
 
 default: $(EXECUTABLE)
 $(EXECUTABLE) : $(OBJECTS)
