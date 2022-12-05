@@ -19,6 +19,7 @@
 // make -f Makefile.omp
 // ./omp_count_words files/small_test1.txt files/small_test2.txt > omp_out.txt
 // ./omp_count_words files/1.txt files/2.txt files/3.txt > omp_out.txt
+// ./omp_count_words files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt files/13.txt files/14.txt files/15.txt files/16.txt > omp_out.txt
 
 #define CHUNKS_PER_THREAD 10
 
@@ -47,7 +48,7 @@ void PrintFileBuffer(const char *file_buffer);
 
 int main(int argc, char *argv[])
 {
-    // omp_set_num_threads(12);
+    omp_set_num_threads(8);
 
     if (argc < 2)
     {
@@ -89,6 +90,7 @@ int main(int argc, char *argv[])
     // character arrays. k * for better load balance
     int target_num_chunks = CHUNKS_PER_THREAD * num_max_threads;
     std::vector<FileChunk> file_chunks(target_num_chunks); // Vector to store file chunks
+    std::cout << "Target number of chunks per file: " << target_num_chunks << std::endl;
 
     double runtime = -omp_get_wtime(); // Start timer
 
@@ -113,6 +115,7 @@ int main(int argc, char *argv[])
         SplitBufferToChunks(file_buffer, file_size, target_num_chunks, file_chunks);
 
         GetWordCountsFromChunks(file_chunks, word_count_maps, map_locks);
+        // std::cout << "here" << std::endl;
 
         UnmapAndCloseFile(fd, file_buffer, file_size);
 
@@ -127,8 +130,8 @@ int main(int argc, char *argv[])
     runtime += omp_get_wtime(); // Stop timer
     std::cout << "\nParallel execution time " << runtime << "seconds" << std::endl;
 
-    // Write to multiple files, one per reducer (thread)
-    #pragma omp parallel for
+// Write to multiple files, one per reducer (thread)
+#pragma omp parallel for
     for (int i = 0; i < num_max_threads; i++)
     {
         if (!WriteWordCountsToFile(word_count_maps[i], output_files[i]))
@@ -237,43 +240,51 @@ void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chu
 
     int start_idx = 0;
     int prev_start_idx = 0;
-    for (int j = 0; j < target_num_chunks && start_idx < file_size; j++)
+    for (int j = 0; j < target_num_chunks; j++)
     {
-        // std::cout << "\nStarting to build chunk " << j << std::endl;
+        if (start_idx < file_size)
+        {
+            // std::cout << "\nStarting to build chunk " << j << std::endl;
 
-        file_chunks.at(j).data = &file_buffer[start_idx];
+            file_chunks.at(j).data = &file_buffer[start_idx];
 
-        prev_start_idx = start_idx;
-        start_idx += std::min(target_chunk_size, file_size - prev_start_idx); // move start idx to the end of chunk + 1th char
+            prev_start_idx = start_idx;
+            start_idx += std::min(target_chunk_size, file_size - prev_start_idx); // move start idx to the end of chunk + 1th char
 
-        // std::cout << "\nprev_start_idx: " << prev_start_idx << std::endl;
-        // std::cout << "start_idx before fixing: " << start_idx << std::endl;
-        // std::cout << "Chunk " << j << " before fixing " << std::endl;
-        // for (int k = 0; k < start_idx - prev_start_idx; k++)
-        // {
-        //     std::cout << file_chunks[j].data[k];
-        // }
-        // std::cout << "#" << std::endl;
+            // std::cout << "\nprev_start_idx: " << prev_start_idx << std::endl;
+            // std::cout << "start_idx before fixing: " << start_idx << std::endl;
+            // std::cout << "Chunk " << j << " before fixing " << std::endl;
+            // for (int k = 0; k < start_idx - prev_start_idx; k++)
+            // {
+            //     std::cout << file_chunks[j].data[k];
+            // }
+            // std::cout << "#" << std::endl;
 
-        // Since the file size (in bytes) will be divided by the number of threads
-        // Some words will be split across two small character arrays, and this needs to be fixed
-        int k;
-        for (k = 0; !IsDelimiter(file_buffer[start_idx + k]); k++)
-            ;
-        // std::cout << "Number of characters to add: " << k << std::endl;
+            // Since the file size (in bytes) will be divided by the number of threads
+            // Some words will be split across two small character arrays, and this needs to be fixed
+            int k;
+            for (k = 0; !IsDelimiter(file_buffer[start_idx + k]); k++)
+                ;
+            // std::cout << "Number of characters to add: " << k << std::endl;
 
-        start_idx += k;
-        file_chunks.at(j).size = start_idx - prev_start_idx;
+            start_idx += k;
+            file_chunks.at(j).size = start_idx - prev_start_idx;
 
-        // std::cout << "\nstart_idx after fixing: " << start_idx << std::endl;
-        // std::cout << "Chunk " << j << " size: " << file_chunks[j].size << std::endl;
-        // std::cout << "Chunk " << j << " after fixing " << std::endl;
-        // for (int k = 0; k < start_idx - prev_start_idx; k++)
-        // {
-        //     std::cout << file_chunks[j].data[k];
-        // }
-        // std::cout << "#" <<  std::endl;
-        // std::cout << "\nEnd chunk" << std::endl;
+            // std::cout << "\nstart_idx after fixing: " << start_idx << std::endl;
+            // std::cout << "Chunk " << j << " size: " << file_chunks[j].size << std::endl;
+            // std::cout << "Chunk " << j << " after fixing " << std::endl;
+            // for (int k = 0; k < start_idx - prev_start_idx; k++)
+            // {
+            //     std::cout << file_chunks[j].data[k];
+            // }
+            // std::cout << "#" <<  std::endl;
+            // std::cout << "\nEnd chunk" << std::endl;
+        }
+        else
+        {
+            file_chunks.at(j).data = nullptr;
+            file_chunks.at(j).size = -1;
+        }
     }
 }
 
@@ -313,21 +324,31 @@ void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
                              std::vector<std::unordered_map<std::string, int>> &word_count_maps,
                              std::vector<omp_lock_t> &map_locks)
 {
+
+    // std::cout << "Num chunks = " << file_chunks.size() << std::endl;
+
     // parallel for loop to take file chunks, tokenize, and update local maps
     int num_maps = word_count_maps.size();
     #pragma omp parallel for schedule(guided)
     for (int i = 0; i < file_chunks.size(); i++)
     {
-        std::string chunk(file_chunks.at(i).data, file_chunks.at(i).size);
-
-        std::istringstream word_buffer(chunk);
-        std::string word;
-        while (word_buffer >> word)
+        if (file_chunks.at(i).data != nullptr)
         {
-            int map_idx = Hash(word) % num_maps;
-            omp_set_lock(&(map_locks[map_idx]));              // get lock for map
-            UpdateWordCounts(word_count_maps[map_idx], word); // insert into that map
-            omp_unset_lock(&(map_locks[map_idx]));            // release lock
+            std::string chunk(file_chunks.at(i).data, file_chunks.at(i).size);
+
+            // std::cout << "Chunk " << i << ": \n  - size = " << file_chunks.at(i).size << std::endl;
+            // std::cout << "  - data: \n"
+            //           << file_chunks.at(i).data << std::endl;
+
+            std::istringstream word_buffer(chunk);
+            std::string word;
+            while (word_buffer >> word)
+            {
+                int map_idx = Hash(word) % num_maps;
+                omp_set_lock(&(map_locks[map_idx]));              // get lock for map
+                UpdateWordCounts(word_count_maps[map_idx], word); // insert into that map
+                omp_unset_lock(&(map_locks[map_idx]));            // release lock
+            }
         }
     }
 }
