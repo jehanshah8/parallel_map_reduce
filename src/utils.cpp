@@ -1,8 +1,65 @@
 #include "../include/utils.hpp"
 
+int OpenFile(const char *filename)
+{
+    int fd = open(filename, O_RDONLY);
+    if (fd == -1)
+    {
+        std::cerr << "Unable to open file!" << std::endl;
+        exit(1);
+    }
+    return fd;
+}
+
+size_t GetFileSize(int fd)
+{
+    struct stat file_stat;
+    int file_status = fstat(fd, &file_stat);
+    if (file_status < 0)
+    {
+        close(fd);
+        std::cerr << "Unable to get file status!" << std::endl;
+        exit(1);
+    }
+    return file_stat.st_size;
+}
+
+void *MmapFileToRead(int fd, size_t file_size)
+{
+    void *file_buffer = mmap(0, file_size, PROT_READ, MAP_SHARED, fd, 0);
+    if (file_buffer == MAP_FAILED)
+    {
+        close(fd);
+        std::cerr << "Error mapping file to memory!" << std::endl;
+        exit(1);
+    }
+
+    return file_buffer;
+}
+
+void UnmapAndCloseFile(int fd, char *file_buffer, size_t file_size)
+{
+    // Unmap file and close it
+    if (munmap(file_buffer, file_size) == -1)
+    {
+        std::cerr << "Error un-mapping file to memory!" << std::endl;
+        exit(1);
+    }
+    close(fd);
+}
+
+void PrintFileBuffer(const char *file_buffer)
+{
+    // Print entire buffer for debugging
+    std::cout << "\nFile buffer: " << std::endl;
+    std::cout << '\t' << file_buffer << std::endl;
+    std::cout << "\nEnd file buffer" << std::endl;
+}
+
 /// @brief Reads a string and updates a hash map with the number of appearances for each word
 /// @param line_buffer
 /// @param word_counts
+
 void GetWordCountsFromString(std::string &line_buffer, std::unordered_map<std::string, int> &word_counts)
 {
     std::istringstream word_buffer(line_buffer);
@@ -29,10 +86,10 @@ void UpdateWordCounts(std::unordered_map<std::string, int> &word_counts, const s
     }
 }
 
-/// @brief 
-/// @param word_counts 
-/// @param filename 
-/// @return 
+/// @brief
+/// @param word_counts
+/// @param filename
+/// @return
 bool WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_counts, const std::string &filename)
 {
     std::ofstream out_file{filename};
@@ -54,5 +111,5 @@ bool WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_coun
     }
 
     out_file.close();
-    return true; 
+    return true;
 }

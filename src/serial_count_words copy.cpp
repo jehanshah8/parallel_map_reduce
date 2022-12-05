@@ -1,15 +1,8 @@
-#include <string>
-#include <unordered_map>
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#include <string>
+#include <unordered_map>
 
 #include <omp.h>
 
@@ -56,32 +49,32 @@ int main(int argc, char *argv[])
     // Go over each file
     for (int i = 0; i < num_input_files; i++)
     {
-        // double file_runtime = -omp_get_wtime(); // Start timer
-        const char *filename = input_files[i];
-        // std::cout << "\nStarting to count words for " << filename << std::endl;
+        std::cout << "\nStarting to count words for " << input_files[i] << std::endl;
 
-        int fd = OpenFile(filename);
+        std::ifstream in_file;
+        in_file.open(input_files[i]);
 
-        // Get file size
-        size_t file_size = GetFileSize(fd);
+        // Check if file was opened successfully
+        if (!in_file)
+        {
+            std::cerr << "Unable to open " << input_files[i] << "!" << std::endl;
+            exit(1);
+        }
 
-        // Open file using mmap to map file to virtual mem
-        char *file_buffer = (char *)MmapFileToRead(fd, file_size);
-        // std::cout << "File size = " << file_size << std::endl;
+        // Read lines from file
+        while (in_file)
+        {
+            std::string line_buffer;
+            std::getline(in_file, line_buffer);
+            GetWordCountsFromString(line_buffer, word_counts);
+        }
 
-        // PrintFileBuffer(file_buffer); // for debugging
-
-        std::string chunk(file_buffer, file_size);
-        GetWordCountsFromString(chunk, word_counts);
-        
-        UnmapAndCloseFile(fd, file_buffer, file_size);
-        // std::cout << "Finished counting words for " << filename << std::endl;
-        // file_runtime += omp_get_wtime(); // Stop timer
-        // std::cout << "File took " << file_runtime << "seconds" << std::endl;
+        in_file.close();
+        std::cout << "Finished counting words for " << input_files[i] << std::endl;
     }
 
     runtime += omp_get_wtime(); // Stop timer
-    std::cout << "\nSerial execution time " << runtime << " seconds" << std::endl;
+    std::cout << "\nSerial execution time " << runtime << "seconds" << std::endl;
     
     // Write the word counts to file
     if (!WriteWordCountsToFile(word_counts, output_filename)) 
