@@ -21,7 +21,15 @@
 // ./omp_count_words files/1.txt files/2.txt files/3.txt > omp_out.txt
 // ./omp_count_words files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt files/13.txt files/14.txt files/15.txt files/16.txt > omp_out.txt
 
-#define CHUNKS_PER_THREAD 10
+#define CHUNKS_PER_THREAD 5
+#define NUM_CONCURRENT_FILES 5
+
+struct File
+{
+    int fd;
+    size_t file_size;
+    char *file_buffer;
+};
 
 struct FileChunk
 {
@@ -29,26 +37,26 @@ struct FileChunk
     size_t size;
 };
 
+unsigned long Hash(std::string &str);
+
 bool IsDelimiter(char c);
-int OpenFile(const char *filename);
-void UnmapAndCloseFile(int fd, char *file_buffer, size_t file_size);
-size_t GetFileSize(int fd);
-void *MmapFileToRead(int fd, size_t file_size);
-void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks);
+
 void InitLocks(std::vector<omp_lock_t> &locks);
 void DestroyLocks(std::vector<omp_lock_t> &locks);
-unsigned long Hash(std::string &str);
+
+void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks, int file_num);
 void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
                              std::vector<std::unordered_map<std::string, int>> &word_count_maps,
                              std::vector<omp_lock_t> &map_locks);
 
 int GetReducerIdForWord(std::string &word);
 
-void PrintFileBuffer(const char *file_buffer);
+double split_to_chunk_runtime = 0; // cumulative time taken to split files to chunks
+double map_runtime = 0; // cumulative time taken for counting words and reducing
 
 int main(int argc, char *argv[])
 {
-    omp_set_num_threads(16);
+    omp_set_num_threads(20);
 
     if (argc < 2)
     {
@@ -62,11 +70,6 @@ int main(int argc, char *argv[])
     // Program configuration
     std::cout << "OpenMP Execution" << std::endl;
 
-    // Get sys info such as number of processors
-    int num_max_threads = omp_get_max_threads(); // max number of threads available
-    std::cout << "\nProgram Configuration" << std::endl;
-    std::cout << "\tMaximm number of threads available = " << num_max_threads << std::endl;
-
     // Echo arguments
     std::cout << "\nInput file(s): " << std::endl;
     for (int i = 0; i < num_input_files; i++)
@@ -74,76 +77,126 @@ int main(int argc, char *argv[])
         std::cout << "  - " << input_files[i] << std::endl;
     }
 
-    std::cout << "\nOutput file(s): " << std::endl;
-    std::vector<std::string> output_files(num_max_threads);
-    for (int i = 0; i < output_files.size(); i++)
-    {
-        output_files[i] = "output_files/output" + std::to_string(i) + ".txt";
-        std::cout << "  - " << output_files[i] << std::endl;
-    }
+    std::string output_filename("combined_omp_wc.txt");
+    std::cout << "\nOutput file: \n  - " << output_filename << std::endl;
 
+    // std::cout << "\nOutput file(s): " << std::endl;
+    // std::vector<std::string> output_files(num_max_threads);
+    // for (int i = 0; i < output_files.size(); i++)
+    // {
+    //     output_files[i] = "output_files/output" + std::to_string(i) + ".txt";
+    //     std::cout << "  - " << output_files[i] << std::endl;
+    // }
+
+    // Get sys info such as number of processors
+    int num_max_threads = omp_get_max_threads(); // max number of threads available
+    std::cout << "\nProgram Configuration" << std::endl;
+    std::cout << "  - Maximm number of threads available = " << num_max_threads << std::endl;
+    
     std::vector<std::unordered_map<std::string, int>> word_count_maps(num_max_threads);
     std::vector<omp_lock_t> map_locks(num_max_threads);
     InitLocks(map_locks);
 
     // Split the entire character array (file_buffer) into (k * num_thread) small
     // character arrays. k * for better load balance
+    std::cout << "  - Chunks per thread = " << CHUNKS_PER_THREAD << std::endl;
     int target_num_chunks = CHUNKS_PER_THREAD * num_max_threads;
-    std::vector<FileChunk> file_chunks(target_num_chunks); // Vector to store file chunks
-    std::cout << "Target number of chunks per file: " << target_num_chunks << std::endl;
+    std::cout << "  - Target number of chunks per file = " << target_num_chunks << std::endl;
 
+    int num_concurrent_files = std::min(num_input_files, NUM_CONCURRENT_FILES);
+    std::cout << "  - Number of files to process concurrently = " << num_concurrent_files << std::endl;
+    std::vector<File> files(num_concurrent_files);
+
+    std::vector<FileChunk> file_chunks(target_num_chunks * num_concurrent_files); // Vector to store file chunks
+    
     double runtime = -omp_get_wtime(); // Start timer
 
-    // Go over each file with multiple threads
-    for (int i = 0; i < num_input_files; i++)
+    
+    // Open multiple files at a time, then process that group of files with multiple threads
+    int group_num = 0; 
+    for (int i = 0; i < num_input_files; i+=num_concurrent_files)
     {
-        const char *filename = input_files[i];
-        std::cout << "\nStarting to count words for " << filename << std::endl;
+        std::cout << "\nStarting to count words for group " << group_num << std::endl;
+        for (int j = 0; j < num_concurrent_files; j++) 
+        {
+            if ((i + j) < num_input_files) 
+            {
+                // double file_runtime = -omp_get_wtime(); // Start timer
+                const char *filename = input_files[i + j];
+                std::cout << "  - Starting to count words for " << filename << std::endl;
 
-        int fd = OpenFile(filename);
+                // int fd = OpenFile(filename);
+                files.at(j).fd = OpenFile(filename);
 
-        // Get file size
-        size_t file_size = GetFileSize(fd);
+                // Get file size
+                // size_t file_size = GetFileSize(fd);
+                files.at(j).file_size = GetFileSize(files.at(j).fd);
 
-        // Open file using mmap to map file to virtual mem
-        char *file_buffer = (char *)MmapFileToRead(fd, file_size);
-        // std::cout << "File size = " << file_size << std::endl;
+                // Open file using mmap to map file to virtual mem
+                // char *file_buffer = (char *)MmapFileToRead(fd, file_size);
+                files.at(j).file_buffer = (char *)MmapFileToRead(files.at(j).fd, files.at(j).file_size);
+                // std::cout << "File size = " << file_size << std::endl;
 
-        // PrintFileBuffer(file_buffer); // for debugging
+                // PrintFileBuffer(file_buffer); // for debugging
 
-        // Split file into multiple chunks with ending at word boundries
-        SplitBufferToChunks(file_buffer, file_size, target_num_chunks, file_chunks);
+                // Split file into multiple chunks with ending at word boundries
+                SplitBufferToChunks(files.at(j).file_buffer, files.at(j).file_size, target_num_chunks, file_chunks, j);
+            } 
+            else 
+            {
+                files.at(j).fd = -1; 
+                files.at(j).file_size = -1;
+                files.at(j).file_buffer = nullptr; 
+                SplitBufferToChunks(files.at(j).file_buffer, files.at(j).file_size, target_num_chunks, file_chunks, j);
+            }
+        }
 
         GetWordCountsFromChunks(file_chunks, word_count_maps, map_locks);
-        // std::cout << "here" << std::endl;
-
-        UnmapAndCloseFile(fd, file_buffer, file_size);
-
-        std::cout << "Finished counting words for " << filename << std::endl;
+        std::cout << std::endl;
+        
+        for (int j = 0; j < num_concurrent_files && (i + j) < num_input_files; j++)
+        {
+            UnmapAndCloseFile(files.at(j).fd, files.at(j).file_buffer, files.at(j).file_size);
+            const char *filename = input_files[i + j];
+            std::cout << "  - Finished counting words for " << filename << std::endl;
+            // file_runtime += omp_get_wtime(); // Stop timer
+            // std::cout << "File took " << file_runtime << "seconds" << std::endl;
+        }
+        group_num++; 
     }
 
-    // Write the word counts to file
+        
+
+        // UnmapAndCloseFile(fd, file_buffer, file_size);
+
+        // std::cout << "Finished counting words for " << filename << std::endl;
+        // file_runtime += omp_get_wtime(); // Stop timer
+        // std::cout << "File took " << file_runtime << "seconds" << std::endl;
+    // }   
 
     // Release locks
     DestroyLocks(map_locks);
 
     runtime += omp_get_wtime(); // Stop timer
-    std::cout << "\nParallel execution time " << runtime << "seconds" << std::endl;
-
-// Write to multiple files, one per reducer (thread)
-#pragma omp parallel for
-    for (int i = 0; i < num_max_threads; i++)
-    {
-        if (!WriteWordCountsToFile(word_count_maps[i], output_files[i]))
-        {
-            std::cerr << "Failed write to " << output_files[i] << "!" << std::endl;
-            exit(1);
-        }
-    }
+    std::cout << "\nParallel execution time " << runtime << " seconds" << std::endl;
+    std::cout << "Total time spent on chunkifying " << split_to_chunk_runtime << " seconds (" 
+        << (split_to_chunk_runtime / runtime) * 100 << "%)" << std::endl;
+    std::cout << "Total time spent on mapping " << map_runtime << " seconds (" 
+        << (map_runtime / runtime) * 100 << "%)" << std::endl;
+    std::cout << std::endl;
+    // Write to multiple files, one per reducer (thread)
+    // #pragma omp parallel for
+    // for (int i = 0; i < num_max_threads; i++)
+    // {
+    //     if (!WriteWordCountsToFile(word_count_maps[i], output_files[i]))
+    //     {
+    //         std::cerr << "Failed write to " << output_files[i] << "!" << std::endl;
+    //         exit(1);
+    //     }
+    // }
 
     // Write to one file by appending (produces one file with outputs of previous files by appending)
     // Convinient to compare with serial version
-    std::string output_filename("combined_omp_wc.txt");
     std::ofstream out_file{output_filename};
     // Check if file was opened successfully
     if (!out_file)
@@ -167,69 +220,10 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-bool IsDelimiter(char c)
+void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks, int file_num)
 {
-    return c == ' ' || c == '\n' || c == '\0';
-}
+    double runtime = -omp_get_wtime(); // Start timer
 
-int OpenFile(const char *filename)
-{
-    int fd = open(filename, O_RDONLY);
-    if (fd == -1)
-    {
-        std::cerr << "Unable to open file!" << std::endl;
-        exit(1);
-    }
-    return fd;
-}
-
-void UnmapAndCloseFile(int fd, char *file_buffer, size_t file_size)
-{
-    // Unmap file and close it
-    if (munmap(file_buffer, file_size) == -1)
-    {
-        std::cerr << "Error un-mapping file to memory!" << std::endl;
-        exit(1);
-    }
-    close(fd);
-}
-
-size_t GetFileSize(int fd)
-{
-    struct stat file_stat;
-    int file_status = fstat(fd, &file_stat);
-    if (file_status < 0)
-    {
-        close(fd);
-        std::cerr << "Unable to get file status!" << std::endl;
-        exit(1);
-    }
-    return file_stat.st_size;
-}
-
-void *MmapFileToRead(int fd, size_t file_size)
-{
-    void *file_buffer = mmap(0, file_size, PROT_READ, MAP_SHARED, fd, 0);
-    if (file_buffer == MAP_FAILED)
-    {
-        close(fd);
-        std::cerr << "Error mapping file to memory!" << std::endl;
-        exit(1);
-    }
-
-    return file_buffer;
-}
-
-void PrintFileBuffer(const char *file_buffer)
-{
-    // Print entire buffer for debugging
-    std::cout << "\nFile buffer: " << std::endl;
-    std::cout << '\t' << file_buffer << std::endl;
-    std::cout << "\nEnd file buffer" << std::endl;
-}
-
-void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chunks, std::vector<FileChunk> &file_chunks)
-{
     // If the file is very small and too many threads are being used,
     // the intger division file_size / target_num_chunks will result in chunks of size 0
     // min used to protect that
@@ -240,9 +234,9 @@ void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chu
 
     int start_idx = 0;
     int prev_start_idx = 0;
-    for (int j = 0; j < target_num_chunks; j++)
+    for (int j = file_num * target_num_chunks; j < target_num_chunks * (file_num + 1); j++)
     {
-        if (start_idx < file_size)
+        if (file_buffer != nullptr && start_idx < file_size)
         {
             // std::cout << "\nStarting to build chunk " << j << std::endl;
 
@@ -286,6 +280,52 @@ void SplitBufferToChunks(char *file_buffer, size_t file_size, int target_num_chu
             file_chunks.at(j).size = -1;
         }
     }
+    runtime += omp_get_wtime(); // Stop timer
+    split_to_chunk_runtime += runtime;
+    // std::cout << "Splitting buffer to chunks took " << runtime << "seconds" << std::endl;
+}
+
+void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
+                             std::vector<std::unordered_map<std::string, int>> &word_count_maps,
+                             std::vector<omp_lock_t> &map_locks)
+{
+    double runtime = -omp_get_wtime(); // Start timer
+    // std::cout << "Num chunks = " << file_chunks.size() << std::endl;
+
+    // parallel for loop to take file chunks, tokenize, and update local maps
+    int num_maps = word_count_maps.size();
+    // std::cout << "OMP schedule: " << "static" << std::endl; 
+    #pragma omp parallel for schedule(guided)
+    for (int i = 0; i < file_chunks.size(); i++)
+    {
+        if (file_chunks.at(i).data != nullptr)
+        {
+            std::string chunk(file_chunks.at(i).data, file_chunks.at(i).size);
+
+            // std::cout << "Chunk " << i << ": \n  - size = " << file_chunks.at(i).size << std::endl;
+            // std::cout << "  - data: \n"
+            //           << file_chunks.at(i).data << std::endl;
+
+            std::istringstream word_buffer(chunk);
+            std::string word;
+            while (word_buffer >> word)
+            {
+                int map_idx = Hash(word) % num_maps;
+                UpdateWordCounts(word_count_maps[omp_get_thread_num()], word);
+                // omp_set_lock(&(map_locks[map_idx]));              // get lock for map
+                // UpdateWordCounts(word_count_maps[map_idx], word); // insert into that map
+                // omp_unset_lock(&(map_locks[map_idx]));            // release lock
+            }
+        }
+    }
+    runtime += omp_get_wtime(); // Stop timer
+    map_runtime += runtime;
+    // std::cout << "Getting word counts took " << runtime << "seconds" << std::endl;
+}
+
+bool IsDelimiter(char c)
+{
+    return c == ' ' || c == '\n' || c == '\0';
 }
 
 // djb2 hash function adopted from https://stackoverflow.com/questions/7700400/whats-a-good-hash-function-for-english-words
@@ -317,39 +357,6 @@ void DestroyLocks(std::vector<omp_lock_t> &locks)
     for (int i = 0; i < locks.size(); i++)
     {
         omp_destroy_lock(&(locks[i]));
-    }
-}
-
-void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
-                             std::vector<std::unordered_map<std::string, int>> &word_count_maps,
-                             std::vector<omp_lock_t> &map_locks)
-{
-
-    // std::cout << "Num chunks = " << file_chunks.size() << std::endl;
-
-    // parallel for loop to take file chunks, tokenize, and update local maps
-    int num_maps = word_count_maps.size();
-    #pragma omp parallel for schedule(guided)
-    for (int i = 0; i < file_chunks.size(); i++)
-    {
-        if (file_chunks.at(i).data != nullptr)
-        {
-            std::string chunk(file_chunks.at(i).data, file_chunks.at(i).size);
-
-            // std::cout << "Chunk " << i << ": \n  - size = " << file_chunks.at(i).size << std::endl;
-            // std::cout << "  - data: \n"
-            //           << file_chunks.at(i).data << std::endl;
-
-            std::istringstream word_buffer(chunk);
-            std::string word;
-            while (word_buffer >> word)
-            {
-                int map_idx = Hash(word) % num_maps;
-                omp_set_lock(&(map_locks[map_idx]));              // get lock for map
-                UpdateWordCounts(word_count_maps[map_idx], word); // insert into that map
-                omp_unset_lock(&(map_locks[map_idx]));            // release lock
-            }
-        }
     }
 }
 
