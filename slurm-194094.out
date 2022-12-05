@@ -1,0 +1,6064 @@
+OpenMP Execution
+
+Program Configuration
+	Maximm number of threads available = 20
+
+Input file(s): 
+  - files/1.txt
+  - files/2.txt
+  - files/3.txt
+  - files/4.txt
+  - files/5.txt
+  - files/6.txt
+  - files/7.txt
+  - files/8.txt
+  - files/9.txt
+  - files/11.txt
+  - files/12.txt
+  - files/13.txt
+  - files/14.txt
+  - files/15.txt
+  - files/16.txt
+
+Output file: 
+  - combined_omp_wc.txt
+
+Number of files to process concurrently: 15
+Target number of chunks per file: 100
+
+Starting to count words for group 0
+Starting to count words for files/1.txt
+
+Starting to build chunk 0
+
+End chunk
+
+Starting to build chunk 1
+
+End chunk
+
+Starting to build chunk 2
+
+End chunk
+
+Starting to build chunk 3
+
+End chunk
+
+Starting to build chunk 4
+
+End chunk
+
+Starting to build chunk 5
+
+End chunk
+
+Starting to build chunk 6
+
+End chunk
+
+Starting to build chunk 7
+
+End chunk
+
+Starting to build chunk 8
+
+End chunk
+
+Starting to build chunk 9
+
+End chunk
+
+Starting to build chunk 10
+
+End chunk
+
+Starting to build chunk 11
+
+End chunk
+
+Starting to build chunk 12
+
+End chunk
+
+Starting to build chunk 13
+
+End chunk
+
+Starting to build chunk 14
+
+End chunk
+
+Starting to build chunk 15
+
+End chunk
+
+Starting to build chunk 16
+
+End chunk
+
+Starting to build chunk 17
+
+End chunk
+
+Starting to build chunk 18
+
+End chunk
+
+Starting to build chunk 19
+
+End chunk
+
+Starting to build chunk 20
+
+End chunk
+
+Starting to build chunk 21
+
+End chunk
+
+Starting to build chunk 22
+
+End chunk
+
+Starting to build chunk 23
+
+End chunk
+
+Starting to build chunk 24
+
+End chunk
+
+Starting to build chunk 25
+
+End chunk
+
+Starting to build chunk 26
+
+End chunk
+
+Starting to build chunk 27
+
+End chunk
+
+Starting to build chunk 28
+
+End chunk
+
+Starting to build chunk 29
+
+End chunk
+
+Starting to build chunk 30
+
+End chunk
+
+Starting to build chunk 31
+
+End chunk
+
+Starting to build chunk 32
+
+End chunk
+
+Starting to build chunk 33
+
+End chunk
+
+Starting to build chunk 34
+
+End chunk
+
+Starting to build chunk 35
+
+End chunk
+
+Starting to build chunk 36
+
+End chunk
+
+Starting to build chunk 37
+
+End chunk
+
+Starting to build chunk 38
+
+End chunk
+
+Starting to build chunk 39
+
+End chunk
+
+Starting to build chunk 40
+
+End chunk
+
+Starting to build chunk 41
+
+End chunk
+
+Starting to build chunk 42
+
+End chunk
+
+Starting to build chunk 43
+
+End chunk
+
+Starting to build chunk 44
+
+End chunk
+
+Starting to build chunk 45
+
+End chunk
+
+Starting to build chunk 46
+
+End chunk
+
+Starting to build chunk 47
+
+End chunk
+
+Starting to build chunk 48
+
+End chunk
+
+Starting to build chunk 49
+
+End chunk
+
+Starting to build chunk 50
+
+End chunk
+
+Starting to build chunk 51
+
+End chunk
+
+Starting to build chunk 52
+
+End chunk
+
+Starting to build chunk 53
+
+End chunk
+
+Starting to build chunk 54
+
+End chunk
+
+Starting to build chunk 55
+
+End chunk
+
+Starting to build chunk 56
+
+End chunk
+
+Starting to build chunk 57
+
+End chunk
+
+Starting to build chunk 58
+
+End chunk
+
+Starting to build chunk 59
+
+End chunk
+
+Starting to build chunk 60
+
+End chunk
+
+Starting to build chunk 61
+
+End chunk
+
+Starting to build chunk 62
+
+End chunk
+
+Starting to build chunk 63
+
+End chunk
+
+Starting to build chunk 64
+
+End chunk
+
+Starting to build chunk 65
+
+End chunk
+
+Starting to build chunk 66
+
+End chunk
+
+Starting to build chunk 67
+
+End chunk
+
+Starting to build chunk 68
+
+End chunk
+
+Starting to build chunk 69
+
+End chunk
+
+Starting to build chunk 70
+
+End chunk
+
+Starting to build chunk 71
+
+End chunk
+
+Starting to build chunk 72
+
+End chunk
+
+Starting to build chunk 73
+
+End chunk
+
+Starting to build chunk 74
+
+End chunk
+
+Starting to build chunk 75
+
+End chunk
+
+Starting to build chunk 76
+
+End chunk
+
+Starting to build chunk 77
+
+End chunk
+
+Starting to build chunk 78
+
+End chunk
+
+Starting to build chunk 79
+
+End chunk
+
+Starting to build chunk 80
+
+End chunk
+
+Starting to build chunk 81
+
+End chunk
+
+Starting to build chunk 82
+
+End chunk
+
+Starting to build chunk 83
+
+End chunk
+
+Starting to build chunk 84
+
+End chunk
+
+Starting to build chunk 85
+
+End chunk
+
+Starting to build chunk 86
+
+End chunk
+
+Starting to build chunk 87
+
+End chunk
+
+Starting to build chunk 88
+
+End chunk
+
+Starting to build chunk 89
+
+End chunk
+
+Starting to build chunk 90
+
+End chunk
+
+Starting to build chunk 91
+
+End chunk
+
+Starting to build chunk 92
+
+End chunk
+
+Starting to build chunk 93
+
+End chunk
+
+Starting to build chunk 94
+
+End chunk
+
+Starting to build chunk 95
+
+End chunk
+
+Starting to build chunk 96
+
+End chunk
+
+Starting to build chunk 97
+
+End chunk
+
+Starting to build chunk 98
+
+End chunk
+
+Starting to build chunk 99
+
+End chunk
+Starting to count words for files/2.txt
+
+Starting to build chunk 100
+
+End chunk
+
+Starting to build chunk 101
+
+End chunk
+
+Starting to build chunk 102
+
+End chunk
+
+Starting to build chunk 103
+
+End chunk
+
+Starting to build chunk 104
+
+End chunk
+
+Starting to build chunk 105
+
+End chunk
+
+Starting to build chunk 106
+
+End chunk
+
+Starting to build chunk 107
+
+End chunk
+
+Starting to build chunk 108
+
+End chunk
+
+Starting to build chunk 109
+
+End chunk
+
+Starting to build chunk 110
+
+End chunk
+
+Starting to build chunk 111
+
+End chunk
+
+Starting to build chunk 112
+
+End chunk
+
+Starting to build chunk 113
+
+End chunk
+
+Starting to build chunk 114
+
+End chunk
+
+Starting to build chunk 115
+
+End chunk
+
+Starting to build chunk 116
+
+End chunk
+
+Starting to build chunk 117
+
+End chunk
+
+Starting to build chunk 118
+
+End chunk
+
+Starting to build chunk 119
+
+End chunk
+
+Starting to build chunk 120
+
+End chunk
+
+Starting to build chunk 121
+
+End chunk
+
+Starting to build chunk 122
+
+End chunk
+
+Starting to build chunk 123
+
+End chunk
+
+Starting to build chunk 124
+
+End chunk
+
+Starting to build chunk 125
+
+End chunk
+
+Starting to build chunk 126
+
+End chunk
+
+Starting to build chunk 127
+
+End chunk
+
+Starting to build chunk 128
+
+End chunk
+
+Starting to build chunk 129
+
+End chunk
+
+Starting to build chunk 130
+
+End chunk
+
+Starting to build chunk 131
+
+End chunk
+
+Starting to build chunk 132
+
+End chunk
+
+Starting to build chunk 133
+
+End chunk
+
+Starting to build chunk 134
+
+End chunk
+
+Starting to build chunk 135
+
+End chunk
+
+Starting to build chunk 136
+
+End chunk
+
+Starting to build chunk 137
+
+End chunk
+
+Starting to build chunk 138
+
+End chunk
+
+Starting to build chunk 139
+
+End chunk
+
+Starting to build chunk 140
+
+End chunk
+
+Starting to build chunk 141
+
+End chunk
+
+Starting to build chunk 142
+
+End chunk
+
+Starting to build chunk 143
+
+End chunk
+
+Starting to build chunk 144
+
+End chunk
+
+Starting to build chunk 145
+
+End chunk
+
+Starting to build chunk 146
+
+End chunk
+
+Starting to build chunk 147
+
+End chunk
+
+Starting to build chunk 148
+
+End chunk
+
+Starting to build chunk 149
+
+End chunk
+
+Starting to build chunk 150
+
+End chunk
+
+Starting to build chunk 151
+
+End chunk
+
+Starting to build chunk 152
+
+End chunk
+
+Starting to build chunk 153
+
+End chunk
+
+Starting to build chunk 154
+
+End chunk
+
+Starting to build chunk 155
+
+End chunk
+
+Starting to build chunk 156
+
+End chunk
+
+Starting to build chunk 157
+
+End chunk
+
+Starting to build chunk 158
+
+End chunk
+
+Starting to build chunk 159
+
+End chunk
+
+Starting to build chunk 160
+
+End chunk
+
+Starting to build chunk 161
+
+End chunk
+
+Starting to build chunk 162
+
+End chunk
+
+Starting to build chunk 163
+
+End chunk
+
+Starting to build chunk 164
+
+End chunk
+
+Starting to build chunk 165
+
+End chunk
+
+Starting to build chunk 166
+
+End chunk
+
+Starting to build chunk 167
+
+End chunk
+
+Starting to build chunk 168
+
+End chunk
+
+Starting to build chunk 169
+
+End chunk
+
+Starting to build chunk 170
+
+End chunk
+
+Starting to build chunk 171
+
+End chunk
+
+Starting to build chunk 172
+
+End chunk
+
+Starting to build chunk 173
+
+End chunk
+
+Starting to build chunk 174
+
+End chunk
+
+Starting to build chunk 175
+
+End chunk
+
+Starting to build chunk 176
+
+End chunk
+
+Starting to build chunk 177
+
+End chunk
+
+Starting to build chunk 178
+
+End chunk
+
+Starting to build chunk 179
+
+End chunk
+
+Starting to build chunk 180
+
+End chunk
+
+Starting to build chunk 181
+
+End chunk
+
+Starting to build chunk 182
+
+End chunk
+
+Starting to build chunk 183
+
+End chunk
+
+Starting to build chunk 184
+
+End chunk
+
+Starting to build chunk 185
+
+End chunk
+
+Starting to build chunk 186
+
+End chunk
+
+Starting to build chunk 187
+
+End chunk
+
+Starting to build chunk 188
+
+End chunk
+
+Starting to build chunk 189
+
+End chunk
+
+Starting to build chunk 190
+
+End chunk
+
+Starting to build chunk 191
+
+End chunk
+
+Starting to build chunk 192
+
+End chunk
+
+Starting to build chunk 193
+
+End chunk
+
+Starting to build chunk 194
+
+End chunk
+
+Starting to build chunk 195
+
+End chunk
+
+Starting to build chunk 196
+
+End chunk
+
+Starting to build chunk 197
+
+End chunk
+
+Starting to build chunk 198
+
+End chunk
+
+Starting to build chunk 199
+
+End chunk
+Starting to count words for files/3.txt
+
+Starting to build chunk 200
+
+End chunk
+
+Starting to build chunk 201
+
+End chunk
+
+Starting to build chunk 202
+
+End chunk
+
+Starting to build chunk 203
+
+End chunk
+
+Starting to build chunk 204
+
+End chunk
+
+Starting to build chunk 205
+
+End chunk
+
+Starting to build chunk 206
+
+End chunk
+
+Starting to build chunk 207
+
+End chunk
+
+Starting to build chunk 208
+
+End chunk
+
+Starting to build chunk 209
+
+End chunk
+
+Starting to build chunk 210
+
+End chunk
+
+Starting to build chunk 211
+
+End chunk
+
+Starting to build chunk 212
+
+End chunk
+
+Starting to build chunk 213
+
+End chunk
+
+Starting to build chunk 214
+
+End chunk
+
+Starting to build chunk 215
+
+End chunk
+
+Starting to build chunk 216
+
+End chunk
+
+Starting to build chunk 217
+
+End chunk
+
+Starting to build chunk 218
+
+End chunk
+
+Starting to build chunk 219
+
+End chunk
+
+Starting to build chunk 220
+
+End chunk
+
+Starting to build chunk 221
+
+End chunk
+
+Starting to build chunk 222
+
+End chunk
+
+Starting to build chunk 223
+
+End chunk
+
+Starting to build chunk 224
+
+End chunk
+
+Starting to build chunk 225
+
+End chunk
+
+Starting to build chunk 226
+
+End chunk
+
+Starting to build chunk 227
+
+End chunk
+
+Starting to build chunk 228
+
+End chunk
+
+Starting to build chunk 229
+
+End chunk
+
+Starting to build chunk 230
+
+End chunk
+
+Starting to build chunk 231
+
+End chunk
+
+Starting to build chunk 232
+
+End chunk
+
+Starting to build chunk 233
+
+End chunk
+
+Starting to build chunk 234
+
+End chunk
+
+Starting to build chunk 235
+
+End chunk
+
+Starting to build chunk 236
+
+End chunk
+
+Starting to build chunk 237
+
+End chunk
+
+Starting to build chunk 238
+
+End chunk
+
+Starting to build chunk 239
+
+End chunk
+
+Starting to build chunk 240
+
+End chunk
+
+Starting to build chunk 241
+
+End chunk
+
+Starting to build chunk 242
+
+End chunk
+
+Starting to build chunk 243
+
+End chunk
+
+Starting to build chunk 244
+
+End chunk
+
+Starting to build chunk 245
+
+End chunk
+
+Starting to build chunk 246
+
+End chunk
+
+Starting to build chunk 247
+
+End chunk
+
+Starting to build chunk 248
+
+End chunk
+
+Starting to build chunk 249
+
+End chunk
+
+Starting to build chunk 250
+
+End chunk
+
+Starting to build chunk 251
+
+End chunk
+
+Starting to build chunk 252
+
+End chunk
+
+Starting to build chunk 253
+
+End chunk
+
+Starting to build chunk 254
+
+End chunk
+
+Starting to build chunk 255
+
+End chunk
+
+Starting to build chunk 256
+
+End chunk
+
+Starting to build chunk 257
+
+End chunk
+
+Starting to build chunk 258
+
+End chunk
+
+Starting to build chunk 259
+
+End chunk
+
+Starting to build chunk 260
+
+End chunk
+
+Starting to build chunk 261
+
+End chunk
+
+Starting to build chunk 262
+
+End chunk
+
+Starting to build chunk 263
+
+End chunk
+
+Starting to build chunk 264
+
+End chunk
+
+Starting to build chunk 265
+
+End chunk
+
+Starting to build chunk 266
+
+End chunk
+
+Starting to build chunk 267
+
+End chunk
+
+Starting to build chunk 268
+
+End chunk
+
+Starting to build chunk 269
+
+End chunk
+
+Starting to build chunk 270
+
+End chunk
+
+Starting to build chunk 271
+
+End chunk
+
+Starting to build chunk 272
+
+End chunk
+
+Starting to build chunk 273
+
+End chunk
+
+Starting to build chunk 274
+
+End chunk
+
+Starting to build chunk 275
+
+End chunk
+
+Starting to build chunk 276
+
+End chunk
+
+Starting to build chunk 277
+
+End chunk
+
+Starting to build chunk 278
+
+End chunk
+
+Starting to build chunk 279
+
+End chunk
+
+Starting to build chunk 280
+
+End chunk
+
+Starting to build chunk 281
+
+End chunk
+
+Starting to build chunk 282
+
+End chunk
+
+Starting to build chunk 283
+
+End chunk
+
+Starting to build chunk 284
+
+End chunk
+
+Starting to build chunk 285
+
+End chunk
+
+Starting to build chunk 286
+
+End chunk
+
+Starting to build chunk 287
+
+End chunk
+
+Starting to build chunk 288
+
+End chunk
+
+Starting to build chunk 289
+
+End chunk
+
+Starting to build chunk 290
+
+End chunk
+
+Starting to build chunk 291
+
+End chunk
+
+Starting to build chunk 292
+
+End chunk
+
+Starting to build chunk 293
+
+End chunk
+
+Starting to build chunk 294
+
+End chunk
+
+Starting to build chunk 295
+
+End chunk
+
+Starting to build chunk 296
+
+End chunk
+
+Starting to build chunk 297
+
+End chunk
+
+Starting to build chunk 298
+
+End chunk
+
+Starting to build chunk 299
+
+End chunk
+Starting to count words for files/4.txt
+
+Starting to build chunk 300
+
+End chunk
+
+Starting to build chunk 301
+
+End chunk
+
+Starting to build chunk 302
+
+End chunk
+
+Starting to build chunk 303
+
+End chunk
+
+Starting to build chunk 304
+
+End chunk
+
+Starting to build chunk 305
+
+End chunk
+
+Starting to build chunk 306
+
+End chunk
+
+Starting to build chunk 307
+
+End chunk
+
+Starting to build chunk 308
+
+End chunk
+
+Starting to build chunk 309
+
+End chunk
+
+Starting to build chunk 310
+
+End chunk
+
+Starting to build chunk 311
+
+End chunk
+
+Starting to build chunk 312
+
+End chunk
+
+Starting to build chunk 313
+
+End chunk
+
+Starting to build chunk 314
+
+End chunk
+
+Starting to build chunk 315
+
+End chunk
+
+Starting to build chunk 316
+
+End chunk
+
+Starting to build chunk 317
+
+End chunk
+
+Starting to build chunk 318
+
+End chunk
+
+Starting to build chunk 319
+
+End chunk
+
+Starting to build chunk 320
+
+End chunk
+
+Starting to build chunk 321
+
+End chunk
+
+Starting to build chunk 322
+
+End chunk
+
+Starting to build chunk 323
+
+End chunk
+
+Starting to build chunk 324
+
+End chunk
+
+Starting to build chunk 325
+
+End chunk
+
+Starting to build chunk 326
+
+End chunk
+
+Starting to build chunk 327
+
+End chunk
+
+Starting to build chunk 328
+
+End chunk
+
+Starting to build chunk 329
+
+End chunk
+
+Starting to build chunk 330
+
+End chunk
+
+Starting to build chunk 331
+
+End chunk
+
+Starting to build chunk 332
+
+End chunk
+
+Starting to build chunk 333
+
+End chunk
+
+Starting to build chunk 334
+
+End chunk
+
+Starting to build chunk 335
+
+End chunk
+
+Starting to build chunk 336
+
+End chunk
+
+Starting to build chunk 337
+
+End chunk
+
+Starting to build chunk 338
+
+End chunk
+
+Starting to build chunk 339
+
+End chunk
+
+Starting to build chunk 340
+
+End chunk
+
+Starting to build chunk 341
+
+End chunk
+
+Starting to build chunk 342
+
+End chunk
+
+Starting to build chunk 343
+
+End chunk
+
+Starting to build chunk 344
+
+End chunk
+
+Starting to build chunk 345
+
+End chunk
+
+Starting to build chunk 346
+
+End chunk
+
+Starting to build chunk 347
+
+End chunk
+
+Starting to build chunk 348
+
+End chunk
+
+Starting to build chunk 349
+
+End chunk
+
+Starting to build chunk 350
+
+End chunk
+
+Starting to build chunk 351
+
+End chunk
+
+Starting to build chunk 352
+
+End chunk
+
+Starting to build chunk 353
+
+End chunk
+
+Starting to build chunk 354
+
+End chunk
+
+Starting to build chunk 355
+
+End chunk
+
+Starting to build chunk 356
+
+End chunk
+
+Starting to build chunk 357
+
+End chunk
+
+Starting to build chunk 358
+
+End chunk
+
+Starting to build chunk 359
+
+End chunk
+
+Starting to build chunk 360
+
+End chunk
+
+Starting to build chunk 361
+
+End chunk
+
+Starting to build chunk 362
+
+End chunk
+
+Starting to build chunk 363
+
+End chunk
+
+Starting to build chunk 364
+
+End chunk
+
+Starting to build chunk 365
+
+End chunk
+
+Starting to build chunk 366
+
+End chunk
+
+Starting to build chunk 367
+
+End chunk
+
+Starting to build chunk 368
+
+End chunk
+
+Starting to build chunk 369
+
+End chunk
+
+Starting to build chunk 370
+
+End chunk
+
+Starting to build chunk 371
+
+End chunk
+
+Starting to build chunk 372
+
+End chunk
+
+Starting to build chunk 373
+
+End chunk
+
+Starting to build chunk 374
+
+End chunk
+
+Starting to build chunk 375
+
+End chunk
+
+Starting to build chunk 376
+
+End chunk
+
+Starting to build chunk 377
+
+End chunk
+
+Starting to build chunk 378
+
+End chunk
+
+Starting to build chunk 379
+
+End chunk
+
+Starting to build chunk 380
+
+End chunk
+
+Starting to build chunk 381
+
+End chunk
+
+Starting to build chunk 382
+
+End chunk
+
+Starting to build chunk 383
+
+End chunk
+
+Starting to build chunk 384
+
+End chunk
+
+Starting to build chunk 385
+
+End chunk
+
+Starting to build chunk 386
+
+End chunk
+
+Starting to build chunk 387
+
+End chunk
+
+Starting to build chunk 388
+
+End chunk
+
+Starting to build chunk 389
+
+End chunk
+
+Starting to build chunk 390
+
+End chunk
+
+Starting to build chunk 391
+
+End chunk
+
+Starting to build chunk 392
+
+End chunk
+
+Starting to build chunk 393
+
+End chunk
+
+Starting to build chunk 394
+
+End chunk
+
+Starting to build chunk 395
+
+End chunk
+
+Starting to build chunk 396
+
+End chunk
+
+Starting to build chunk 397
+
+End chunk
+
+Starting to build chunk 398
+
+End chunk
+
+Starting to build chunk 399
+
+End chunk
+Starting to count words for files/5.txt
+
+Starting to build chunk 400
+
+End chunk
+
+Starting to build chunk 401
+
+End chunk
+
+Starting to build chunk 402
+
+End chunk
+
+Starting to build chunk 403
+
+End chunk
+
+Starting to build chunk 404
+
+End chunk
+
+Starting to build chunk 405
+
+End chunk
+
+Starting to build chunk 406
+
+End chunk
+
+Starting to build chunk 407
+
+End chunk
+
+Starting to build chunk 408
+
+End chunk
+
+Starting to build chunk 409
+
+End chunk
+
+Starting to build chunk 410
+
+End chunk
+
+Starting to build chunk 411
+
+End chunk
+
+Starting to build chunk 412
+
+End chunk
+
+Starting to build chunk 413
+
+End chunk
+
+Starting to build chunk 414
+
+End chunk
+
+Starting to build chunk 415
+
+End chunk
+
+Starting to build chunk 416
+
+End chunk
+
+Starting to build chunk 417
+
+End chunk
+
+Starting to build chunk 418
+
+End chunk
+
+Starting to build chunk 419
+
+End chunk
+
+Starting to build chunk 420
+
+End chunk
+
+Starting to build chunk 421
+
+End chunk
+
+Starting to build chunk 422
+
+End chunk
+
+Starting to build chunk 423
+
+End chunk
+
+Starting to build chunk 424
+
+End chunk
+
+Starting to build chunk 425
+
+End chunk
+
+Starting to build chunk 426
+
+End chunk
+
+Starting to build chunk 427
+
+End chunk
+
+Starting to build chunk 428
+
+End chunk
+
+Starting to build chunk 429
+
+End chunk
+
+Starting to build chunk 430
+
+End chunk
+
+Starting to build chunk 431
+
+End chunk
+
+Starting to build chunk 432
+
+End chunk
+
+Starting to build chunk 433
+
+End chunk
+
+Starting to build chunk 434
+
+End chunk
+
+Starting to build chunk 435
+
+End chunk
+
+Starting to build chunk 436
+
+End chunk
+
+Starting to build chunk 437
+
+End chunk
+
+Starting to build chunk 438
+
+End chunk
+
+Starting to build chunk 439
+
+End chunk
+
+Starting to build chunk 440
+
+End chunk
+
+Starting to build chunk 441
+
+End chunk
+
+Starting to build chunk 442
+
+End chunk
+
+Starting to build chunk 443
+
+End chunk
+
+Starting to build chunk 444
+
+End chunk
+
+Starting to build chunk 445
+
+End chunk
+
+Starting to build chunk 446
+
+End chunk
+
+Starting to build chunk 447
+
+End chunk
+
+Starting to build chunk 448
+
+End chunk
+
+Starting to build chunk 449
+
+End chunk
+
+Starting to build chunk 450
+
+End chunk
+
+Starting to build chunk 451
+
+End chunk
+
+Starting to build chunk 452
+
+End chunk
+
+Starting to build chunk 453
+
+End chunk
+
+Starting to build chunk 454
+
+End chunk
+
+Starting to build chunk 455
+
+End chunk
+
+Starting to build chunk 456
+
+End chunk
+
+Starting to build chunk 457
+
+End chunk
+
+Starting to build chunk 458
+
+End chunk
+
+Starting to build chunk 459
+
+End chunk
+
+Starting to build chunk 460
+
+End chunk
+
+Starting to build chunk 461
+
+End chunk
+
+Starting to build chunk 462
+
+End chunk
+
+Starting to build chunk 463
+
+End chunk
+
+Starting to build chunk 464
+
+End chunk
+
+Starting to build chunk 465
+
+End chunk
+
+Starting to build chunk 466
+
+End chunk
+
+Starting to build chunk 467
+
+End chunk
+
+Starting to build chunk 468
+
+End chunk
+
+Starting to build chunk 469
+
+End chunk
+
+Starting to build chunk 470
+
+End chunk
+
+Starting to build chunk 471
+
+End chunk
+
+Starting to build chunk 472
+
+End chunk
+
+Starting to build chunk 473
+
+End chunk
+
+Starting to build chunk 474
+
+End chunk
+
+Starting to build chunk 475
+
+End chunk
+
+Starting to build chunk 476
+
+End chunk
+
+Starting to build chunk 477
+
+End chunk
+
+Starting to build chunk 478
+
+End chunk
+
+Starting to build chunk 479
+
+End chunk
+
+Starting to build chunk 480
+
+End chunk
+
+Starting to build chunk 481
+
+End chunk
+
+Starting to build chunk 482
+
+End chunk
+
+Starting to build chunk 483
+
+End chunk
+
+Starting to build chunk 484
+
+End chunk
+
+Starting to build chunk 485
+
+End chunk
+
+Starting to build chunk 486
+
+End chunk
+
+Starting to build chunk 487
+
+End chunk
+
+Starting to build chunk 488
+
+End chunk
+
+Starting to build chunk 489
+
+End chunk
+
+Starting to build chunk 490
+
+End chunk
+
+Starting to build chunk 491
+
+End chunk
+
+Starting to build chunk 492
+
+End chunk
+
+Starting to build chunk 493
+
+End chunk
+
+Starting to build chunk 494
+
+End chunk
+
+Starting to build chunk 495
+
+End chunk
+
+Starting to build chunk 496
+
+End chunk
+
+Starting to build chunk 497
+
+End chunk
+
+Starting to build chunk 498
+
+End chunk
+
+Starting to build chunk 499
+
+End chunk
+Starting to count words for files/6.txt
+
+Starting to build chunk 500
+
+End chunk
+
+Starting to build chunk 501
+
+End chunk
+
+Starting to build chunk 502
+
+End chunk
+
+Starting to build chunk 503
+
+End chunk
+
+Starting to build chunk 504
+
+End chunk
+
+Starting to build chunk 505
+
+End chunk
+
+Starting to build chunk 506
+
+End chunk
+
+Starting to build chunk 507
+
+End chunk
+
+Starting to build chunk 508
+
+End chunk
+
+Starting to build chunk 509
+
+End chunk
+
+Starting to build chunk 510
+
+End chunk
+
+Starting to build chunk 511
+
+End chunk
+
+Starting to build chunk 512
+
+End chunk
+
+Starting to build chunk 513
+
+End chunk
+
+Starting to build chunk 514
+
+End chunk
+
+Starting to build chunk 515
+
+End chunk
+
+Starting to build chunk 516
+
+End chunk
+
+Starting to build chunk 517
+
+End chunk
+
+Starting to build chunk 518
+
+End chunk
+
+Starting to build chunk 519
+
+End chunk
+
+Starting to build chunk 520
+
+End chunk
+
+Starting to build chunk 521
+
+End chunk
+
+Starting to build chunk 522
+
+End chunk
+
+Starting to build chunk 523
+
+End chunk
+
+Starting to build chunk 524
+
+End chunk
+
+Starting to build chunk 525
+
+End chunk
+
+Starting to build chunk 526
+
+End chunk
+
+Starting to build chunk 527
+
+End chunk
+
+Starting to build chunk 528
+
+End chunk
+
+Starting to build chunk 529
+
+End chunk
+
+Starting to build chunk 530
+
+End chunk
+
+Starting to build chunk 531
+
+End chunk
+
+Starting to build chunk 532
+
+End chunk
+
+Starting to build chunk 533
+
+End chunk
+
+Starting to build chunk 534
+
+End chunk
+
+Starting to build chunk 535
+
+End chunk
+
+Starting to build chunk 536
+
+End chunk
+
+Starting to build chunk 537
+
+End chunk
+
+Starting to build chunk 538
+
+End chunk
+
+Starting to build chunk 539
+
+End chunk
+
+Starting to build chunk 540
+
+End chunk
+
+Starting to build chunk 541
+
+End chunk
+
+Starting to build chunk 542
+
+End chunk
+
+Starting to build chunk 543
+
+End chunk
+
+Starting to build chunk 544
+
+End chunk
+
+Starting to build chunk 545
+
+End chunk
+
+Starting to build chunk 546
+
+End chunk
+
+Starting to build chunk 547
+
+End chunk
+
+Starting to build chunk 548
+
+End chunk
+
+Starting to build chunk 549
+
+End chunk
+
+Starting to build chunk 550
+
+End chunk
+
+Starting to build chunk 551
+
+End chunk
+
+Starting to build chunk 552
+
+End chunk
+
+Starting to build chunk 553
+
+End chunk
+
+Starting to build chunk 554
+
+End chunk
+
+Starting to build chunk 555
+
+End chunk
+
+Starting to build chunk 556
+
+End chunk
+
+Starting to build chunk 557
+
+End chunk
+
+Starting to build chunk 558
+
+End chunk
+
+Starting to build chunk 559
+
+End chunk
+
+Starting to build chunk 560
+
+End chunk
+
+Starting to build chunk 561
+
+End chunk
+
+Starting to build chunk 562
+
+End chunk
+
+Starting to build chunk 563
+
+End chunk
+
+Starting to build chunk 564
+
+End chunk
+
+Starting to build chunk 565
+
+End chunk
+
+Starting to build chunk 566
+
+End chunk
+
+Starting to build chunk 567
+
+End chunk
+
+Starting to build chunk 568
+
+End chunk
+
+Starting to build chunk 569
+
+End chunk
+
+Starting to build chunk 570
+
+End chunk
+
+Starting to build chunk 571
+
+End chunk
+
+Starting to build chunk 572
+
+End chunk
+
+Starting to build chunk 573
+
+End chunk
+
+Starting to build chunk 574
+
+End chunk
+
+Starting to build chunk 575
+
+End chunk
+
+Starting to build chunk 576
+
+End chunk
+
+Starting to build chunk 577
+
+End chunk
+
+Starting to build chunk 578
+
+End chunk
+
+Starting to build chunk 579
+
+End chunk
+
+Starting to build chunk 580
+
+End chunk
+
+Starting to build chunk 581
+
+End chunk
+
+Starting to build chunk 582
+
+End chunk
+
+Starting to build chunk 583
+
+End chunk
+
+Starting to build chunk 584
+
+End chunk
+
+Starting to build chunk 585
+
+End chunk
+
+Starting to build chunk 586
+
+End chunk
+
+Starting to build chunk 587
+
+End chunk
+
+Starting to build chunk 588
+
+End chunk
+
+Starting to build chunk 589
+
+End chunk
+
+Starting to build chunk 590
+
+End chunk
+
+Starting to build chunk 591
+
+End chunk
+
+Starting to build chunk 592
+
+End chunk
+
+Starting to build chunk 593
+
+End chunk
+
+Starting to build chunk 594
+
+End chunk
+
+Starting to build chunk 595
+
+End chunk
+
+Starting to build chunk 596
+
+End chunk
+
+Starting to build chunk 597
+
+End chunk
+
+Starting to build chunk 598
+
+End chunk
+
+Starting to build chunk 599
+
+End chunk
+Starting to count words for files/7.txt
+
+Starting to build chunk 600
+
+End chunk
+
+Starting to build chunk 601
+
+End chunk
+
+Starting to build chunk 602
+
+End chunk
+
+Starting to build chunk 603
+
+End chunk
+
+Starting to build chunk 604
+
+End chunk
+
+Starting to build chunk 605
+
+End chunk
+
+Starting to build chunk 606
+
+End chunk
+
+Starting to build chunk 607
+
+End chunk
+
+Starting to build chunk 608
+
+End chunk
+
+Starting to build chunk 609
+
+End chunk
+
+Starting to build chunk 610
+
+End chunk
+
+Starting to build chunk 611
+
+End chunk
+
+Starting to build chunk 612
+
+End chunk
+
+Starting to build chunk 613
+
+End chunk
+
+Starting to build chunk 614
+
+End chunk
+
+Starting to build chunk 615
+
+End chunk
+
+Starting to build chunk 616
+
+End chunk
+
+Starting to build chunk 617
+
+End chunk
+
+Starting to build chunk 618
+
+End chunk
+
+Starting to build chunk 619
+
+End chunk
+
+Starting to build chunk 620
+
+End chunk
+
+Starting to build chunk 621
+
+End chunk
+
+Starting to build chunk 622
+
+End chunk
+
+Starting to build chunk 623
+
+End chunk
+
+Starting to build chunk 624
+
+End chunk
+
+Starting to build chunk 625
+
+End chunk
+
+Starting to build chunk 626
+
+End chunk
+
+Starting to build chunk 627
+
+End chunk
+
+Starting to build chunk 628
+
+End chunk
+
+Starting to build chunk 629
+
+End chunk
+
+Starting to build chunk 630
+
+End chunk
+
+Starting to build chunk 631
+
+End chunk
+
+Starting to build chunk 632
+
+End chunk
+
+Starting to build chunk 633
+
+End chunk
+
+Starting to build chunk 634
+
+End chunk
+
+Starting to build chunk 635
+
+End chunk
+
+Starting to build chunk 636
+
+End chunk
+
+Starting to build chunk 637
+
+End chunk
+
+Starting to build chunk 638
+
+End chunk
+
+Starting to build chunk 639
+
+End chunk
+
+Starting to build chunk 640
+
+End chunk
+
+Starting to build chunk 641
+
+End chunk
+
+Starting to build chunk 642
+
+End chunk
+
+Starting to build chunk 643
+
+End chunk
+
+Starting to build chunk 644
+
+End chunk
+
+Starting to build chunk 645
+
+End chunk
+
+Starting to build chunk 646
+
+End chunk
+
+Starting to build chunk 647
+
+End chunk
+
+Starting to build chunk 648
+
+End chunk
+
+Starting to build chunk 649
+
+End chunk
+
+Starting to build chunk 650
+
+End chunk
+
+Starting to build chunk 651
+
+End chunk
+
+Starting to build chunk 652
+
+End chunk
+
+Starting to build chunk 653
+
+End chunk
+
+Starting to build chunk 654
+
+End chunk
+
+Starting to build chunk 655
+
+End chunk
+
+Starting to build chunk 656
+
+End chunk
+
+Starting to build chunk 657
+
+End chunk
+
+Starting to build chunk 658
+
+End chunk
+
+Starting to build chunk 659
+
+End chunk
+
+Starting to build chunk 660
+
+End chunk
+
+Starting to build chunk 661
+
+End chunk
+
+Starting to build chunk 662
+
+End chunk
+
+Starting to build chunk 663
+
+End chunk
+
+Starting to build chunk 664
+
+End chunk
+
+Starting to build chunk 665
+
+End chunk
+
+Starting to build chunk 666
+
+End chunk
+
+Starting to build chunk 667
+
+End chunk
+
+Starting to build chunk 668
+
+End chunk
+
+Starting to build chunk 669
+
+End chunk
+
+Starting to build chunk 670
+
+End chunk
+
+Starting to build chunk 671
+
+End chunk
+
+Starting to build chunk 672
+
+End chunk
+
+Starting to build chunk 673
+
+End chunk
+
+Starting to build chunk 674
+
+End chunk
+
+Starting to build chunk 675
+
+End chunk
+
+Starting to build chunk 676
+
+End chunk
+
+Starting to build chunk 677
+
+End chunk
+
+Starting to build chunk 678
+
+End chunk
+
+Starting to build chunk 679
+
+End chunk
+
+Starting to build chunk 680
+
+End chunk
+
+Starting to build chunk 681
+
+End chunk
+
+Starting to build chunk 682
+
+End chunk
+
+Starting to build chunk 683
+
+End chunk
+
+Starting to build chunk 684
+
+End chunk
+
+Starting to build chunk 685
+
+End chunk
+
+Starting to build chunk 686
+
+End chunk
+
+Starting to build chunk 687
+
+End chunk
+
+Starting to build chunk 688
+
+End chunk
+
+Starting to build chunk 689
+
+End chunk
+
+Starting to build chunk 690
+
+End chunk
+
+Starting to build chunk 691
+
+End chunk
+
+Starting to build chunk 692
+
+End chunk
+
+Starting to build chunk 693
+
+End chunk
+
+Starting to build chunk 694
+
+End chunk
+
+Starting to build chunk 695
+
+End chunk
+
+Starting to build chunk 696
+
+End chunk
+
+Starting to build chunk 697
+
+End chunk
+
+Starting to build chunk 698
+
+End chunk
+
+Starting to build chunk 699
+
+End chunk
+Starting to count words for files/8.txt
+
+Starting to build chunk 700
+
+End chunk
+
+Starting to build chunk 701
+
+End chunk
+
+Starting to build chunk 702
+
+End chunk
+
+Starting to build chunk 703
+
+End chunk
+
+Starting to build chunk 704
+
+End chunk
+
+Starting to build chunk 705
+
+End chunk
+
+Starting to build chunk 706
+
+End chunk
+
+Starting to build chunk 707
+
+End chunk
+
+Starting to build chunk 708
+
+End chunk
+
+Starting to build chunk 709
+
+End chunk
+
+Starting to build chunk 710
+
+End chunk
+
+Starting to build chunk 711
+
+End chunk
+
+Starting to build chunk 712
+
+End chunk
+
+Starting to build chunk 713
+
+End chunk
+
+Starting to build chunk 714
+
+End chunk
+
+Starting to build chunk 715
+
+End chunk
+
+Starting to build chunk 716
+
+End chunk
+
+Starting to build chunk 717
+
+End chunk
+
+Starting to build chunk 718
+
+End chunk
+
+Starting to build chunk 719
+
+End chunk
+
+Starting to build chunk 720
+
+End chunk
+
+Starting to build chunk 721
+
+End chunk
+
+Starting to build chunk 722
+
+End chunk
+
+Starting to build chunk 723
+
+End chunk
+
+Starting to build chunk 724
+
+End chunk
+
+Starting to build chunk 725
+
+End chunk
+
+Starting to build chunk 726
+
+End chunk
+
+Starting to build chunk 727
+
+End chunk
+
+Starting to build chunk 728
+
+End chunk
+
+Starting to build chunk 729
+
+End chunk
+
+Starting to build chunk 730
+
+End chunk
+
+Starting to build chunk 731
+
+End chunk
+
+Starting to build chunk 732
+
+End chunk
+
+Starting to build chunk 733
+
+End chunk
+
+Starting to build chunk 734
+
+End chunk
+
+Starting to build chunk 735
+
+End chunk
+
+Starting to build chunk 736
+
+End chunk
+
+Starting to build chunk 737
+
+End chunk
+
+Starting to build chunk 738
+
+End chunk
+
+Starting to build chunk 739
+
+End chunk
+
+Starting to build chunk 740
+
+End chunk
+
+Starting to build chunk 741
+
+End chunk
+
+Starting to build chunk 742
+
+End chunk
+
+Starting to build chunk 743
+
+End chunk
+
+Starting to build chunk 744
+
+End chunk
+
+Starting to build chunk 745
+
+End chunk
+
+Starting to build chunk 746
+
+End chunk
+
+Starting to build chunk 747
+
+End chunk
+
+Starting to build chunk 748
+
+End chunk
+
+Starting to build chunk 749
+
+End chunk
+
+Starting to build chunk 750
+
+End chunk
+
+Starting to build chunk 751
+
+End chunk
+
+Starting to build chunk 752
+
+End chunk
+
+Starting to build chunk 753
+
+End chunk
+
+Starting to build chunk 754
+
+End chunk
+
+Starting to build chunk 755
+
+End chunk
+
+Starting to build chunk 756
+
+End chunk
+
+Starting to build chunk 757
+
+End chunk
+
+Starting to build chunk 758
+
+End chunk
+
+Starting to build chunk 759
+
+End chunk
+
+Starting to build chunk 760
+
+End chunk
+
+Starting to build chunk 761
+
+End chunk
+
+Starting to build chunk 762
+
+End chunk
+
+Starting to build chunk 763
+
+End chunk
+
+Starting to build chunk 764
+
+End chunk
+
+Starting to build chunk 765
+
+End chunk
+
+Starting to build chunk 766
+
+End chunk
+
+Starting to build chunk 767
+
+End chunk
+
+Starting to build chunk 768
+
+End chunk
+
+Starting to build chunk 769
+
+End chunk
+
+Starting to build chunk 770
+
+End chunk
+
+Starting to build chunk 771
+
+End chunk
+
+Starting to build chunk 772
+
+End chunk
+
+Starting to build chunk 773
+
+End chunk
+
+Starting to build chunk 774
+
+End chunk
+
+Starting to build chunk 775
+
+End chunk
+
+Starting to build chunk 776
+
+End chunk
+
+Starting to build chunk 777
+
+End chunk
+
+Starting to build chunk 778
+
+End chunk
+
+Starting to build chunk 779
+
+End chunk
+
+Starting to build chunk 780
+
+End chunk
+
+Starting to build chunk 781
+
+End chunk
+
+Starting to build chunk 782
+
+End chunk
+
+Starting to build chunk 783
+
+End chunk
+
+Starting to build chunk 784
+
+End chunk
+
+Starting to build chunk 785
+
+End chunk
+
+Starting to build chunk 786
+
+End chunk
+
+Starting to build chunk 787
+
+End chunk
+
+Starting to build chunk 788
+
+End chunk
+
+Starting to build chunk 789
+
+End chunk
+
+Starting to build chunk 790
+
+End chunk
+
+Starting to build chunk 791
+
+End chunk
+
+Starting to build chunk 792
+
+End chunk
+
+Starting to build chunk 793
+
+End chunk
+
+Starting to build chunk 794
+
+End chunk
+
+Starting to build chunk 795
+
+End chunk
+
+Starting to build chunk 796
+
+End chunk
+
+Starting to build chunk 797
+
+End chunk
+
+Starting to build chunk 798
+
+End chunk
+
+Starting to build chunk 799
+
+End chunk
+Starting to count words for files/9.txt
+
+Starting to build chunk 800
+
+End chunk
+
+Starting to build chunk 801
+
+End chunk
+
+Starting to build chunk 802
+
+End chunk
+
+Starting to build chunk 803
+
+End chunk
+
+Starting to build chunk 804
+
+End chunk
+
+Starting to build chunk 805
+
+End chunk
+
+Starting to build chunk 806
+
+End chunk
+
+Starting to build chunk 807
+
+End chunk
+
+Starting to build chunk 808
+
+End chunk
+
+Starting to build chunk 809
+
+End chunk
+
+Starting to build chunk 810
+
+End chunk
+
+Starting to build chunk 811
+
+End chunk
+
+Starting to build chunk 812
+
+End chunk
+
+Starting to build chunk 813
+
+End chunk
+
+Starting to build chunk 814
+
+End chunk
+
+Starting to build chunk 815
+
+End chunk
+
+Starting to build chunk 816
+
+End chunk
+
+Starting to build chunk 817
+
+End chunk
+
+Starting to build chunk 818
+
+End chunk
+
+Starting to build chunk 819
+
+End chunk
+
+Starting to build chunk 820
+
+End chunk
+
+Starting to build chunk 821
+
+End chunk
+
+Starting to build chunk 822
+
+End chunk
+
+Starting to build chunk 823
+
+End chunk
+
+Starting to build chunk 824
+
+End chunk
+
+Starting to build chunk 825
+
+End chunk
+
+Starting to build chunk 826
+
+End chunk
+
+Starting to build chunk 827
+
+End chunk
+
+Starting to build chunk 828
+
+End chunk
+
+Starting to build chunk 829
+
+End chunk
+
+Starting to build chunk 830
+
+End chunk
+
+Starting to build chunk 831
+
+End chunk
+
+Starting to build chunk 832
+
+End chunk
+
+Starting to build chunk 833
+
+End chunk
+
+Starting to build chunk 834
+
+End chunk
+
+Starting to build chunk 835
+
+End chunk
+
+Starting to build chunk 836
+
+End chunk
+
+Starting to build chunk 837
+
+End chunk
+
+Starting to build chunk 838
+
+End chunk
+
+Starting to build chunk 839
+
+End chunk
+
+Starting to build chunk 840
+
+End chunk
+
+Starting to build chunk 841
+
+End chunk
+
+Starting to build chunk 842
+
+End chunk
+
+Starting to build chunk 843
+
+End chunk
+
+Starting to build chunk 844
+
+End chunk
+
+Starting to build chunk 845
+
+End chunk
+
+Starting to build chunk 846
+
+End chunk
+
+Starting to build chunk 847
+
+End chunk
+
+Starting to build chunk 848
+
+End chunk
+
+Starting to build chunk 849
+
+End chunk
+
+Starting to build chunk 850
+
+End chunk
+
+Starting to build chunk 851
+
+End chunk
+
+Starting to build chunk 852
+
+End chunk
+
+Starting to build chunk 853
+
+End chunk
+
+Starting to build chunk 854
+
+End chunk
+
+Starting to build chunk 855
+
+End chunk
+
+Starting to build chunk 856
+
+End chunk
+
+Starting to build chunk 857
+
+End chunk
+
+Starting to build chunk 858
+
+End chunk
+
+Starting to build chunk 859
+
+End chunk
+
+Starting to build chunk 860
+
+End chunk
+
+Starting to build chunk 861
+
+End chunk
+
+Starting to build chunk 862
+
+End chunk
+
+Starting to build chunk 863
+
+End chunk
+
+Starting to build chunk 864
+
+End chunk
+
+Starting to build chunk 865
+
+End chunk
+
+Starting to build chunk 866
+
+End chunk
+
+Starting to build chunk 867
+
+End chunk
+
+Starting to build chunk 868
+
+End chunk
+
+Starting to build chunk 869
+
+End chunk
+
+Starting to build chunk 870
+
+End chunk
+
+Starting to build chunk 871
+
+End chunk
+
+Starting to build chunk 872
+
+End chunk
+
+Starting to build chunk 873
+
+End chunk
+
+Starting to build chunk 874
+
+End chunk
+
+Starting to build chunk 875
+
+End chunk
+
+Starting to build chunk 876
+
+End chunk
+
+Starting to build chunk 877
+
+End chunk
+
+Starting to build chunk 878
+
+End chunk
+
+Starting to build chunk 879
+
+End chunk
+
+Starting to build chunk 880
+
+End chunk
+
+Starting to build chunk 881
+
+End chunk
+
+Starting to build chunk 882
+
+End chunk
+
+Starting to build chunk 883
+
+End chunk
+
+Starting to build chunk 884
+
+End chunk
+
+Starting to build chunk 885
+
+End chunk
+
+Starting to build chunk 886
+
+End chunk
+
+Starting to build chunk 887
+
+End chunk
+
+Starting to build chunk 888
+
+End chunk
+
+Starting to build chunk 889
+
+End chunk
+
+Starting to build chunk 890
+
+End chunk
+
+Starting to build chunk 891
+
+End chunk
+
+Starting to build chunk 892
+
+End chunk
+
+Starting to build chunk 893
+
+End chunk
+
+Starting to build chunk 894
+
+End chunk
+
+Starting to build chunk 895
+
+End chunk
+
+Starting to build chunk 896
+
+End chunk
+
+Starting to build chunk 897
+
+End chunk
+
+Starting to build chunk 898
+
+End chunk
+
+Starting to build chunk 899
+
+End chunk
+Starting to count words for files/11.txt
+
+Starting to build chunk 900
+
+End chunk
+
+Starting to build chunk 901
+
+End chunk
+
+Starting to build chunk 902
+
+End chunk
+
+Starting to build chunk 903
+
+End chunk
+
+Starting to build chunk 904
+
+End chunk
+
+Starting to build chunk 905
+
+End chunk
+
+Starting to build chunk 906
+
+End chunk
+
+Starting to build chunk 907
+
+End chunk
+
+Starting to build chunk 908
+
+End chunk
+
+Starting to build chunk 909
+
+End chunk
+
+Starting to build chunk 910
+
+End chunk
+
+Starting to build chunk 911
+
+End chunk
+
+Starting to build chunk 912
+
+End chunk
+
+Starting to build chunk 913
+
+End chunk
+
+Starting to build chunk 914
+
+End chunk
+
+Starting to build chunk 915
+
+End chunk
+
+Starting to build chunk 916
+
+End chunk
+
+Starting to build chunk 917
+
+End chunk
+
+Starting to build chunk 918
+
+End chunk
+
+Starting to build chunk 919
+
+End chunk
+
+Starting to build chunk 920
+
+End chunk
+
+Starting to build chunk 921
+
+End chunk
+
+Starting to build chunk 922
+
+End chunk
+
+Starting to build chunk 923
+
+End chunk
+
+Starting to build chunk 924
+
+End chunk
+
+Starting to build chunk 925
+
+End chunk
+
+Starting to build chunk 926
+
+End chunk
+
+Starting to build chunk 927
+
+End chunk
+
+Starting to build chunk 928
+
+End chunk
+
+Starting to build chunk 929
+
+End chunk
+
+Starting to build chunk 930
+
+End chunk
+
+Starting to build chunk 931
+
+End chunk
+
+Starting to build chunk 932
+
+End chunk
+
+Starting to build chunk 933
+
+End chunk
+
+Starting to build chunk 934
+
+End chunk
+
+Starting to build chunk 935
+
+End chunk
+
+Starting to build chunk 936
+
+End chunk
+
+Starting to build chunk 937
+
+End chunk
+
+Starting to build chunk 938
+
+End chunk
+
+Starting to build chunk 939
+
+End chunk
+
+Starting to build chunk 940
+
+End chunk
+
+Starting to build chunk 941
+
+End chunk
+
+Starting to build chunk 942
+
+End chunk
+
+Starting to build chunk 943
+
+End chunk
+
+Starting to build chunk 944
+
+End chunk
+
+Starting to build chunk 945
+
+End chunk
+
+Starting to build chunk 946
+
+End chunk
+
+Starting to build chunk 947
+
+End chunk
+
+Starting to build chunk 948
+
+End chunk
+
+Starting to build chunk 949
+
+End chunk
+
+Starting to build chunk 950
+
+End chunk
+
+Starting to build chunk 951
+
+End chunk
+
+Starting to build chunk 952
+
+End chunk
+
+Starting to build chunk 953
+
+End chunk
+
+Starting to build chunk 954
+
+End chunk
+
+Starting to build chunk 955
+
+End chunk
+
+Starting to build chunk 956
+
+End chunk
+
+Starting to build chunk 957
+
+End chunk
+
+Starting to build chunk 958
+
+End chunk
+
+Starting to build chunk 959
+
+End chunk
+
+Starting to build chunk 960
+
+End chunk
+
+Starting to build chunk 961
+
+End chunk
+
+Starting to build chunk 962
+
+End chunk
+
+Starting to build chunk 963
+
+End chunk
+
+Starting to build chunk 964
+
+End chunk
+
+Starting to build chunk 965
+
+End chunk
+
+Starting to build chunk 966
+
+End chunk
+
+Starting to build chunk 967
+
+End chunk
+
+Starting to build chunk 968
+
+End chunk
+
+Starting to build chunk 969
+
+End chunk
+
+Starting to build chunk 970
+
+End chunk
+
+Starting to build chunk 971
+
+End chunk
+
+Starting to build chunk 972
+
+End chunk
+
+Starting to build chunk 973
+
+End chunk
+
+Starting to build chunk 974
+
+End chunk
+
+Starting to build chunk 975
+
+End chunk
+
+Starting to build chunk 976
+
+End chunk
+
+Starting to build chunk 977
+
+End chunk
+
+Starting to build chunk 978
+
+End chunk
+
+Starting to build chunk 979
+
+End chunk
+
+Starting to build chunk 980
+
+End chunk
+
+Starting to build chunk 981
+
+End chunk
+
+Starting to build chunk 982
+
+End chunk
+
+Starting to build chunk 983
+
+End chunk
+
+Starting to build chunk 984
+
+End chunk
+
+Starting to build chunk 985
+
+End chunk
+
+Starting to build chunk 986
+
+End chunk
+
+Starting to build chunk 987
+
+End chunk
+
+Starting to build chunk 988
+
+End chunk
+
+Starting to build chunk 989
+
+End chunk
+
+Starting to build chunk 990
+
+End chunk
+
+Starting to build chunk 991
+
+End chunk
+
+Starting to build chunk 992
+
+End chunk
+
+Starting to build chunk 993
+
+End chunk
+
+Starting to build chunk 994
+
+End chunk
+
+Starting to build chunk 995
+
+End chunk
+
+Starting to build chunk 996
+
+End chunk
+
+Starting to build chunk 997
+
+End chunk
+
+Starting to build chunk 998
+
+End chunk
+
+Starting to build chunk 999
+
+End chunk
+Starting to count words for files/12.txt
+
+Starting to build chunk 1000
+
+End chunk
+
+Starting to build chunk 1001
+
+End chunk
+
+Starting to build chunk 1002
+
+End chunk
+
+Starting to build chunk 1003
+
+End chunk
+
+Starting to build chunk 1004
+
+End chunk
+
+Starting to build chunk 1005
+
+End chunk
+
+Starting to build chunk 1006
+
+End chunk
+
+Starting to build chunk 1007
+
+End chunk
+
+Starting to build chunk 1008
+
+End chunk
+
+Starting to build chunk 1009
+
+End chunk
+
+Starting to build chunk 1010
+
+End chunk
+
+Starting to build chunk 1011
+
+End chunk
+
+Starting to build chunk 1012
+
+End chunk
+
+Starting to build chunk 1013
+
+End chunk
+
+Starting to build chunk 1014
+
+End chunk
+
+Starting to build chunk 1015
+
+End chunk
+
+Starting to build chunk 1016
+
+End chunk
+
+Starting to build chunk 1017
+
+End chunk
+
+Starting to build chunk 1018
+
+End chunk
+
+Starting to build chunk 1019
+
+End chunk
+
+Starting to build chunk 1020
+
+End chunk
+
+Starting to build chunk 1021
+
+End chunk
+
+Starting to build chunk 1022
+
+End chunk
+
+Starting to build chunk 1023
+
+End chunk
+
+Starting to build chunk 1024
+
+End chunk
+
+Starting to build chunk 1025
+
+End chunk
+
+Starting to build chunk 1026
+
+End chunk
+
+Starting to build chunk 1027
+
+End chunk
+
+Starting to build chunk 1028
+
+End chunk
+
+Starting to build chunk 1029
+
+End chunk
+
+Starting to build chunk 1030
+
+End chunk
+
+Starting to build chunk 1031
+
+End chunk
+
+Starting to build chunk 1032
+
+End chunk
+
+Starting to build chunk 1033
+
+End chunk
+
+Starting to build chunk 1034
+
+End chunk
+
+Starting to build chunk 1035
+
+End chunk
+
+Starting to build chunk 1036
+
+End chunk
+
+Starting to build chunk 1037
+
+End chunk
+
+Starting to build chunk 1038
+
+End chunk
+
+Starting to build chunk 1039
+
+End chunk
+
+Starting to build chunk 1040
+
+End chunk
+
+Starting to build chunk 1041
+
+End chunk
+
+Starting to build chunk 1042
+
+End chunk
+
+Starting to build chunk 1043
+
+End chunk
+
+Starting to build chunk 1044
+
+End chunk
+
+Starting to build chunk 1045
+
+End chunk
+
+Starting to build chunk 1046
+
+End chunk
+
+Starting to build chunk 1047
+
+End chunk
+
+Starting to build chunk 1048
+
+End chunk
+
+Starting to build chunk 1049
+
+End chunk
+
+Starting to build chunk 1050
+
+End chunk
+
+Starting to build chunk 1051
+
+End chunk
+
+Starting to build chunk 1052
+
+End chunk
+
+Starting to build chunk 1053
+
+End chunk
+
+Starting to build chunk 1054
+
+End chunk
+
+Starting to build chunk 1055
+
+End chunk
+
+Starting to build chunk 1056
+
+End chunk
+
+Starting to build chunk 1057
+
+End chunk
+
+Starting to build chunk 1058
+
+End chunk
+
+Starting to build chunk 1059
+
+End chunk
+
+Starting to build chunk 1060
+
+End chunk
+
+Starting to build chunk 1061
+
+End chunk
+
+Starting to build chunk 1062
+
+End chunk
+
+Starting to build chunk 1063
+
+End chunk
+
+Starting to build chunk 1064
+
+End chunk
+
+Starting to build chunk 1065
+
+End chunk
+
+Starting to build chunk 1066
+
+End chunk
+
+Starting to build chunk 1067
+
+End chunk
+
+Starting to build chunk 1068
+
+End chunk
+
+Starting to build chunk 1069
+
+End chunk
+
+Starting to build chunk 1070
+
+End chunk
+
+Starting to build chunk 1071
+
+End chunk
+
+Starting to build chunk 1072
+
+End chunk
+
+Starting to build chunk 1073
+
+End chunk
+
+Starting to build chunk 1074
+
+End chunk
+
+Starting to build chunk 1075
+
+End chunk
+
+Starting to build chunk 1076
+
+End chunk
+
+Starting to build chunk 1077
+
+End chunk
+
+Starting to build chunk 1078
+
+End chunk
+
+Starting to build chunk 1079
+
+End chunk
+
+Starting to build chunk 1080
+
+End chunk
+
+Starting to build chunk 1081
+
+End chunk
+
+Starting to build chunk 1082
+
+End chunk
+
+Starting to build chunk 1083
+
+End chunk
+
+Starting to build chunk 1084
+
+End chunk
+
+Starting to build chunk 1085
+
+End chunk
+
+Starting to build chunk 1086
+
+End chunk
+
+Starting to build chunk 1087
+
+End chunk
+
+Starting to build chunk 1088
+
+End chunk
+
+Starting to build chunk 1089
+
+End chunk
+
+Starting to build chunk 1090
+
+End chunk
+
+Starting to build chunk 1091
+
+End chunk
+
+Starting to build chunk 1092
+
+End chunk
+
+Starting to build chunk 1093
+
+End chunk
+
+Starting to build chunk 1094
+
+End chunk
+
+Starting to build chunk 1095
+
+End chunk
+
+Starting to build chunk 1096
+
+End chunk
+
+Starting to build chunk 1097
+
+End chunk
+
+Starting to build chunk 1098
+
+End chunk
+
+Starting to build chunk 1099
+
+End chunk
+Starting to count words for files/13.txt
+
+Starting to build chunk 1100
+
+End chunk
+
+Starting to build chunk 1101
+
+End chunk
+
+Starting to build chunk 1102
+
+End chunk
+
+Starting to build chunk 1103
+
+End chunk
+
+Starting to build chunk 1104
+
+End chunk
+
+Starting to build chunk 1105
+
+End chunk
+
+Starting to build chunk 1106
+
+End chunk
+
+Starting to build chunk 1107
+
+End chunk
+
+Starting to build chunk 1108
+
+End chunk
+
+Starting to build chunk 1109
+
+End chunk
+
+Starting to build chunk 1110
+
+End chunk
+
+Starting to build chunk 1111
+
+End chunk
+
+Starting to build chunk 1112
+
+End chunk
+
+Starting to build chunk 1113
+
+End chunk
+
+Starting to build chunk 1114
+
+End chunk
+
+Starting to build chunk 1115
+
+End chunk
+
+Starting to build chunk 1116
+
+End chunk
+
+Starting to build chunk 1117
+
+End chunk
+
+Starting to build chunk 1118
+
+End chunk
+
+Starting to build chunk 1119
+
+End chunk
+
+Starting to build chunk 1120
+
+End chunk
+
+Starting to build chunk 1121
+
+End chunk
+
+Starting to build chunk 1122
+
+End chunk
+
+Starting to build chunk 1123
+
+End chunk
+
+Starting to build chunk 1124
+
+End chunk
+
+Starting to build chunk 1125
+
+End chunk
+
+Starting to build chunk 1126
+
+End chunk
+
+Starting to build chunk 1127
+
+End chunk
+
+Starting to build chunk 1128
+
+End chunk
+
+Starting to build chunk 1129
+
+End chunk
+
+Starting to build chunk 1130
+
+End chunk
+
+Starting to build chunk 1131
+
+End chunk
+
+Starting to build chunk 1132
+
+End chunk
+
+Starting to build chunk 1133
+
+End chunk
+
+Starting to build chunk 1134
+
+End chunk
+
+Starting to build chunk 1135
+
+End chunk
+
+Starting to build chunk 1136
+
+End chunk
+
+Starting to build chunk 1137
+
+End chunk
+
+Starting to build chunk 1138
+
+End chunk
+
+Starting to build chunk 1139
+
+End chunk
+
+Starting to build chunk 1140
+
+End chunk
+
+Starting to build chunk 1141
+
+End chunk
+
+Starting to build chunk 1142
+
+End chunk
+
+Starting to build chunk 1143
+
+End chunk
+
+Starting to build chunk 1144
+
+End chunk
+
+Starting to build chunk 1145
+
+End chunk
+
+Starting to build chunk 1146
+
+End chunk
+
+Starting to build chunk 1147
+
+End chunk
+
+Starting to build chunk 1148
+
+End chunk
+
+Starting to build chunk 1149
+
+End chunk
+
+Starting to build chunk 1150
+
+End chunk
+
+Starting to build chunk 1151
+
+End chunk
+
+Starting to build chunk 1152
+
+End chunk
+
+Starting to build chunk 1153
+
+End chunk
+
+Starting to build chunk 1154
+
+End chunk
+
+Starting to build chunk 1155
+
+End chunk
+
+Starting to build chunk 1156
+
+End chunk
+
+Starting to build chunk 1157
+
+End chunk
+
+Starting to build chunk 1158
+
+End chunk
+
+Starting to build chunk 1159
+
+End chunk
+
+Starting to build chunk 1160
+
+End chunk
+
+Starting to build chunk 1161
+
+End chunk
+
+Starting to build chunk 1162
+
+End chunk
+
+Starting to build chunk 1163
+
+End chunk
+
+Starting to build chunk 1164
+
+End chunk
+
+Starting to build chunk 1165
+
+End chunk
+
+Starting to build chunk 1166
+
+End chunk
+
+Starting to build chunk 1167
+
+End chunk
+
+Starting to build chunk 1168
+
+End chunk
+
+Starting to build chunk 1169
+
+End chunk
+
+Starting to build chunk 1170
+
+End chunk
+
+Starting to build chunk 1171
+
+End chunk
+
+Starting to build chunk 1172
+
+End chunk
+
+Starting to build chunk 1173
+
+End chunk
+
+Starting to build chunk 1174
+
+End chunk
+
+Starting to build chunk 1175
+
+End chunk
+
+Starting to build chunk 1176
+
+End chunk
+
+Starting to build chunk 1177
+
+End chunk
+
+Starting to build chunk 1178
+
+End chunk
+
+Starting to build chunk 1179
+
+End chunk
+
+Starting to build chunk 1180
+
+End chunk
+
+Starting to build chunk 1181
+
+End chunk
+
+Starting to build chunk 1182
+
+End chunk
+
+Starting to build chunk 1183
+
+End chunk
+
+Starting to build chunk 1184
+
+End chunk
+
+Starting to build chunk 1185
+
+End chunk
+
+Starting to build chunk 1186
+
+End chunk
+
+Starting to build chunk 1187
+
+End chunk
+
+Starting to build chunk 1188
+
+End chunk
+
+Starting to build chunk 1189
+
+End chunk
+
+Starting to build chunk 1190
+
+End chunk
+
+Starting to build chunk 1191
+
+End chunk
+
+Starting to build chunk 1192
+
+End chunk
+
+Starting to build chunk 1193
+
+End chunk
+
+Starting to build chunk 1194
+
+End chunk
+
+Starting to build chunk 1195
+
+End chunk
+
+Starting to build chunk 1196
+
+End chunk
+
+Starting to build chunk 1197
+
+End chunk
+
+Starting to build chunk 1198
+
+End chunk
+
+Starting to build chunk 1199
+
+End chunk
+Starting to count words for files/14.txt
+
+Starting to build chunk 1200
+
+End chunk
+
+Starting to build chunk 1201
+
+End chunk
+
+Starting to build chunk 1202
+
+End chunk
+
+Starting to build chunk 1203
+
+End chunk
+
+Starting to build chunk 1204
+
+End chunk
+
+Starting to build chunk 1205
+
+End chunk
+
+Starting to build chunk 1206
+
+End chunk
+
+Starting to build chunk 1207
+
+End chunk
+
+Starting to build chunk 1208
+
+End chunk
+
+Starting to build chunk 1209
+
+End chunk
+
+Starting to build chunk 1210
+
+End chunk
+
+Starting to build chunk 1211
+
+End chunk
+
+Starting to build chunk 1212
+
+End chunk
+
+Starting to build chunk 1213
+
+End chunk
+
+Starting to build chunk 1214
+
+End chunk
+
+Starting to build chunk 1215
+
+End chunk
+
+Starting to build chunk 1216
+
+End chunk
+
+Starting to build chunk 1217
+
+End chunk
+
+Starting to build chunk 1218
+
+End chunk
+
+Starting to build chunk 1219
+
+End chunk
+
+Starting to build chunk 1220
+
+End chunk
+
+Starting to build chunk 1221
+
+End chunk
+
+Starting to build chunk 1222
+
+End chunk
+
+Starting to build chunk 1223
+
+End chunk
+
+Starting to build chunk 1224
+
+End chunk
+
+Starting to build chunk 1225
+
+End chunk
+
+Starting to build chunk 1226
+
+End chunk
+
+Starting to build chunk 1227
+
+End chunk
+
+Starting to build chunk 1228
+
+End chunk
+
+Starting to build chunk 1229
+
+End chunk
+
+Starting to build chunk 1230
+
+End chunk
+
+Starting to build chunk 1231
+
+End chunk
+
+Starting to build chunk 1232
+
+End chunk
+
+Starting to build chunk 1233
+
+End chunk
+
+Starting to build chunk 1234
+
+End chunk
+
+Starting to build chunk 1235
+
+End chunk
+
+Starting to build chunk 1236
+
+End chunk
+
+Starting to build chunk 1237
+
+End chunk
+
+Starting to build chunk 1238
+
+End chunk
+
+Starting to build chunk 1239
+
+End chunk
+
+Starting to build chunk 1240
+
+End chunk
+
+Starting to build chunk 1241
+
+End chunk
+
+Starting to build chunk 1242
+
+End chunk
+
+Starting to build chunk 1243
+
+End chunk
+
+Starting to build chunk 1244
+
+End chunk
+
+Starting to build chunk 1245
+
+End chunk
+
+Starting to build chunk 1246
+
+End chunk
+
+Starting to build chunk 1247
+
+End chunk
+
+Starting to build chunk 1248
+
+End chunk
+
+Starting to build chunk 1249
+
+End chunk
+
+Starting to build chunk 1250
+
+End chunk
+
+Starting to build chunk 1251
+
+End chunk
+
+Starting to build chunk 1252
+
+End chunk
+
+Starting to build chunk 1253
+
+End chunk
+
+Starting to build chunk 1254
+
+End chunk
+
+Starting to build chunk 1255
+
+End chunk
+
+Starting to build chunk 1256
+
+End chunk
+
+Starting to build chunk 1257
+
+End chunk
+
+Starting to build chunk 1258
+
+End chunk
+
+Starting to build chunk 1259
+
+End chunk
+
+Starting to build chunk 1260
+
+End chunk
+
+Starting to build chunk 1261
+
+End chunk
+
+Starting to build chunk 1262
+
+End chunk
+
+Starting to build chunk 1263
+
+End chunk
+
+Starting to build chunk 1264
+
+End chunk
+
+Starting to build chunk 1265
+
+End chunk
+
+Starting to build chunk 1266
+
+End chunk
+
+Starting to build chunk 1267
+
+End chunk
+
+Starting to build chunk 1268
+
+End chunk
+
+Starting to build chunk 1269
+
+End chunk
+
+Starting to build chunk 1270
+
+End chunk
+
+Starting to build chunk 1271
+
+End chunk
+
+Starting to build chunk 1272
+
+End chunk
+
+Starting to build chunk 1273
+
+End chunk
+
+Starting to build chunk 1274
+
+End chunk
+
+Starting to build chunk 1275
+
+End chunk
+
+Starting to build chunk 1276
+
+End chunk
+
+Starting to build chunk 1277
+
+End chunk
+
+Starting to build chunk 1278
+
+End chunk
+
+Starting to build chunk 1279
+
+End chunk
+
+Starting to build chunk 1280
+
+End chunk
+
+Starting to build chunk 1281
+
+End chunk
+
+Starting to build chunk 1282
+
+End chunk
+
+Starting to build chunk 1283
+
+End chunk
+
+Starting to build chunk 1284
+
+End chunk
+
+Starting to build chunk 1285
+
+End chunk
+
+Starting to build chunk 1286
+
+End chunk
+
+Starting to build chunk 1287
+
+End chunk
+
+Starting to build chunk 1288
+
+End chunk
+
+Starting to build chunk 1289
+
+End chunk
+
+Starting to build chunk 1290
+
+End chunk
+
+Starting to build chunk 1291
+
+End chunk
+
+Starting to build chunk 1292
+
+End chunk
+
+Starting to build chunk 1293
+
+End chunk
+
+Starting to build chunk 1294
+
+End chunk
+
+Starting to build chunk 1295
+
+End chunk
+
+Starting to build chunk 1296
+
+End chunk
+
+Starting to build chunk 1297
+
+End chunk
+
+Starting to build chunk 1298
+
+End chunk
+
+Starting to build chunk 1299
+
+End chunk
+Starting to count words for files/15.txt
+
+Starting to build chunk 1300
+
+End chunk
+
+Starting to build chunk 1301
+
+End chunk
+
+Starting to build chunk 1302
+
+End chunk
+
+Starting to build chunk 1303
+
+End chunk
+
+Starting to build chunk 1304
+
+End chunk
+
+Starting to build chunk 1305
+
+End chunk
+
+Starting to build chunk 1306
+
+End chunk
+
+Starting to build chunk 1307
+
+End chunk
+
+Starting to build chunk 1308
+
+End chunk
+
+Starting to build chunk 1309
+
+End chunk
+
+Starting to build chunk 1310
+
+End chunk
+
+Starting to build chunk 1311
+
+End chunk
+
+Starting to build chunk 1312
+
+End chunk
+
+Starting to build chunk 1313
+
+End chunk
+
+Starting to build chunk 1314
+
+End chunk
+
+Starting to build chunk 1315
+
+End chunk
+
+Starting to build chunk 1316
+
+End chunk
+
+Starting to build chunk 1317
+
+End chunk
+
+Starting to build chunk 1318
+
+End chunk
+
+Starting to build chunk 1319
+
+End chunk
+
+Starting to build chunk 1320
+
+End chunk
+
+Starting to build chunk 1321
+
+End chunk
+
+Starting to build chunk 1322
+
+End chunk
+
+Starting to build chunk 1323
+
+End chunk
+
+Starting to build chunk 1324
+
+End chunk
+
+Starting to build chunk 1325
+
+End chunk
+
+Starting to build chunk 1326
+
+End chunk
+
+Starting to build chunk 1327
+
+End chunk
+
+Starting to build chunk 1328
+
+End chunk
+
+Starting to build chunk 1329
+
+End chunk
+
+Starting to build chunk 1330
+
+End chunk
+
+Starting to build chunk 1331
+
+End chunk
+
+Starting to build chunk 1332
+
+End chunk
+
+Starting to build chunk 1333
+
+End chunk
+
+Starting to build chunk 1334
+
+End chunk
+
+Starting to build chunk 1335
+
+End chunk
+
+Starting to build chunk 1336
+
+End chunk
+
+Starting to build chunk 1337
+
+End chunk
+
+Starting to build chunk 1338
+
+End chunk
+
+Starting to build chunk 1339
+
+End chunk
+
+Starting to build chunk 1340
+
+End chunk
+
+Starting to build chunk 1341
+
+End chunk
+
+Starting to build chunk 1342
+
+End chunk
+
+Starting to build chunk 1343
+
+End chunk
+
+Starting to build chunk 1344
+
+End chunk
+
+Starting to build chunk 1345
+
+End chunk
+
+Starting to build chunk 1346
+
+End chunk
+
+Starting to build chunk 1347
+
+End chunk
+
+Starting to build chunk 1348
+
+End chunk
+
+Starting to build chunk 1349
+
+End chunk
+
+Starting to build chunk 1350
+
+End chunk
+
+Starting to build chunk 1351
+
+End chunk
+
+Starting to build chunk 1352
+
+End chunk
+
+Starting to build chunk 1353
+
+End chunk
+
+Starting to build chunk 1354
+
+End chunk
+
+Starting to build chunk 1355
+
+End chunk
+
+Starting to build chunk 1356
+
+End chunk
+
+Starting to build chunk 1357
+
+End chunk
+
+Starting to build chunk 1358
+
+End chunk
+
+Starting to build chunk 1359
+
+End chunk
+
+Starting to build chunk 1360
+
+End chunk
+
+Starting to build chunk 1361
+
+End chunk
+
+Starting to build chunk 1362
+
+End chunk
+
+Starting to build chunk 1363
+
+End chunk
+
+Starting to build chunk 1364
+
+End chunk
+
+Starting to build chunk 1365
+
+End chunk
+
+Starting to build chunk 1366
+
+End chunk
+
+Starting to build chunk 1367
+
+End chunk
+
+Starting to build chunk 1368
+
+End chunk
+
+Starting to build chunk 1369
+
+End chunk
+
+Starting to build chunk 1370
+
+End chunk
+
+Starting to build chunk 1371
+
+End chunk
+
+Starting to build chunk 1372
+
+End chunk
+
+Starting to build chunk 1373
+
+End chunk
+
+Starting to build chunk 1374
+
+End chunk
+
+Starting to build chunk 1375
+
+End chunk
+
+Starting to build chunk 1376
+
+End chunk
+
+Starting to build chunk 1377
+
+End chunk
+
+Starting to build chunk 1378
+
+End chunk
+
+Starting to build chunk 1379
+
+End chunk
+
+Starting to build chunk 1380
+
+End chunk
+
+Starting to build chunk 1381
+
+End chunk
+
+Starting to build chunk 1382
+
+End chunk
+
+Starting to build chunk 1383
+
+End chunk
+
+Starting to build chunk 1384
+
+End chunk
+
+Starting to build chunk 1385
+
+End chunk
+
+Starting to build chunk 1386
+
+End chunk
+
+Starting to build chunk 1387
+
+End chunk
+
+Starting to build chunk 1388
+
+End chunk
+
+Starting to build chunk 1389
+
+End chunk
+
+Starting to build chunk 1390
+
+End chunk
+
+Starting to build chunk 1391
+
+End chunk
+
+Starting to build chunk 1392
+
+End chunk
+
+Starting to build chunk 1393
+
+End chunk
+
+Starting to build chunk 1394
+
+End chunk
+
+Starting to build chunk 1395
+
+End chunk
+
+Starting to build chunk 1396
+
+End chunk
+
+Starting to build chunk 1397
+
+End chunk
+
+Starting to build chunk 1398
+
+End chunk
+
+Starting to build chunk 1399
+
+End chunk
+Starting to count words for files/16.txt
+
+Starting to build chunk 1400
+
+End chunk
+
+Starting to build chunk 1401
+
+End chunk
+
+Starting to build chunk 1402
+
+End chunk
+
+Starting to build chunk 1403
+
+End chunk
+
+Starting to build chunk 1404
+
+End chunk
+
+Starting to build chunk 1405
+
+End chunk
+
+Starting to build chunk 1406
+
+End chunk
+
+Starting to build chunk 1407
+
+End chunk
+
+Starting to build chunk 1408
+
+End chunk
+
+Starting to build chunk 1409
+
+End chunk
+
+Starting to build chunk 1410
+
+End chunk
+
+Starting to build chunk 1411
+
+End chunk
+
+Starting to build chunk 1412
+
+End chunk
+
+Starting to build chunk 1413
+
+End chunk
+
+Starting to build chunk 1414
+
+End chunk
+
+Starting to build chunk 1415
+
+End chunk
+
+Starting to build chunk 1416
+
+End chunk
+
+Starting to build chunk 1417
+
+End chunk
+
+Starting to build chunk 1418
+
+End chunk
+
+Starting to build chunk 1419
+
+End chunk
+
+Starting to build chunk 1420
+
+End chunk
+
+Starting to build chunk 1421
+
+End chunk
+
+Starting to build chunk 1422
+
+End chunk
+
+Starting to build chunk 1423
+
+End chunk
+
+Starting to build chunk 1424
+
+End chunk
+
+Starting to build chunk 1425
+
+End chunk
+
+Starting to build chunk 1426
+
+End chunk
+
+Starting to build chunk 1427
+
+End chunk
+
+Starting to build chunk 1428
+
+End chunk
+
+Starting to build chunk 1429
+
+End chunk
+
+Starting to build chunk 1430
+
+End chunk
+
+Starting to build chunk 1431
+
+End chunk
+
+Starting to build chunk 1432
+
+End chunk
+
+Starting to build chunk 1433
+
+End chunk
+
+Starting to build chunk 1434
+
+End chunk
+
+Starting to build chunk 1435
+
+End chunk
+
+Starting to build chunk 1436
+
+End chunk
+
+Starting to build chunk 1437
+
+End chunk
+
+Starting to build chunk 1438
+
+End chunk
+
+Starting to build chunk 1439
+
+End chunk
+
+Starting to build chunk 1440
+
+End chunk
+
+Starting to build chunk 1441
+
+End chunk
+
+Starting to build chunk 1442
+
+End chunk
+
+Starting to build chunk 1443
+
+End chunk
+
+Starting to build chunk 1444
+
+End chunk
+
+Starting to build chunk 1445
+
+End chunk
+
+Starting to build chunk 1446
+
+End chunk
+
+Starting to build chunk 1447
+
+End chunk
+
+Starting to build chunk 1448
+
+End chunk
+
+Starting to build chunk 1449
+
+End chunk
+
+Starting to build chunk 1450
+
+End chunk
+
+Starting to build chunk 1451
+
+End chunk
+
+Starting to build chunk 1452
+
+End chunk
+
+Starting to build chunk 1453
+
+End chunk
+
+Starting to build chunk 1454
+
+End chunk
+
+Starting to build chunk 1455
+
+End chunk
+
+Starting to build chunk 1456
+
+End chunk
+
+Starting to build chunk 1457
+
+End chunk
+
+Starting to build chunk 1458
+
+End chunk
+
+Starting to build chunk 1459
+
+End chunk
+
+Starting to build chunk 1460
+
+End chunk
+
+Starting to build chunk 1461
+
+End chunk
+
+Starting to build chunk 1462
+
+End chunk
+
+Starting to build chunk 1463
+
+End chunk
+
+Starting to build chunk 1464
+
+End chunk
+
+Starting to build chunk 1465
+
+End chunk
+
+Starting to build chunk 1466
+
+End chunk
+
+Starting to build chunk 1467
+
+End chunk
+
+Starting to build chunk 1468
+
+End chunk
+
+Starting to build chunk 1469
+
+End chunk
+
+Starting to build chunk 1470
+
+End chunk
+
+Starting to build chunk 1471
+
+End chunk
+
+Starting to build chunk 1472
+
+End chunk
+
+Starting to build chunk 1473
+
+End chunk
+
+Starting to build chunk 1474
+
+End chunk
+
+Starting to build chunk 1475
+
+End chunk
+
+Starting to build chunk 1476
+
+End chunk
+
+Starting to build chunk 1477
+
+End chunk
+
+Starting to build chunk 1478
+
+End chunk
+
+Starting to build chunk 1479
+
+End chunk
+
+Starting to build chunk 1480
+
+End chunk
+
+Starting to build chunk 1481
+
+End chunk
+
+Starting to build chunk 1482
+
+End chunk
+
+Starting to build chunk 1483
+
+End chunk
+
+Starting to build chunk 1484
+
+End chunk
+
+Starting to build chunk 1485
+
+End chunk
+
+Starting to build chunk 1486
+
+End chunk
+
+Starting to build chunk 1487
+
+End chunk
+
+Starting to build chunk 1488
+
+End chunk
+
+Starting to build chunk 1489
+
+End chunk
+
+Starting to build chunk 1490
+
+End chunk
+
+Starting to build chunk 1491
+
+End chunk
+
+Starting to build chunk 1492
+
+End chunk
+
+Starting to build chunk 1493
+
+End chunk
+
+Starting to build chunk 1494
+
+End chunk
+
+Starting to build chunk 1495
+
+End chunk
+
+Starting to build chunk 1496
+
+End chunk
+
+Starting to build chunk 1497
+
+End chunk
+
+Starting to build chunk 1498
+
+End chunk
+
+Starting to build chunk 1499
+
+End chunk
+Finished counting words for files/1.txt
+Finished counting words for files/2.txt
+Finished counting words for files/3.txt
+Finished counting words for files/4.txt
+Finished counting words for files/5.txt
+Finished counting words for files/6.txt
+Finished counting words for files/7.txt
+Finished counting words for files/8.txt
+Finished counting words for files/9.txt
+Finished counting words for files/11.txt
+Finished counting words for files/12.txt
+Finished counting words for files/13.txt
+Finished counting words for files/14.txt
+Finished counting words for files/15.txt
+Finished counting words for files/16.txt
+
+Parallel execution time 0.366642 seconds
+Total time spent on chunkifying 0.0409677 seconds (11.1738%)
+Total time spent on mapping 0.321135 seconds (87.5882%)
+

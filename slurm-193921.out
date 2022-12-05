@@ -1,0 +1,120 @@
+OpenMP Execution
+
+Program Configuration
+	Maximm number of threads available = 1
+
+Input file(s): 
+  - files/1.txt
+  - files/2.txt
+  - files/3.txt
+  - files/4.txt
+  - files/5.txt
+  - files/6.txt
+  - files/7.txt
+  - files/8.txt
+  - files/9.txt
+  - files/11.txt
+  - files/12.txt
+  - files/13.txt
+  - files/14.txt
+  - files/15.txt
+  - files/16.txt
+
+Output file: 
+  - combined_omp_wc.txt
+Target number of chunks per file: 10
+
+Starting to count words for files/1.txt
+Splitting buffer to chunks took 0.00138307seconds
+Getting word counts took 0.011847seconds
+Finished counting words for files/1.txt
+File took 0.014112seconds
+
+Starting to count words for files/2.txt
+Splitting buffer to chunks took 0.000775099seconds
+Getting word counts took 0.0050168seconds
+Finished counting words for files/2.txt
+File took 0.00616097seconds
+
+Starting to count words for files/3.txt
+Splitting buffer to chunks took 0.003232seconds
+Getting word counts took 0.080097seconds
+Finished counting words for files/3.txt
+File took 0.083647seconds
+
+Starting to count words for files/4.txt
+Splitting buffer to chunks took 0.00213194seconds
+Getting word counts took 0.04478seconds
+Finished counting words for files/4.txt
+File took 0.0472739seconds
+
+Starting to count words for files/5.txt
+Splitting buffer to chunks took 0.00523114seconds
+Getting word counts took 0.128938seconds
+Finished counting words for files/5.txt
+File took 0.134577seconds
+
+Starting to count words for files/6.txt
+Splitting buffer to chunks took 0.00204396seconds
+Getting word counts took 0.0515831seconds
+Finished counting words for files/6.txt
+File took 0.0539191seconds
+
+Starting to count words for files/7.txt
+Splitting buffer to chunks took 0.000422001seconds
+Getting word counts took 0.0021801seconds
+Finished counting words for files/7.txt
+File took 0.00289202seconds
+
+Starting to count words for files/8.txt
+Splitting buffer to chunks took 0.000931978seconds
+Getting word counts took 0.00486517seconds
+Finished counting words for files/8.txt
+File took 0.00611591seconds
+
+Starting to count words for files/9.txt
+Splitting buffer to chunks took 0.00282693seconds
+Getting word counts took 0.079294seconds
+Finished counting words for files/9.txt
+File took 0.0824192seconds
+
+Starting to count words for files/11.txt
+Splitting buffer to chunks took 0.00131488seconds
+Getting word counts took 0.0261469seconds
+Finished counting words for files/11.txt
+File took 0.0277431seconds
+
+Starting to count words for files/12.txt
+Splitting buffer to chunks took 0.00139618seconds
+Getting word counts took 0.014617seconds
+Finished counting words for files/12.txt
+File took 0.0163109seconds
+
+Starting to count words for files/13.txt
+Splitting buffer to chunks took 0.00104094seconds
+Getting word counts took 0.00475216seconds
+Finished counting words for files/13.txt
+File took 0.00638604seconds
+
+Starting to count words for files/14.txt
+Splitting buffer to chunks took 0.00173402seconds
+Getting word counts took 0.0210741seconds
+Finished counting words for files/14.txt
+File took 0.0231431seconds
+
+Starting to count words for files/15.txt
+Splitting buffer to chunks took 0.00154781seconds
+Getting word counts took 0.0288732seconds
+Finished counting words for files/15.txt
+File took 0.030679seconds
+
+Starting to count words for files/16.txt
+Splitting buffer to chunks took 0.00147319seconds
+Getting word counts took 0.00832891seconds
+Finished counting words for files/16.txt
+File took 0.0103281seconds
+
+Parallel execution time 0.545751seconds
+Total time spent on chunkifying 0.0274851seconds (5.0362%)
+Total time spent on mapping 0.512393seconds (93.8878%)
+

@@ -1,0 +1,72 @@
+OpenMP Execution
+
+Program Configuration
+	Maximm number of threads available = 20
+
+Input file(s): 
+  - files/1.txt
+  - files/2.txt
+  - files/3.txt
+  - files/4.txt
+  - files/5.txt
+  - files/6.txt
+  - files/7.txt
+  - files/8.txt
+  - files/9.txt
+  - files/11.txt
+  - files/12.txt
+  - files/13.txt
+  - files/14.txt
+  - files/15.txt
+  - files/16.txt
+
+Output file: 
+  - combined_omp_wc.txt
+
+Number of files to process concurrently: 3
+Target number of chunks per file: 100
+
+Starting to count words for group 0
+Starting to count words for files/1.txt
+Starting to count words for files/2.txt
+Starting to count words for files/3.txt
+Finished counting words for files/1.txt
+Finished counting words for files/2.txt
+Finished counting words for files/3.txt
+
+Starting to count words for group 3
+Starting to count words for files/4.txt
+Starting to count words for files/5.txt
+Starting to count words for files/6.txt
+Finished counting words for files/4.txt
+Finished counting words for files/5.txt
+Finished counting words for files/6.txt
+
+Starting to count words for group 6
+Starting to count words for files/7.txt
+Starting to count words for files/8.txt
+Starting to count words for files/9.txt
+Finished counting words for files/7.txt
+Finished counting words for files/8.txt
+Finished counting words for files/9.txt
+
+Starting to count words for group 9
+Starting to count words for files/11.txt
+Starting to count words for files/12.txt
+Starting to count words for files/13.txt
+Finished counting words for files/11.txt
+Finished counting words for files/12.txt
+Finished counting words for files/13.txt
+
+Starting to count words for group 12
+Starting to count words for files/14.txt
+Starting to count words for files/15.txt
+Starting to count words for files/16.txt
+Finished counting words for files/14.txt
+Finished counting words for files/15.txt
+Finished counting words for files/16.txt
+
+Parallel execution time 0.338715 seconds
+Total time spent on chunkifying 0.0359788 seconds (10.6221%)
+Total time spent on mapping 0.296687 seconds (87.5919%)
+
