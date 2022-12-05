@@ -1,11 +1,11 @@
 SHELL = /bin/sh
 
 .SUFFIXES: .hpp .cpp .o
-# CXX=icc
-# CXXFLAGS=-std=c++17 -qopenmp
+CXX=icc
+CXXFLAGS=-std=c++17 -qopenmp
 
-CXX=g++
-CXXFLAGS=-std=c++17 -fopenmp
+# CXX=g++
+# CXXFLAGS=-std=c++17 -fopenmp
 
 INCLUDEDIR = -I include
 SOURCEDIR = src

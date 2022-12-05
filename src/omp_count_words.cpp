@@ -16,7 +16,7 @@
 // ./omp_count_words files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt files/13.txt files/14.txt files/15.txt files/16.txt > omp_out.txt
 
 #define CHUNKS_PER_THREAD 5
-#define NUM_CONCURRENT_FILES 3
+#define NUM_CONCURRENT_FILES 5
 
 struct File
 {
@@ -109,9 +109,9 @@ int main(int argc, char *argv[])
     int group_num = 0;
     for (int i = 0; i < num_input_files; i += num_concurrent_files)
     {
-        std::cout << "\nStarting to count words for group " << group_num << std::endl;
-        double group_runtime = -omp_get_wtime(); // Start timer
-        double group_chunkify_runtime = -omp_get_wtime(); // Start timer
+        // std::cout << "\nStarting to count words for group " << group_num << std::endl;
+        // double group_runtime = -omp_get_wtime(); // Start timer
+        // double group_chunkify_runtime = -omp_get_wtime(); // Start timer
         // parallelizing here does not give much adv because too little work
         // #pragma omp parallel for num_threads(std::min(num_max_threads, num_concurrent_files))
         for (int j = 0; j < num_concurrent_files; j++)
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
             if ((i + j) < num_input_files)
             {
                 const char *filename = input_files[i + j];
-                std::cout << "  - Starting to count words for " << filename << std::endl;
+                // std::cout << "  - Starting to count words for " << filename << std::endl;
 
                 // int fd = OpenFile(filename);
                 files.at(j).fd = OpenFile(filename);
@@ -145,21 +145,21 @@ int main(int argc, char *argv[])
             // Split file into multiple chunks with ending at word boundries
             SplitBufferToChunks(files.at(j).file_buffer, files.at(j).file_size, target_num_chunks, file_chunks, j);
         }
-        group_chunkify_runtime += omp_get_wtime(); // Stop timer
-        split_to_chunk_runtime += group_chunkify_runtime;
-        std::cout << "\n    Chunkifying group took " << group_chunkify_runtime << "seconds" << std::endl;
+        // group_chunkify_runtime += omp_get_wtime(); // Stop timer
+        // split_to_chunk_runtime += group_chunkify_runtime;
+        // std::cout << "\n    Chunkifying group took " << group_chunkify_runtime << "seconds" << std::endl;
 
         GetWordCountsFromChunks(file_chunks, word_count_maps, map_locks);
-        std::cout << std::endl;
+        // std::cout << std::endl;
 
         for (int j = 0; j < num_concurrent_files && (i + j) < num_input_files; j++)
         {
             UnmapAndCloseFile(files.at(j).fd, files.at(j).file_buffer, files.at(j).file_size);
             const char *filename = input_files[i + j];
-            std::cout << "  - Finished counting words for " << filename << std::endl;
+            // std::cout << "  - Finished counting words for " << filename << std::endl;
         }
-        group_runtime += omp_get_wtime(); // Stop timer
-        std::cout << "Group took " << group_runtime << "seconds" << std::endl;
+        // group_runtime += omp_get_wtime(); // Stop timer
+        // std::cout << "Group took " << group_runtime << "seconds" << std::endl;
         group_num++;
     }
 
@@ -168,11 +168,11 @@ int main(int argc, char *argv[])
 
     runtime += omp_get_wtime(); // Stop timer
     std::cout << "\nParallel execution time " << runtime << " seconds" << std::endl;
-    std::cout << "Total time spent on chunkifying " << split_to_chunk_runtime << " seconds ("
-              << (split_to_chunk_runtime / runtime) * 100 << "%)" << std::endl;
-    std::cout << "Total time spent on mapping " << map_runtime << " seconds ("
-              << (map_runtime / runtime) * 100 << "%)" << std::endl;
-    std::cout << std::endl;
+    // std::cout << "Total time spent on chunkifying " << split_to_chunk_runtime << " seconds ("
+    //           << (split_to_chunk_runtime / runtime) * 100 << "%)" << std::endl;
+    // std::cout << "Total time spent on mapping " << map_runtime << " seconds ("
+    //           << (map_runtime / runtime) * 100 << "%)" << std::endl;
+    // std::cout << std::endl;
 
     // Write to multiple files, one per reducer (thread)
     // #pragma omp parallel for
@@ -267,7 +267,7 @@ void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
                              std::vector<std::unordered_map<std::string, int>> &word_count_maps,
                              std::vector<omp_lock_t> &map_locks)
 {
-    double runtime = -omp_get_wtime(); // Start timer
+    // double runtime = -omp_get_wtime(); // Start timer
     // std::cout << "Num chunks = " << file_chunks.size() << std::endl;
 
     // parallel for loop to take file chunks, tokenize, and update local maps
@@ -296,8 +296,8 @@ void GetWordCountsFromChunks(std::vector<FileChunk> &file_chunks,
             }
         }
     }
-    runtime += omp_get_wtime(); // Stop timer
-    map_runtime += runtime;
+    // runtime += omp_get_wtime(); // Stop timer
+    // map_runtime += runtime;
     // std::cout << "Getting word counts took " << runtime << "seconds" << std::endl;
 }
 
