@@ -90,6 +90,42 @@ void UpdateWordCounts(std::unordered_map<std::string, int> &word_counts, const s
 /// @param word_counts
 /// @param filename
 /// @return
+bool SortAndWriteWordCountsToFile(const std::unordered_map<std::string, int> &word_counts, const std::string &filename)
+{
+    std::vector<std::pair<std::string, int>> v; 
+    for (auto& it : word_counts)
+    {
+        v.push_back(it);
+    }
+    
+    std::sort(v.begin(), v.end(), [](auto &left, auto &right) {
+        return right.first < left.first;
+    }); 
+
+    std::ofstream out_file{filename};
+    // Check if file was opened successfully
+    if (!out_file)
+    {
+        std::cerr << "Unable to open file for writing!" << std::endl;
+        exit(1);
+    }
+
+    for (auto& it : v)
+    {
+        out_file << it.first
+                 << ':'
+                 << it.second
+                 << std::endl;
+    }
+
+    out_file.close();
+    return true;
+}
+
+/// @brief
+/// @param word_counts
+/// @param filename
+/// @return
 bool WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_counts, const std::string &filename)
 {
     std::ofstream out_file{filename};

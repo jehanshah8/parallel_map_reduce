@@ -18,51 +18,6 @@ Input file(s):
   - files/16.txt
 
 Output file: 
-  - serial_wc.txt
+  - sorted_serial_wc.txt
 
-Starting to count words for files/1.txt
-Finished counting words for files/1.txt
-
-Starting to count words for files/2.txt
-Finished counting words for files/2.txt
-
-Starting to count words for files/3.txt
-Finished counting words for files/3.txt
-
-Starting to count words for files/4.txt
-Finished counting words for files/4.txt
-
-Starting to count words for files/5.txt
-Finished counting words for files/5.txt
-
-Starting to count words for files/6.txt
-Finished counting words for files/6.txt
-
-Starting to count words for files/7.txt
-Finished counting words for files/7.txt
-
-Starting to count words for files/8.txt
-Finished counting words for files/8.txt
-
-Starting to count words for files/9.txt
-Finished counting words for files/9.txt
-
-Starting to count words for files/11.txt
-Finished counting words for files/11.txt
-
-Starting to count words for files/12.txt
-Finished counting words for files/12.txt
-
-Starting to count words for files/13.txt
-Finished counting words for files/13.txt
-
-Starting to count words for files/14.txt
-Finished counting words for files/14.txt
-
-Starting to count words for files/15.txt
-Finished counting words for files/15.txt
-
-Starting to count words for files/16.txt
-Finished counting words for files/16.txt
-
-Serial execution time 0.633701seconds
+Serial execution time 0.576826 seconds

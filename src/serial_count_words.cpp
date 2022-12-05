@@ -1,16 +1,6 @@
 #include <string>
 #include <unordered_map>
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <unistd.h>
-
 #include <omp.h>
 
 #include "../include/utils.hpp"
@@ -84,7 +74,8 @@ int main(int argc, char *argv[])
     std::cout << "\nSerial execution time " << runtime << " seconds" << std::endl;
     
     // Write the word counts to file
-    if (!WriteWordCountsToFile(word_counts, output_filename)) 
+    // if (!WriteWordCountsToFile(word_counts, output_filename)) 
+    if (!SortAndWriteWordCountsToFile(word_counts, output_filename)) 
     {
         std::cerr << "Failed write to " << output_filename << "!" << std::endl;
         exit(1);

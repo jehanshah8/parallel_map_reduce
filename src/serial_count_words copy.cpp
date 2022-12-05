@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     std::cout << "\nSerial execution time " << runtime << "seconds" << std::endl;
     
     // Write the word counts to file
-    if (!WriteWordCountsToFile(word_counts, output_filename)) 
+    if (!SortAndWriteWordCountsToFile(word_counts, output_filename)) 
     {
         std::cerr << "Failed write to " << output_filename << "!" << std::endl;
         exit(1);
