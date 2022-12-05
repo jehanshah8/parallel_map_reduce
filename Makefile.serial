@@ -1,8 +1,8 @@
 SHELL = /bin/sh
 
 .SUFFIXES: .hpp .cpp .o
-CXX=g++
-CXXFLAGS=-std=c++17 -g -Wall -fopenmp
+CXX=icc
+CXXFLAGS=-std=c++17 -qopenmp
 
 INCLUDEDIR = -I include
 SOURCEDIR = src

@@ -1,7 +1,7 @@
 OpenMP Execution
 
 Program Configuration
-	Maximm number of threads available = 8
+	Maximm number of threads available = 4
 
 Input file(s): 
   - files/1.txt
@@ -25,11 +25,7 @@ Output file(s):
   - output_files/output1.txt
   - output_files/output2.txt
   - output_files/output3.txt
-  - output_files/output4.txt
-  - output_files/output5.txt
-  - output_files/output6.txt
-  - output_files/output7.txt
-Target number of chunks per file: 80
+Target number of chunks per file: 40
 
 Starting to count words for files/1.txt
 Finished counting words for files/1.txt
@@ -76,4 +72,4 @@ Finished counting words for files/15.txt
 Starting to count words for files/16.txt
 Finished counting words for files/16.txt
 
-Parallel execution time 0.380519seconds
+Parallel execution time 0.64237seconds

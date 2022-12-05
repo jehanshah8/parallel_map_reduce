@@ -48,7 +48,7 @@ void PrintFileBuffer(const char *file_buffer);
 
 int main(int argc, char *argv[])
 {
-    omp_set_num_threads(8);
+    omp_set_num_threads(16);
 
     if (argc < 2)
     {
