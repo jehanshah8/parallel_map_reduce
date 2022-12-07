@@ -14,8 +14,8 @@
 // ./omp_count_words files/small_test1.txt files/small_test2.txt > omp_out.txt
 // ./omp_count_words files/1.txt files/2.txt files/3.txt > omp_out.txt
 
-#define SHARDS_PER_THREAD 8
-#define NUM_CONCURRENT_FILES 3
+#define SHARDS_PER_THREAD 32
+#define NUM_CONCURRENT_FILES 1
 
 struct File
 {
@@ -32,9 +32,9 @@ struct FileShard
 
 std::pair<int, int> GetFilesToMap(int num_input_files, int num_files_already_assigned);
 
-void MapFiles(const char **filenames, int num_files, int num_shards_per_file,
+void MapFiles(char **filenames, int num_files, int num_shards_per_file,
               std::vector<std::unordered_map<std::string, int>> &local_maps);
-void OpenAndShardFiles(const char **filenames, int num_files, std::vector<File> &files,
+void OpenAndShardFiles(char **filenames, int num_files, std::vector<File> &files,
                        int num_shards_per_file, std::vector<FileShard> &file_shards);
 void SplitBufferToShards(char *file_buffer, size_t file_size, int num_shards_per_file,
                          std::vector<FileShard> &file_shards, int file_num);
@@ -57,7 +57,7 @@ double mapping_time = 0;
 int main(int argc, char *argv[])
 {
     double total_runtime = -omp_get_wtime(); // Start timer
-    omp_set_num_threads(4);
+    omp_set_num_threads(16);
 
     if (argc < 2)
     {
@@ -107,28 +107,28 @@ int main(int argc, char *argv[])
 
     int num_files_already_assigned = 0; 
     int mapping_round = 0;
-    std::cout << "Starting to map files" << std::endl;
+    std::cout << "\nStarting to map files" << std::endl;
     while (true)
     {
-        std::cout << "  - Round " << mapping_round << " of mapping files" << std::endl;
+        // std::cout << "\n  - Round " << mapping_round << " of mapping files" << std::endl;
 
         std::pair<int, int> file_range = GetFilesToMap(num_input_files, num_files_already_assigned);
         int num_files_to_map = file_range.second - file_range.first; 
-        std::cout << "  - Number of files to map in this round = " << num_files_to_map << std::endl;
+        // std::cout << "  - Number of files to map in this round = " << num_files_to_map << std::endl;
 
         num_files_already_assigned += num_files_to_map;
 
         if (num_files_to_map <= 0) 
         {
-            std::cout << "  - No more files to map" << std::endl;
+            // std::cout << "  - No more files to map" << std::endl;
             break;
         }
         
-        std::cout << "  - Files(s) to map in this round: " << std::endl;
-        for (int i = file_range.first; i < file_range.second; i++)
-        {
-            std::cout << "  - " << input_files[i] << std::endl;
-        }
+        // std::cout << "  - Files(s) to map in this round: " << std::endl;
+        // for (int i = file_range.first; i < file_range.second; i++)
+        // {
+        //     std::cout << "  - " << input_files[i] << std::endl;
+        // }
 
         MapFiles(&input_files[file_range.first], num_files_to_map, num_shards_per_file, local_maps);
 
@@ -142,6 +142,8 @@ int main(int argc, char *argv[])
     double reducing_time = -omp_get_wtime(); // Start timer
     ReduceMaps(local_maps, reduced_maps);
     reducing_time += omp_get_wtime(); // Stop timer
+
+    // reduced_maps = local_maps;
 
     parallel_runtime += omp_get_wtime(); // Stop timer
     std::cout << "\nParallel execution time: " << parallel_runtime << " seconds" << std::endl;
@@ -195,7 +197,7 @@ std::pair<int, int> GetFilesToMap(int num_input_files, int num_files_already_ass
     return std::make_pair(start, stop); 
 }
 
-void MapFiles(const char **filenames, int num_files, int num_shards_per_file,
+void MapFiles(char **filenames, int num_files, int num_shards_per_file,
               std::vector<std::unordered_map<std::string, int>> &local_maps)
 {
     std::vector<File> files(num_files);                                  // List of files (structs) to map
@@ -212,13 +214,12 @@ void MapFiles(const char **filenames, int num_files, int num_shards_per_file,
     CloseFiles(files);
 }
 
-void OpenAndShardFiles(const char **filenames, int num_files, std::vector<File> &files,
+void OpenAndShardFiles(char **filenames, int num_files, std::vector<File> &files,
                        int num_shards_per_file, std::vector<FileShard> &file_shards)
 {
-
-// Open and split multiple files into shards
-#pragma omp parallel for schedule(dynamic)
-    for (int i = 0; i < num_files; i++)
+    // Open and split multiple files into shards
+    #pragma omp parallel for if (num_files > 3) schedule(dynamic)
+    for (int i = 0; i < num_files; i++) 
     {
         const char *filename = filenames[i];
         // std::cout << "  - Starting to count words for " << filename << std::endl;
@@ -310,7 +311,11 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
 
     // parallel for loop to take file shards, tokenize, and update local maps
     int num_maps = local_maps.size();
-#pragma omp parallel for schedule(guided)
+
+    // std::vector<omp_lock_t> map_locks(num_maps);
+    // InitLocks(map_locks);
+
+    #pragma omp parallel for schedule(dynamic)
     for (int i = 0; i < file_shards.size(); i++)
     {
         if (file_shards.at(i).data != nullptr)
@@ -325,17 +330,25 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
             std::string word;
             while (word_buffer >> word)
             {
-                UpdateWordCounts(local_maps[omp_get_thread_num()], word);
+                UpdateWordCounts(local_maps[omp_get_thread_num()], word, 1);
+                // int map_idx = Hash(word) % num_maps;
+                // omp_set_lock(&(map_locks[map_idx]));              // get lock for map
+                // UpdateWordCounts(local_maps[map_idx], word); // insert into that map
+                // omp_unset_lock(&(map_locks[map_idx]));            // release lock
             }
         }
     }
+    
+    // Release locks
+    // DestroyLocks(map_locks);
 }
 
 void CloseFiles(std::vector<File> &files)
 {
-// Close files
-#pragma omp parallel for schedule(dynamic)
-    for (int i = 0; i < files.size(); i++)
+    // Close files
+    int num_files = files.size();
+    #pragma omp parallel for if (num_files > 3) schedule(dynamic)
+    for (int i = 0; i < num_files; i++)
     {
         UnmapAndCloseFile(files.at(i).fd, files.at(i).file_buffer, files.at(i).file_size);
     }
@@ -350,7 +363,7 @@ void ReduceMaps(std::vector<std::unordered_map<std::string, int>> &local_maps,
     std::vector<omp_lock_t> map_locks(num_maps);
     InitLocks(map_locks);
 
-    // #pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < num_maps; i++)
     {
         // Each reducer iterates over one map
@@ -359,7 +372,7 @@ void ReduceMaps(std::vector<std::unordered_map<std::string, int>> &local_maps,
             int reducer_idx = Hash(it.first) % num_maps;
 
             omp_set_lock(&(map_locks[reducer_idx]));                          // get lock for map
-            UpdateWordCounts(reduced_word_count_maps[reducer_idx], it.first); // insert into that map
+            UpdateWordCounts(reduced_word_count_maps[reducer_idx], it.first, it.second); // insert into that map
             omp_unset_lock(&(map_locks[reducer_idx]));                        // release lock
         }
     }

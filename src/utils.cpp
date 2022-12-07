@@ -67,22 +67,22 @@ void GetWordCountsFromString(std::string &line_buffer, std::unordered_map<std::s
     while (word_buffer >> word)
     {
         // Update hash map
-        UpdateWordCounts(word_counts, word);
+        UpdateWordCounts(word_counts, word, 1);
     }
 }
 
 /// @brief Increments map entry for the given key
 /// @param word_counts
 /// @param word
-void UpdateWordCounts(std::unordered_map<std::string, int> &word_counts, const std::string &word)
+void UpdateWordCounts(std::unordered_map<std::string, int> &word_counts, const std::string &word, int count)
 {
     if (word_counts.find(word) == word_counts.end())
     {
-        word_counts.insert({word, 1});
+        word_counts.insert({word, count});
     }
     else
     {
-        word_counts[word] += 1;
+        word_counts[word] += count;
     }
 }
 
