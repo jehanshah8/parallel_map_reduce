@@ -5,7 +5,7 @@ int OpenFile(const char *filename)
     int fd = open(filename, O_RDONLY);
     if (fd == -1)
     {
-        std::cerr << "Unable to open file!" << std::endl;
+        std::cerr << "Unable to open file: " << filename << std::endl;
         exit(1);
     }
     return fd;
