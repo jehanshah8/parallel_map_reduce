@@ -83,9 +83,7 @@ int main(int argc, char *argv[])
 
     // Get sys info such as number of processors
     int num_max_threads = omp_get_max_threads(); // max number of threads available
-    std::cout << "\nProgram Configuration" << std::endl;
-    std::cout << "  - Maximm number of threads available = " << num_max_threads << std::endl;
-
+   
     std::cout << "\nOutput file(s): " << std::endl;
     std::vector<std::string> output_files(num_max_threads);
     for (int i = 0; i < output_files.size(); i++)
@@ -93,6 +91,9 @@ int main(int argc, char *argv[])
         output_files[i] = "output_files/output" + std::to_string(i) + ".txt";
         std::cout << "  - " << output_files[i] << std::endl;
     }
+
+    std::cout << "\nProgram Configuration" << std::endl;
+    std::cout << "  - Maximm number of threads available = " << num_max_threads << std::endl;
 
     // omp_sched_t mapper_schedule_type = omp_sched_guided;
     // omp_set_schedule(mapper_schedule_type, -1);
