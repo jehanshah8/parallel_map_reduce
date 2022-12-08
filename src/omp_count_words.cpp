@@ -15,7 +15,7 @@
 // ./omp_count_words files/1.txt files/2.txt files/3.txt > omp_out.txt
 
 #define SHARDS_PER_THREAD 4
-#define NUM_CONCURRENT_FILES 15
+#define NUM_CONCURRENT_FILES 1
 
 struct File
 {
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 
     // omp_sched_t mapper_schedule_type = omp_sched_guided;
     // omp_set_schedule(mapper_schedule_type, -1);
-    std::cout << "  - Mapper scheduling = " << "guided" << std::endl;
+    std::cout << "  - Mapper scheduling = " << "static, 1" << std::endl;
 
     // Create a map corresponding to each thread (mapper)
     std::vector<std::unordered_map<std::string, int>> local_maps(num_max_threads);
@@ -150,7 +150,9 @@ int main(int argc, char *argv[])
     ReduceMaps(local_maps, reduced_maps);
     reducing_time += omp_get_wtime(); // Stop timer
 
-    double writing_time = -omp_get_wtime(); // Start timer
+    parallel_runtime += omp_get_wtime(); // Stop timer
+
+    // double writing_time = -omp_get_wtime(); // Start timer
     // Write to multiple files, one per reducer (thread)
     #pragma omp parallel for
     for (int i = 0; i < num_max_threads; i++)
@@ -162,18 +164,17 @@ int main(int argc, char *argv[])
             exit(1);
         }
     }
-    writing_time += omp_get_wtime(); // Stop timer
+    // writing_time += omp_get_wtime(); // Stop timer
 
-    parallel_runtime += omp_get_wtime(); // Stop timer
-    std::cout << "\nParallel execution time: " << parallel_runtime << " seconds" << std::endl;
+    std::cout << "\nParallel execution time (not including file writing): " << parallel_runtime << " seconds" << std::endl;
     std::cout << "Time spent on sharding: " << sharding_time << " seconds ("
               << (sharding_time / parallel_runtime) * 100 << "%)" << std::endl;
     std::cout << "Time spent on mapping: " << mapping_time << " seconds ("
               << (mapping_time / parallel_runtime) * 100 << "%)" << std::endl;
     std::cout << "Time spent on reducing: " << reducing_time << " seconds ("
               << (reducing_time / parallel_runtime) * 100 << "%)" << std::endl;
-    std::cout << "Time spent on writing files: " << writing_time << " seconds ("
-              << (writing_time / parallel_runtime) * 100 << "%)" << std::endl;
+    // std::cout << "Time spent on writing files: " << writing_time << " seconds ("
+    //           << (writing_time / parallel_runtime) * 100 << "%)" << std::endl;
     std::cout << std::endl;
 
     // Write to one file by appending (produces one file with outputs of previous files by appending)
@@ -326,7 +327,7 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
     // InitLocks(map_locks);
 
     int num_shards = file_shards.size();
-    #pragma omp parallel for schedule(guided)
+    #pragma omp parallel for schedule(static, 1)
     for (int i = 0; i < num_shards; i++)
     {
         if (file_shards.at(i).data != nullptr)

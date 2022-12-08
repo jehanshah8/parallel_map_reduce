@@ -74,16 +74,16 @@ int main(int argc, char *argv[])
         // std::cout << "File took " << file_runtime << "seconds" << std::endl;
     }
 
+    runtime += omp_get_wtime(); // Stop timer
+    std::cout << "\nSerial execution time " << runtime << " seconds" << std::endl;
+
     // Write the word counts to file
     if (!WriteWordCountsToFile(word_counts, output_filename)) 
     {
         std::cerr << "Failed write to " << output_filename << "!" << std::endl;
         exit(1);
     }
-
-    runtime += omp_get_wtime(); // Stop timer
-    std::cout << "\nSerial execution time " << runtime << " seconds" << std::endl;
-
+    
     // sorted ouput for convinience 
     if (!SortAndWriteWordCountsToFile(word_counts, sorted_output_filename)) 
     {
