@@ -32,8 +32,8 @@ struct FileShard
 
 std::pair<int, int> GetFilesToMap(int num_input_files, int num_files_already_assigned);
 
-void MapFiles(char **filenames, int num_files, int num_shards_per_file,
-              std::vector<std::unordered_map<std::string, int>> &local_maps);
+// void MapFiles(char **filenames, int num_files, int num_shards_per_file,
+//               std::vector<std::unordered_map<std::string, int>> &local_maps);
 void OpenAndShardFiles(char **filenames, int num_files, std::vector<File> &files,
                        int num_shards_per_file, std::vector<FileShard> &file_shards);
 void SplitBufferToShards(char *file_buffer, size_t file_size, int num_shards_per_file,
@@ -50,9 +50,6 @@ void DestroyLocks(std::vector<omp_lock_t> &locks);
 unsigned long Hash(const std::string &str);
 
 void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unordered_map<std::string, int> &combined_map);
-
-double sharding_time = 0;
-double mapping_time = 0;
 
 int main(int argc, char *argv[])
 {
@@ -97,7 +94,7 @@ int main(int argc, char *argv[])
 
     // omp_sched_t mapper_schedule_type = omp_sched_guided;
     // omp_set_schedule(mapper_schedule_type, -1);
-    std::cout << "  - Mapper scheduling = " << "static, 1" << std::endl;
+    // std::cout << "  - Mapper scheduling = " << "static, 1" << std::endl;
 
     // Create a map corresponding to each thread (mapper)
     std::vector<std::unordered_map<std::string, int>> local_maps(num_max_threads);
@@ -111,7 +108,9 @@ int main(int argc, char *argv[])
     std::cout << "  - Number of files to process concurrently = " << NUM_CONCURRENT_FILES << std::endl;
 
     double parallel_runtime = -omp_get_wtime(); // Start timer
-
+    double sharding_time = 0;
+    double mapping_time = 0;
+    
     int num_files_already_assigned = 0;
     int mapping_round = 0;
     // std::cout << "\nStarting to map files" << std::endl;
@@ -137,7 +136,19 @@ int main(int argc, char *argv[])
         //     std::cout << "  - " << input_files[i] << std::endl;
         // }
 
-        MapFiles(&input_files[file_range.first], num_files_to_map, num_shards_per_file, local_maps);
+        // MapFiles(&input_files[file_range.first], num_files_to_map, num_shards_per_file, local_maps);
+        std::vector<File> files(num_files_to_map);                                  // List of files (structs) to map
+        std::vector<FileShard> file_shards(num_shards_per_file * num_files_to_map); // Vector to store file shards
+
+        sharding_time -= omp_get_wtime(); // Start timer
+        OpenAndShardFiles(&input_files[file_range.first], num_files_to_map, files, num_shards_per_file, file_shards);
+        sharding_time += omp_get_wtime(); // Stop timer
+
+        mapping_time -= omp_get_wtime(); // Start timer
+        GetWordCountsFromShards(file_shards, local_maps);
+        mapping_time += omp_get_wtime(); // Stop timer
+
+        CloseFiles(files);
 
         mapping_round++;
     }
@@ -145,12 +156,20 @@ int main(int argc, char *argv[])
 
     // Reduce
     std::vector<std::unordered_map<std::string, int>> reduced_maps(num_max_threads);
-
     double reducing_time = -omp_get_wtime(); // Start timer
     ReduceMaps(local_maps, reduced_maps);
     reducing_time += omp_get_wtime(); // Stop timer
 
     parallel_runtime += omp_get_wtime(); // Stop timer
+
+    std::cout << "\nParallel execution time (not including file writing): " << parallel_runtime << " seconds" << std::endl;
+    std::cout << "Time spent on sharding: " << sharding_time << " seconds ("
+              << (sharding_time / parallel_runtime) * 100 << "%)" << std::endl;
+    std::cout << "Time spent on mapping: " << mapping_time << " seconds ("
+              << (mapping_time / parallel_runtime) * 100 << "%)" << std::endl;
+    std::cout << "Time spent on reducing: " << reducing_time << " seconds ("
+              << (reducing_time / parallel_runtime) * 100 << "%)" << std::endl;
+    std::cout << std::endl;
 
     // double writing_time = -omp_get_wtime(); // Start timer
     // Write to multiple files, one per reducer (thread)
@@ -165,17 +184,6 @@ int main(int argc, char *argv[])
         }
     }
     // writing_time += omp_get_wtime(); // Stop timer
-
-    std::cout << "\nParallel execution time (not including file writing): " << parallel_runtime << " seconds" << std::endl;
-    std::cout << "Time spent on sharding: " << sharding_time << " seconds ("
-              << (sharding_time / parallel_runtime) * 100 << "%)" << std::endl;
-    std::cout << "Time spent on mapping: " << mapping_time << " seconds ("
-              << (mapping_time / parallel_runtime) * 100 << "%)" << std::endl;
-    std::cout << "Time spent on reducing: " << reducing_time << " seconds ("
-              << (reducing_time / parallel_runtime) * 100 << "%)" << std::endl;
-    // std::cout << "Time spent on writing files: " << writing_time << " seconds ("
-    //           << (writing_time / parallel_runtime) * 100 << "%)" << std::endl;
-    std::cout << std::endl;
 
     // Write to one file by appending (produces one file with outputs of previous files by appending)
     // Sorted before writing for convinienence in comparing with serial version
@@ -208,6 +216,7 @@ std::pair<int, int> GetFilesToMap(int num_input_files, int num_files_already_ass
     return std::make_pair(start, stop);
 }
 
+/*
 void MapFiles(char **filenames, int num_files, int num_shards_per_file,
               std::vector<std::unordered_map<std::string, int>> &local_maps)
 {
@@ -224,6 +233,7 @@ void MapFiles(char **filenames, int num_files, int num_shards_per_file,
 
     CloseFiles(files);
 }
+*/
 
 void OpenAndShardFiles(char **filenames, int num_files, std::vector<File> &files,
                        int num_shards_per_file, std::vector<FileShard> &file_shards)
