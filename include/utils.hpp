@@ -22,6 +22,7 @@ void UnmapAndCloseFile(int fd, char *file_buffer, size_t file_size);
 size_t GetFileSize(int fd);
 void *MmapFileToRead(int fd, size_t file_size);
 void PrintFileBuffer(const char *file_buffer);
+bool IsDelimiter(char c);
 void GetWordCountsFromString(std::string &line_buffer, std::unordered_map<std::string, int> &word_counts);
 void UpdateWordCounts(std::unordered_map<std::string, int> &word_counts, const std::string &word, int count);
 bool SortAndWriteWordCountsToFile(const std::unordered_map<std::string, int> &word_counts, const std::string &filename);

@@ -11,7 +11,7 @@ CXXFLAGS=-std=c++17 -qopenmp
 INCLUDEDIR = -I include
 SOURCEDIR = src
 
-SOURCES = omp_count_words.cpp utils.cpp
+SOURCES = omp_count_words_two_step.cpp utils.cpp
 _DEPS = utils.hpp
 DEPS = $(patsubst %,$(INCLUDEDIR)/%,$(_DEPS))
 
