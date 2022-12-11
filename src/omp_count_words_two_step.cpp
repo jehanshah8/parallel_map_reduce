@@ -15,7 +15,7 @@
 // ./omp_count_words files/1.txt files/2.txt files/3.txt > omp_out.txt
 
 #define SHARDS_PER_THREAD 4
-#define NUM_CONCURRENT_FILES 15
+#define NUM_CONCURRENT_FILES 8 // good tradeoff between parallel sharding and mapping
 
 struct File
 {
@@ -83,8 +83,8 @@ int main(int argc, char *argv[])
     //     std::cout << "  - " << input_files[i] << std::endl;
     // }
 
-    std::string sorted_output_filename("sorted_combined_omp_wc.txt");
-    std::cout << "\nCombined sorted output file: \n  - " << sorted_output_filename << std::endl;
+    // std::string sorted_output_filename("sorted_combined_omp_wc.txt");
+    // std::cout << "\nCombined sorted output file: \n  - " << sorted_output_filename << std::endl;
 
     // std::cout << "\nOutput file(s): " << std::endl;
     // std::vector<std::string> output_files(num_max_threads);
@@ -187,16 +187,20 @@ int main(int argc, char *argv[])
 
     // Write to one file by appending (produces one file with outputs of previous files by appending)
     // Sorted before writing for convinienence in comparing with serial version
-    std::unordered_map<std::string, int> combined_map;
-    JoinMaps(reduced_maps, combined_map);
-    if (!SortAndWriteWordCountsToFile(combined_map, sorted_output_filename))
-    {
-        std::cerr << "Failed write to " << sorted_output_filename << "!" << std::endl;
-        exit(1);
-    }
+    // std::unordered_map<std::string, int> combined_map;
+    // JoinMaps(reduced_maps, combined_map);
+    // if (!SortAndWriteWordCountsToFile(combined_map, sorted_output_filename))
+    // {
+    //     std::cerr << "Failed write to " << sorted_output_filename << "!" << std::endl;
+    //     exit(1);
+    // }
 
     total_runtime += omp_get_wtime(); // Stop timer
     std::cout << "Total program runtime " << total_runtime << " seconds" << std::endl;
+    std::cout << std::endl;
+    std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout << std::endl;
+
 
     return 0;
 }
@@ -329,8 +333,8 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
     int num_maps = local_maps.size();
     int num_shards = file_shards.size();
     
-    #pragma omp parallel for schedule(static, 1)
-    // #pragma omp parallel for schedule(guided)
+    // #pragma omp parallel for schedule(static, 1)
+    #pragma omp parallel for schedule(guided)
     for (int i = 0; i < num_shards; i++)
     {
         if (file_shards.at(i).data != nullptr)

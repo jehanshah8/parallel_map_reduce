@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3)
+    if (argc < 2)
     {
         std::cout << "Usage: count_words <input file 1> ... <input file n>" << std::endl;
         exit(0);
@@ -30,17 +30,18 @@ int main(int argc, char *argv[])
     std::cout << "Serial Execution" << std::endl;
 
     // Echo arguments
-    std::cout << "\nInput file(s): " << std::endl;
-    for (int i = 0; i < num_input_files; i++)
-    {
-        std::cout << "  - " << input_files[i] << std::endl;
-    }
+    std::cout << "Number of input file(s): " << num_input_files << std::endl;
+    // std::cout << "\nInput file(s): " << std::endl;
+    // for (int i = 0; i < num_input_files; i++)
+    // {
+    //     std::cout << "  - " << input_files[i] << std::endl;
+    // }
 
-    std::string output_filename("serial_wc.txt");
-    std::cout << "\nOutput file: \n  - " << output_filename << std::endl;
-
-    std::string sorted_output_filename("sorted_serial_wc.txt");
-    std::cout << "\nSorted output file: \n  - " << sorted_output_filename << std::endl;
+    // std::string output_filename("serial_wc.txt");
+    // std::cout << "\nOutput file: \n  - " << output_filename << std::endl;
+// 
+    // std::string sorted_output_filename("sorted_serial_wc.txt");
+    // std::cout << "\nSorted output file: \n  - " << sorted_output_filename << std::endl;
 
     // Read files one by one and build a hash table to hold reduced data
     std::unordered_map<std::string, int> word_counts;
@@ -77,6 +78,10 @@ int main(int argc, char *argv[])
     runtime += omp_get_wtime(); // Stop timer
     std::cout << "\nSerial execution time " << runtime << " seconds" << std::endl;
 
+    std::cout << std::endl;
+    std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout << std::endl;
+
     // Write the word counts to file
     // if (!WriteWordCountsToFile(word_counts, output_filename)) 
     // {
@@ -85,11 +90,11 @@ int main(int argc, char *argv[])
     // }
     
     // sorted ouput for convinience 
-    if (!SortAndWriteWordCountsToFile(word_counts, sorted_output_filename)) 
-    {
-        std::cerr << "Failed write to " << sorted_output_filename << "!" << std::endl;
-        exit(1);
-    }
+    // if (!SortAndWriteWordCountsToFile(word_counts, sorted_output_filename)) 
+    // {
+    //     std::cerr << "Failed write to " << sorted_output_filename << "!" << std::endl;
+    //     exit(1);
+    // }
 
     return 0;
 }

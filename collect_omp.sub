@@ -1,0 +1,35 @@
+#!/bin/bash
+# FILENAME:  collect_omp.sub
+#SBATCH --nodes=1
+#SBATCH --ntasks=20
+#SBATCH --time=00:15:00
+
+./serial_count_words `cat input_files_list_240.txt`
+
+./serial_count_words `cat input_files_list_240.txt`
+./omp_count_words 1 `cat input_files_list_240.txt`
+./omp_count_words 2 `cat input_files_list_240.txt`
+./omp_count_words 4 `cat input_files_list_240.txt`
+./omp_count_words 8 `cat input_files_list_240.txt`
+./omp_count_words 16 `cat input_files_list_240.txt`
+
+./serial_count_words `cat input_files_list_480.txt`
+./omp_count_words 1 `cat input_files_list_480.txt`
+./omp_count_words 2 `cat input_files_list_480.txt`
+./omp_count_words 4 `cat input_files_list_480.txt`
+./omp_count_words 8 `cat input_files_list_480.txt`
+./omp_count_words 16 `cat input_files_list_480.txt`
+
+./serial_count_words `cat input_files_list_960.txt`
+./omp_count_words 1 `cat input_files_list_960.txt`
+./omp_count_words 2 `cat input_files_list_960.txt`
+./omp_count_words 4 `cat input_files_list_960.txt`
+./omp_count_words 8 `cat input_files_list_960.txt`
+./omp_count_words 16 `cat input_files_list_960.txt`
+
+./serial_count_words `cat input_files_list_1920.txt`
+./omp_count_words 1 `cat input_files_list_1920.txt`
+./omp_count_words 2 `cat input_files_list_1920.txt`
+./omp_count_words 4 `cat input_files_list_1920.txt`
+./omp_count_words 8 `cat input_files_list_1920.txt`
+./omp_count_words 16 `cat input_files_list_1920.txt`
