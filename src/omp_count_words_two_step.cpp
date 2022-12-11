@@ -53,7 +53,7 @@ void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unor
 int main(int argc, char *argv[])
 {
     double total_runtime = -omp_get_wtime(); // Start timer
-    omp_set_num_threads(16);
+    // omp_set_num_threads(5);
 
     if (argc < 2)
     {
@@ -105,10 +105,10 @@ int main(int argc, char *argv[])
     // Create a map corresponding to each thread (mapper)
     std::vector<std::unordered_map<std::string, int>> local_maps(num_max_threads);
 
-    double parallel_runtime = -omp_get_wtime(); // Start timer
     double sharding_time = 0;
     double mapping_time = 0;
-
+    double parallel_runtime = -omp_get_wtime(); // Start timer
+    
     int num_files_already_assigned = 0;
     int mapping_round = 0;
     // std::cout << "\nStarting to map files" << std::endl;
@@ -328,6 +328,7 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
     int num_shards = file_shards.size();
     
     #pragma omp parallel for schedule(static, 1)
+    // #pragma omp parallel for schedule(guided)
     for (int i = 0; i < num_shards; i++)
     {
         if (file_shards.at(i).data != nullptr)
@@ -338,26 +339,7 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
             // std::cout << "  - data: \n"
             //           << file_shards.at(i).data << std::endl;
 
-            int word_start_idx = 0;
-            int word_length = 0;
-            for (int j = 0; j <= shard.size(); j++) // read including null terminator
-            {
-                if (IsDelimiter(shard[j]))
-                {
-                    if (word_length)
-                    {
-                        std::string word = shard.substr(word_start_idx, word_length);
-                        UpdateWordCounts(local_maps[omp_get_thread_num()], word, 1);
-                        word_length = 0;
-                    }
-
-                    word_start_idx = j + 1;
-                }
-                else
-                {
-                    word_length++;
-                }
-            }
+            GetWordCountsFromString(shard, local_maps[omp_get_thread_num()]);
         }
     }
 }
