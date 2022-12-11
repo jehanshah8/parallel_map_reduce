@@ -2,7 +2,7 @@
 # FILENAME:  collect_omp.sub
 #SBATCH --nodes=1
 #SBATCH --ntasks=20
-#SBATCH --time=00:15:00
+#SBATCH --time=00:20:00
 
 ./serial_count_words `cat input_files_list_240.txt`
 
