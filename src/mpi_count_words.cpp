@@ -72,7 +72,8 @@ int main(int argc, char *argv[])
         }
         
         std::cout << "\nProgram Configuration" << std::endl;
-        std::cout << "  - Maximm number of threads available = " << num_max_threads << std::endl;
+        std::cout << "  - Number of MPI processes = " << num_procs << std::endl;
+        std::cout << "  - Number of threads per MPI process = " << num_max_threads << std::endl;
         std::cout << "  - Shards per thread per file = " << SHARDS_PER_THREAD << std::endl;
         std::cout << "  - Target number of shards per file = " << num_shards_per_file << std::endl;
         std::cout << "  - Number of files to process concurrently = " << NUM_CONCURRENT_FILES << std::endl;
@@ -82,14 +83,13 @@ int main(int argc, char *argv[])
     // Create a map corresponding to each thread (mapper)
     std::vector<std::unordered_map<std::string, int>> local_maps(num_max_threads);
 
-    MPI_Barrier(); // Wait until all processes are set up
+    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are set up
     double parallel_runtime = -MPI_Wtime();// start parallel timer 
 
     int num_files_already_assigned = 0;
     int mapping_round = 0;
 
-
-
+    std::cout << "\n" << "[" << pid << "] " << "Hello!" << std::endl;
 
     // std::cout << "\n << "[" << pid << "] " << "Starting to map files" << std::endl;
     /*
@@ -132,28 +132,28 @@ int main(int argc, char *argv[])
 
 
 
-    MPI_Barrier(); // Wait until all processes are done mapping 
+    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are done mapping 
     
     // stop mapping timer
     
     // start reduce timer
 
-    MPI_Barrier(); // Wait until all processes are done reducing  
+    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are done reducing  
     
     // stop reduce timer
     
-    parallel_runtime = (parallel_runtime + MPI_Wtime()) / MPI_Wick(); // stop parallel timer
+    parallel_runtime = (parallel_runtime + MPI_Wtime()) / MPI_Wtick(); // stop parallel timer
 
     if (!pid) 
     {
         // print out timings
         std::cout << "\nParallel execution time (not including file writing): " << parallel_runtime << " seconds" << std::endl;
-        std::cout << "Time spent on sharding: " << sharding_time << " seconds ("
-                  << (sharding_time / parallel_runtime) * 100 << "%)" << std::endl;
-        std::cout << "Time spent on mapping: " << mapping_time << " seconds ("
-                  << (mapping_time / parallel_runtime) * 100 << "%)" << std::endl;
-        std::cout << "Time spent on reducing: " << reducing_time << " seconds ("
-                  << (reducing_time / parallel_runtime) * 100 << "%)" << std::endl;
+        // std::cout << "Time spent on sharding: " << sharding_time << " seconds ("
+        //           << (sharding_time / parallel_runtime) * 100 << "%)" << std::endl;
+        // std::cout << "Time spent on mapping: " << mapping_time << " seconds ("
+        //           << (mapping_time / parallel_runtime) * 100 << "%)" << std::endl;
+        // std::cout << "Time spent on reducing: " << reducing_time << " seconds ("
+        //           << (reducing_time / parallel_runtime) * 100 << "%)" << std::endl;
         std::cout << std::endl;
     }
 

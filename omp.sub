@@ -1,5 +1,5 @@
 #!/bin/bash
-# FILENAME:  c_omp.sub
+# FILENAME:  omp.sub
 #SBATCH --nodes=1
 #SBATCH --ntasks=20
 #SBATCH --time=00:01:00

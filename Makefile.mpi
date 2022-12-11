@@ -11,14 +11,14 @@ CXXFLAGS=-std=c++17 -qopenmp
 INCLUDEDIR = -I include
 SOURCEDIR = src
 
-SOURCES = omp_count_words.cpp utils.cpp
+SOURCES = mpi_count_words.cpp utils.cpp
 _DEPS = utils.hpp
 DEPS = $(patsubst %,$(INCLUDEDIR)/%,$(_DEPS))
 
 OBJDIR = bin
 OBJECTS = $(SOURCES:%.cpp=$(OBJDIR)/%.o)
 
-EXECUTABLE = omp_count_words
+EXECUTABLE = mpi_count_words
 
 default: $(EXECUTABLE)
 $(EXECUTABLE) : $(OBJECTS)
