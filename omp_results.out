@@ -1,0 +1,395 @@
+Serial Execution
+Number of input file(s): 240
+
+Serial execution time 7.30751 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Serial Execution
+Number of input file(s): 240
+
+Serial execution time 7.34475 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 240
+
+Program Configuration
+  - Maximm number of threads available : 1
+  - Shards per thread per file : 4
+  - Target number of shards per file : 4
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 7.34782 seconds
+Time spent on sharding: 0.0380983 seconds (0.518499%)
+Time spent on mapping: 7.26389 seconds (98.8578%)
+Time spent on reducing: 0.0379448 seconds (0.516409%)
+
+Total program runtime 7.34939 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 240
+
+Program Configuration
+  - Maximm number of threads available : 2
+  - Shards per thread per file : 4
+  - Target number of shards per file : 8
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 7.42069 seconds
+Time spent on sharding: 0.0230818 seconds (0.311046%)
+Time spent on mapping: 7.25798 seconds (97.8074%)
+Time spent on reducing: 0.127576 seconds (1.7192%)
+
+Total program runtime 7.42238 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 240
+
+Program Configuration
+  - Maximm number of threads available : 4
+  - Shards per thread per file : 4
+  - Target number of shards per file : 16
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 4.53474 seconds
+Time spent on sharding: 0.0174487 seconds (0.384778%)
+Time spent on mapping: 4.36102 seconds (96.1692%)
+Time spent on reducing: 0.143163 seconds (3.15703%)
+
+Total program runtime 4.53651 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 240
+
+Program Configuration
+  - Maximm number of threads available : 8
+  - Shards per thread per file : 4
+  - Target number of shards per file : 32
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 2.73156 seconds
+Time spent on sharding: 0.0175211 seconds (0.641433%)
+Time spent on mapping: 2.54956 seconds (93.337%)
+Time spent on reducing: 0.147941 seconds (5.41598%)
+
+Total program runtime 2.73296 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 240
+
+Program Configuration
+  - Maximm number of threads available : 16
+  - Shards per thread per file : 4
+  - Target number of shards per file : 64
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 1.59084 seconds
+Time spent on sharding: 0.0200117 seconds (1.25793%)
+Time spent on mapping: 1.4276 seconds (89.7389%)
+Time spent on reducing: 0.124219 seconds (7.80839%)
+
+Total program runtime 1.59218 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Serial Execution
+Number of input file(s): 480
+
+Serial execution time 14.399 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 480
+
+Program Configuration
+  - Maximm number of threads available : 1
+  - Shards per thread per file : 4
+  - Target number of shards per file : 4
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 14.5677 seconds
+Time spent on sharding: 0.0822275 seconds (0.564452%)
+Time spent on mapping: 14.4309 seconds (99.0612%)
+Time spent on reducing: 0.0373919 seconds (0.256677%)
+
+Total program runtime 14.5694 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 480
+
+Program Configuration
+  - Maximm number of threads available : 2
+  - Shards per thread per file : 4
+  - Target number of shards per file : 8
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 13.7811 seconds
+Time spent on sharding: 0.0486321 seconds (0.352889%)
+Time spent on mapping: 13.5698 seconds (98.4666%)
+Time spent on reducing: 0.139162 seconds (1.0098%)
+
+Total program runtime 13.7829 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 480
+
+Program Configuration
+  - Maximm number of threads available : 4
+  - Shards per thread per file : 4
+  - Target number of shards per file : 16
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 8.24052 seconds
+Time spent on sharding: 0.0368881 seconds (0.447643%)
+Time spent on mapping: 8.02416 seconds (97.3745%)
+Time spent on reducing: 0.151186 seconds (1.83467%)
+
+Total program runtime 8.24189 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 480
+
+Program Configuration
+  - Maximm number of threads available : 8
+  - Shards per thread per file : 4
+  - Target number of shards per file : 32
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 5.77053 seconds
+Time spent on sharding: 0.0325325 seconds (0.563769%)
+Time spent on mapping: 5.55009 seconds (96.1799%)
+Time spent on reducing: 0.155859 seconds (2.70095%)
+
+Total program runtime 5.77216 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 480
+
+Program Configuration
+  - Maximm number of threads available : 16
+  - Shards per thread per file : 4
+  - Target number of shards per file : 64
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 3.38665 seconds
+Time spent on sharding: 0.0401583 seconds (1.18578%)
+Time spent on mapping: 3.16664 seconds (93.5034%)
+Time spent on reducing: 0.144202 seconds (4.25795%)
+
+Total program runtime 3.38803 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Serial Execution
+Number of input file(s): 960
+
+Serial execution time 28.2868 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 960
+
+Program Configuration
+  - Maximm number of threads available : 1
+  - Shards per thread per file : 4
+  - Target number of shards per file : 4
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 29.0185 seconds
+Time spent on sharding: 0.146053 seconds (0.503311%)
+Time spent on mapping: 28.8011 seconds (99.2509%)
+Time spent on reducing: 0.0376129 seconds (0.129617%)
+
+Total program runtime 29.0201 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 960
+
+Program Configuration
+  - Maximm number of threads available : 2
+  - Shards per thread per file : 4
+  - Target number of shards per file : 8
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 25.7244 seconds
+Time spent on sharding: 0.0955629 seconds (0.371488%)
+Time spent on mapping: 25.4462 seconds (98.9187%)
+Time spent on reducing: 0.134972 seconds (0.524685%)
+
+Total program runtime 25.7259 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 960
+
+Program Configuration
+  - Maximm number of threads available : 4
+  - Shards per thread per file : 4
+  - Target number of shards per file : 16
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 15.8779 seconds
+Time spent on sharding: 0.0749557 seconds (0.472076%)
+Time spent on mapping: 15.6029 seconds (98.2682%)
+Time spent on reducing: 0.147854 seconds (0.931195%)
+
+Total program runtime 15.8796 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 960
+
+Program Configuration
+  - Maximm number of threads available : 8
+  - Shards per thread per file : 4
+  - Target number of shards per file : 32
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 10.7268 seconds
+Time spent on sharding: 0.0679383 seconds (0.63335%)
+Time spent on mapping: 10.4375 seconds (97.3026%)
+Time spent on reducing: 0.154741 seconds (1.44256%)
+
+Total program runtime 10.7282 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 960
+
+Program Configuration
+  - Maximm number of threads available : 16
+  - Shards per thread per file : 4
+  - Target number of shards per file : 64
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 5.91576 seconds
+Time spent on sharding: 0.0765393 seconds (1.29382%)
+Time spent on mapping: 5.61204 seconds (94.8659%)
+Time spent on reducing: 0.150417 seconds (2.54265%)
+
+Total program runtime 5.91709 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Serial Execution
+Number of input file(s): 1920
+
+Serial execution time 57.3524 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 1920
+
+Program Configuration
+  - Maximm number of threads available : 1
+  - Shards per thread per file : 4
+  - Target number of shards per file : 4
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 57.7897 seconds
+Time spent on sharding: 0.343131 seconds (0.593758%)
+Time spent on mapping: 57.3429 seconds (99.2269%)
+Time spent on reducing: 0.0382769 seconds (0.0662349%)
+
+Total program runtime 57.7913 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 1920
+
+Program Configuration
+  - Maximm number of threads available : 2
+  - Shards per thread per file : 4
+  - Target number of shards per file : 8
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 55.1613 seconds
+Time spent on sharding: 0.204612 seconds (0.370934%)
+Time spent on mapping: 54.7409 seconds (99.2379%)
+Time spent on reducing: 0.123633 seconds (0.22413%)
+
+Total program runtime 55.1647 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 1920
+
+Program Configuration
+  - Maximm number of threads available : 4
+  - Shards per thread per file : 4
+  - Target number of shards per file : 16
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 31.8695 seconds
+Time spent on sharding: 0.151047 seconds (0.473954%)
+Time spent on mapping: 31.4739 seconds (98.7585%)
+Time spent on reducing: 0.139208 seconds (0.436806%)
+
+Total program runtime 31.8711 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 1920
+
+Program Configuration
+  - Maximm number of threads available : 8
+  - Shards per thread per file : 4
+  - Target number of shards per file : 32
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 20.6785 seconds
+Time spent on sharding: 0.145139 seconds (0.701882%)
+Time spent on mapping: 20.2454 seconds (97.9052%)
+Time spent on reducing: 0.158403 seconds (0.766026%)
+
+Total program runtime 20.68 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenMP Execution (two-step map and reduce)
+Number of input file(s): 1920
+
+Program Configuration
+  - Maximm number of threads available : 16
+  - Shards per thread per file : 4
+  - Target number of shards per file : 64
+  - Number of files to process concurrently : 8
+
+Parallel execution time (not including file writing): 12.6403 seconds
+Time spent on sharding: 0.153569 seconds (1.21492%)
+Time spent on mapping: 12.1907 seconds (96.4429%)
+Time spent on reducing: 0.152073 seconds (1.20308%)
+
+Total program runtime 12.6415 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
