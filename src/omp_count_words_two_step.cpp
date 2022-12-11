@@ -53,19 +53,20 @@ void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unor
 int main(int argc, char *argv[])
 {
     double total_runtime = -omp_get_wtime(); // Start timer
-    // omp_set_num_threads(5);
-
-    if (argc < 2)
+    
+    if (argc < 3)
     {
-        std::cout << "Usage: count_words <input file 1> ... <input file n>" << std::endl;
+        std::cout << "Usage: count_words <num_threads> <input file 1> ... <input file n>" << std::endl;
         exit(0);
     }
+
+    omp_set_num_threads(std::atoi(argv[1]));
 
     // Get sys info such as number of processors
     int num_max_threads = omp_get_max_threads(); // max number of threads available
 
-    char **input_files = &argv[1];
-    int num_input_files = argc - 1;
+    char **input_files = &argv[2];
+    int num_input_files = argc - 2;
 
     // Split the entire character array (file_buffer) into (k * num_thread) small
     // character arrays. k * for better load balance
@@ -75,31 +76,32 @@ int main(int argc, char *argv[])
     std::cout << "OpenMP Execution (two-step map and reduce)" << std::endl;
 
     // Echo arguments
-    std::cout << "\nInput file(s): " << std::endl;
-    for (int i = 0; i < num_input_files; i++)
-    {
-        std::cout << "  - " << input_files[i] << std::endl;
-    }
+    std::cout << "Number of input file(s): " << num_input_files << std::endl;
+    // std::cout << "Input file(s): " << std::endl;
+    // for (int i = 0; i < num_input_files; i++)
+    // {
+    //     std::cout << "  - " << input_files[i] << std::endl;
+    // }
 
     std::string sorted_output_filename("sorted_combined_omp_wc.txt");
     std::cout << "\nCombined sorted output file: \n  - " << sorted_output_filename << std::endl;
 
-    std::cout << "\nOutput file(s): " << std::endl;
-    std::vector<std::string> output_files(num_max_threads);
-    for (int i = 0; i < output_files.size(); i++)
-    {
-        output_files[i] = "output_files/output" + std::to_string(i) + ".txt";
-        std::cout << "  - " << output_files[i] << std::endl;
-    }
+    // std::cout << "\nOutput file(s): " << std::endl;
+    // std::vector<std::string> output_files(num_max_threads);
+    // for (int i = 0; i < output_files.size(); i++)
+    // {
+    //     output_files[i] = "output_files/output" + std::to_string(i) + ".txt";
+    //     std::cout << "  - " << output_files[i] << std::endl;
+    // }
 
     // omp_sched_t mapper_schedule_type = omp_sched_guided;
     // omp_set_schedule(mapper_schedule_type, -1);
 
     std::cout << "\nProgram Configuration" << std::endl;
-    std::cout << "  - Maximm number of threads available = " << num_max_threads << std::endl;
-    std::cout << "  - Shards per thread per file = " << SHARDS_PER_THREAD << std::endl;
-    std::cout << "  - Target number of shards per file = " << num_shards_per_file << std::endl;
-    std::cout << "  - Number of files to process concurrently = " << NUM_CONCURRENT_FILES << std::endl;
+    std::cout << "  - Maximm number of threads available : " << num_max_threads << std::endl;
+    std::cout << "  - Shards per thread per file : " << SHARDS_PER_THREAD << std::endl;
+    std::cout << "  - Target number of shards per file : " << num_shards_per_file << std::endl;
+    std::cout << "  - Number of files to process concurrently : " << NUM_CONCURRENT_FILES << std::endl;
     // std::cout << "  - Mapper scheduling = " << "static, 1" << std::endl;
 
     // Create a map corresponding to each thread (mapper)
