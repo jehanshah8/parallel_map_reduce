@@ -1,23 +1,9 @@
 #!/bin/bash
 # FILENAME:  mpi.sub
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
 #SBATCH --exclusive
-#SBATCH --time=00:01:00
+#SBATCH --time=00:05:00
 #SBATCH -A scholar
 
-export OMP_NUM_THREADS=16
-
-srun --mpi=pmi2 ./mpi_count_words files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt files/13.txt files/14.txt files/15.txt files/16.txt
-
-# ./omp_count_words files/long.txt
-
-# ./omp_count_words files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt \
-# files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt \
-# files/13.txt files/14.txt files/15.txt files/16.txt \
-# files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt \
-# files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt \
-# files/13.txt files/14.txt files/15.txt files/16.txt \
-# files/1.txt files/2.txt files/3.txt files/4.txt files/5.txt \
-# files/6.txt files/7.txt files/8.txt files/9.txt files/11.txt files/12.txt \
-# files/13.txt files/14.txt files/15.txt files/16.txt
+srun --mpi=pmi2 ./mpi_count_words 4 `cat input_files_list_240.txt`
