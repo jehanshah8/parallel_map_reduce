@@ -48,37 +48,37 @@ unsigned long Hash(const std::string &str);
 
 int main(int argc, char *argv[])
 {
-    int pid; 
-    int num_procs; 
+    int pid;
+    int num_procs;
 
     MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &pid); // get MPI process id
+    MPI_Comm_rank(MPI_COMM_WORLD, &pid);       // get MPI process id
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs); // get number of MPI processes
 
     if (argc < 3)
     {
-        if (!pid) 
+        if (!pid)
         {
             std::cout << "Usage: count_words <num_threads> <input file 1> ... <input file n>" << std::endl;
-            MPI_Finalize(); 
+            MPI_Finalize();
             exit(0);
         }
     }
 
     omp_set_num_threads(std::atoi(argv[1]));
-    
+
     // Get sys info such as number of processors
     int num_max_threads = omp_get_max_threads(); // max number of threads available
-    
+
     char **input_files = &argv[2];
     int num_input_files = argc - 2;
 
     if (num_input_files < num_procs)
     {
-        if (!pid) 
+        if (!pid)
         {
             std::cout << "WARNING: Fewer files than processes!" << std::endl;
-            // MPI_Finalize(); 
+            // MPI_Finalize();
             // exit(0);
         }
     }
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     int num_shards_per_file = SHARDS_PER_THREAD * num_max_threads;
 
     // Echo arguments
-    if (!pid) 
+    if (!pid)
     {
         // Program configuration
         std::cout << "MPI Execution" << std::endl;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
         // {
         //     std::cout << "  - " << input_files[i] << std::endl;
         // }
-        
+
         std::cout << "\nProgram Configuration" << std::endl;
         std::cout << "  - Number of MPI processes = " << num_procs << std::endl;
         std::cout << "  - Number of threads per MPI process = " << num_max_threads << std::endl;
@@ -110,23 +110,25 @@ int main(int argc, char *argv[])
 
     // Sanity check
     MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are set up
-    std::cout << "\n" << "[" << pid << "] " << "Hello!" << std::endl;
+    std::cout << "\n"
+              << "[" << pid << "] "
+              << "Hello!" << std::endl;
 
     // Create a map corresponding to each thread (mapper)
     std::vector<std::unordered_map<std::string, int>> local_maps(num_max_threads);
 
-    double parallel_runtime = 0;// start parallel timer 
-    double global_mapping_time = 0;// start timer for all nodes to finish distribution + local mapping;
-    double local_work_time = 0;// start timer for distribution + local mapping;
-    double work_distribution_time = 0;// start timer ;
+    double parallel_runtime = 0;       // start parallel timer
+    double global_mapping_time = 0;    // start timer for all nodes to finish distribution + local mapping;
+    double local_work_time = 0;        // start timer for distribution + local mapping;
+    double work_distribution_time = 0; // start timer ;
     double local_mapping_time = 0;
 
-    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are set up
-    parallel_runtime -= MPI_Wtime();// start parallel timer 
-    global_mapping_time -= MPI_Wtime();// start timer for all nodes to finish distribution + local mapping;
-    local_work_time -= MPI_Wtime();// start timer for distribution + local mapping;
-    work_distribution_time -= MPI_Wtime();// start timer ;
-    
+    MPI_Barrier(MPI_COMM_WORLD);           // Wait until all processes are set up
+    parallel_runtime -= MPI_Wtime();       // start parallel timer
+    global_mapping_time -= MPI_Wtime();    // start timer for all nodes to finish distribution + local mapping;
+    local_work_time -= MPI_Wtime();        // start timer for distribution + local mapping;
+    work_distribution_time -= MPI_Wtime(); // start timer ;
+
     std::pair<int, int> local_input_files_range = GetFilesPerNode(pid, num_procs, num_input_files);
     int num_local_input_files = local_input_files_range.second - local_input_files_range.first;
     char **local_input_files = &input_files[local_input_files_range.first];
@@ -139,8 +141,8 @@ int main(int argc, char *argv[])
 
     // MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes know what files to work on
     work_distribution_time += MPI_Wtime(); // stop timer
-    
-    local_mapping_time -= MPI_Wtime();// start timer ;
+
+    local_mapping_time -= MPI_Wtime(); // start timer ;
 
     int num_files_already_assigned = 0;
     int mapping_round = 0;
@@ -181,80 +183,122 @@ int main(int argc, char *argv[])
         // mapping_time += omp_get_wtime(); // Stop timer
 
         CloseFiles(files);
-        
+
         mapping_round++;
     }
-    
+
+    std::vector<std::unordered_map<std::string, int>> intermediate_maps(num_procs);
+
+    // Create a lock corresponding to each intermediate map
+    std::vector<omp_lock_t> intermediate_map_locks(intermediate_maps.size());
+    InitLocks(intermediate_map_locks);
+
+    #pragma omp parallel for
+    for (int i = 0; i < local_maps.size(); i++)
+    {
+        // Each reducer iterates over one local map
+        // and puts words into an intermediate map corresponding to each process
+        for (auto &it : local_maps[i])
+        {
+            int reducer_idx = Hash(it.first) % intermediate_maps.size();
+
+            omp_set_lock(&(intermediate_map_locks[reducer_idx]));                               // get lock for map
+            UpdateWordCounts(intermediate_maps[reducer_idx], it.first, it.second); // insert into that map
+            omp_unset_lock(&(intermediate_map_locks[reducer_idx]));                             // release lock
+        }
+    }
+
+    // Release locks
+    DestroyLocks(intermediate_map_locks);
+
     local_mapping_time += MPI_Wtime(); // stop timer
-    local_work_time += MPI_Wtime(); // stop timer
-    
-    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are done with local mapping 
+    local_work_time += MPI_Wtime();    // stop timer
+
+    MPI_Barrier(MPI_COMM_WORLD);        // Wait until all processes are done with local mapping
     global_mapping_time += MPI_Wtime(); // stop timer
 
     // std::cout << "\n" << "[" << pid << "] " << "Work distribution time (s): " << work_distribution_time << std::endl;
     // std::cout << "\n" << "[" << pid << "] " << "Local mapping time (s): " << local_mapping_time << std::endl;
     std::cout << "\n" << "[" << pid << "] " << "Work distribution + local mapping time (s): " << local_work_time << std::endl;
-    MPI_Barrier(MPI_COMM_WORLD); // To gather after prining   
-    
+    MPI_Barrier(MPI_COMM_WORLD); // To gather after prining
+
     // Start reducing
-    double global_reduction_time = -MPI_Wtime();// start timer for all nodes to finish distribution + local mapping;
-    double local_reduction_time = -MPI_Wtime();// start timer for distribution + local mapping;    
-    
+    double global_reduction_time = -MPI_Wtime(); // start timer for all nodes to finish distribution + local mapping;
+    double local_reduction_time = -MPI_Wtime();  // start timer for distribution + local mapping;
 
-    
-    // reduce 
-    std::vector<std::unordered_map<std::string, int>> intermediate_maps(num_procs);
-    int num_local_maps = local_maps.size();
+    // reduce
 
-    // Create a lock corresponding to each reduced map
-    std::vector<omp_lock_t> map_locks(num_procs);
-    InitLocks(map_locks);
+    std::vector<std::unordered_map<std::string, int>> received_maps(num_procs);
+    received_maps[pid] = intermediate_maps[pid];
 
-    #pragma omp parallel for
-    for (int i = 0; i < num_local_maps; i++)
-    {
-        // Each reducer iterates over one local map 
-        // and puts words into an intermediate map corresponding to each process
-        for (auto &it : local_maps[i])
-        {
-            int reducer_idx = Hash(it.first) % num_procs;
+    // MPI_Request recv_requets[num_procs - 1];
+    // int recv_request_idx = 0; 
+    // // Post receives to receive intermediate maps from each process
+    // for (int src = 0; src < num_procs; src++)
+    // {
+    //     if (src != pid)
+    //     {
+    //         // Use non-blocking recvs so that we can simply post and move on to sending
+    //         // Need to check status later to make sure we got it before processing 
+    //         MPI_Irecv(buf, count, type, src, tag, MPI_COMM_WORLD, &recv_requets[recv_request_idx]);
+    //         recv_request_idx++; 
+    //     }
+    // }
+// 
+    // // Send intermediate maps to corresponding processes
+    // // Start by sending to pid+1th process
+    // // This is done so process 0 isnt always reciving the data first
+    // // All processes start to receive some data this way 
+    // // Theoretically better load balance 
+    // // If there are 4 processes, process 2 will send to 3, 0, 1 in that order
+    // for (int dest = pid + 1; dest < pid + num_procs; dest++)
+    // {
+    //     // Use async non-blocking sends because intermd maps will be unchnaged later, safe to move on
+    //     dest %= num_procs;
+    //     MPI_Isend(buf, count, type, dest, tag, MPI_COMM_WORLD, request);
+    // }
+// 
+    // // As maps are received from each process start processing and reduce them into list of maps like omp
+    // std::vector<std::unordered_map<std::string, int>> reduced_maps(num_max_threads);
+// 
+    // // Create a lock corresponding to each reduced map
+    // std::vector<omp_lock_t> reduced_map_locks(reduced_maps.size());
+    // InitLocks(reduced_map_locks);
+// 
+    // // Use parallel for or tasks?
+    // // Use wait any and spawn tasks each time one 
+    // // #pragma omp parallel for
+    // for (int i = 0; i < received_maps.size(); i++)
+    // {
+    //     // Wait / test until map is actually received unless self map
+    //     // TODO
+// 
+    //     for (auto &it : received_maps[i])
+    //     {
+    //         int reducer_idx = Hash(it.first) % reduced_maps.size();
+// 
+    //         omp_set_lock(&(reduced_map_locks[reducer_idx]));                          // get lock for map
+    //         UpdateWordCounts(reduced_maps[reducer_idx], it.first, it.second); // insert into that map
+    //         omp_unset_lock(&(reduced_map_locks[reducer_idx]));                        // release lock
+    //     }
+    // }
+// 
+    // // Release locks
+    // DestroyLocks(reduced_map_locks);
 
-            omp_set_lock(&(map_locks[reducer_idx]));                                     // get lock for map
-            UpdateWordCounts(intermediate_maps[reducer_idx], it.first, it.second); // insert into that map
-            omp_unset_lock(&(map_locks[reducer_idx]));                                   // release lock
-        }
-    }
-
-    // Release locks
-    DestroyLocks(map_locks);
-
-    // Post receives to receive intermediate maps from each process
-
-
-    // Send intermediate maps to corresponding processes
-    for (int i = 0; i < num_procs; i++)
-    {
-        ;
-    }
-
-    // As maps are received from each process start processing and reduce them into one shared map
-
-
-
-
-
-
-    local_reduction_time += MPI_Wtime(); // Time taken for this node to finish reducing
-    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are done reducing  
+    local_reduction_time += MPI_Wtime();  // Time taken for this node to finish reducing
+    MPI_Barrier(MPI_COMM_WORLD);          // Wait until all processes are done reducing
     global_reduction_time += MPI_Wtime(); // Time taken for all nodes to finish reducing
 
     parallel_runtime += MPI_Wtime(); // stop parallel timer
 
-    std::cout << "\n" << "[" << pid << "] " << "Reduction time: " << local_mapping_time << std::endl;
+    std::cout << "\n"
+              << "[" << pid << "] "
+              << "Reduction time: " << local_mapping_time << std::endl;
 
     MPI_Barrier(MPI_COMM_WORLD); // To gather prints
-    
-    if (!pid) 
+
+    if (!pid)
     {
         // print out timings
         std::cout << "\nParallel execution time (not including file writing): " << parallel_runtime << " seconds" << std::endl;
@@ -265,13 +309,13 @@ int main(int argc, char *argv[])
         std::cout << std::endl;
     }
 
-    MPI_Finalize(); 
-    return 0; 
+    MPI_Finalize();
+    return 0;
 }
 
 std::pair<int, int> GetFilesPerNode(int pid, int num_procs, int num_input_files)
 {
-    int start = (pid * num_input_files) / num_procs; // inclusive
+    int start = (pid * num_input_files) / num_procs;      // inclusive
     int stop = ((pid + 1) * num_input_files) / num_procs; // exclusive
     return std::make_pair(start, stop);
 }
@@ -294,8 +338,8 @@ std::pair<int, int> GetFilesToMap(int num_input_files, int num_files_already_ass
 void OpenAndShardFiles(char **filenames, int num_files, std::vector<File> &files,
                        int num_shards_per_file, std::vector<FileShard> &file_shards)
 {
-    // Open and split multiple files into shards
-    #pragma omp parallel for if (num_files > 3) schedule(dynamic)
+// Open and split multiple files into shards
+#pragma omp parallel for if (num_files > 3) schedule(dynamic)
     for (int i = 0; i < num_files; i++)
     {
         const char *filename = filenames[i];
@@ -384,9 +428,9 @@ void GetWordCountsFromShards(std::vector<FileShard> &file_shards,
     // parallel for loop to take file shards, tokenize, and update local maps
     int num_maps = local_maps.size();
     int num_shards = file_shards.size();
-    
-    // #pragma omp parallel for schedule(static, 1)
-    #pragma omp parallel for schedule(guided)
+
+// #pragma omp parallel for schedule(static, 1)
+#pragma omp parallel for schedule(guided)
     for (int i = 0; i < num_shards; i++)
     {
         if (file_shards.at(i).data != nullptr)
@@ -406,7 +450,7 @@ void CloseFiles(std::vector<File> &files)
 {
     // Close files
     int num_files = files.size();
-    #pragma omp parallel for if (num_files > 3) schedule(dynamic)
+#pragma omp parallel for if (num_files > 3) schedule(dynamic)
     for (int i = 0; i < num_files; i++)
     {
         UnmapAndCloseFile(files.at(i).fd, files.at(i).file_buffer, files.at(i).file_size);
@@ -444,3 +488,14 @@ void DestroyLocks(std::vector<omp_lock_t> &locks)
         omp_destroy_lock(&(locks[i]));
     }
 }
+
+// For dynamic file assignment
+// Master knows how many times it will be called based on total number of files 
+// and how it will assign them
+// for ex. if 10 files and 2 threads 
+// it knows to always assign first 3, then 2, then 1 
+// so it knows to expect 6 recvs deterministically
+// Use any source 
+// Use blocking recvs
+// non-blocking sends? 
+// or sendrecv (which is blocking exchange without deadlock)

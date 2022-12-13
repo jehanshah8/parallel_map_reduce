@@ -1,9 +1,9 @@
 #!/bin/bash
 # FILENAME:  mpi.sub
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
-#SBATCH --exclusive
-#SBATCH --time=00:05:00
+#SBATCH --nodes=4                                                                                                                                        
+#SBATCH --ntasks-per-node=20  
+#SBATCH --exclusive                                                                                                      
+#SBATCH -t 00:20:00 
 #SBATCH -A scholar
 
-srun --mpi=pmi2 ./mpi_count_words 4 `cat input_files_list_240.txt`
+srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_240.txt`
