@@ -292,9 +292,7 @@ int main(int argc, char *argv[])
 
     parallel_runtime += MPI_Wtime(); // stop parallel timer
 
-    std::cout << "\n"
-              << "[" << pid << "] "
-              << "Reduction time: " << local_mapping_time << std::endl;
+    std::cout << "\n" << "[" << pid << "] " << "Reduction time: " << local_reduction_time << std::endl;
 
     MPI_Barrier(MPI_COMM_WORLD); // To gather prints
 
