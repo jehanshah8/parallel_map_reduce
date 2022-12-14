@@ -56,7 +56,6 @@ void PrintFileBuffer(const char *file_buffer)
     std::cout << "\nEnd file buffer" << std::endl;
 }
 
-
 bool IsDelimiter(char c)
 {
     return (c == ' ' || c == '\n' || c == '\0');

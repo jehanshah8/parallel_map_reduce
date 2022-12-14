@@ -1,0 +1,45 @@
+SHELL = /bin/sh
+
+.SUFFIXES: .hpp .cpp .o
+CXX=mpicc
+CXXFLAGS=-std=c++17 -qopenmp
+
+# CXX=g++
+# CXXFLAGS=-std=c++17 -fopenmp
+
+
+INCLUDEDIR = -I include
+SOURCEDIR = src
+
+SOURCES = small_mpi.cpp utils.cpp
+_DEPS = utils.hpp
+DEPS = $(patsubst %,$(INCLUDEDIR)/%,$(_DEPS))
+
+OBJDIR = bin
+OBJECTS = $(SOURCES:%.cpp=$(OBJDIR)/%.o)
+
+EXECUTABLE = small_mpi
+
+default: $(EXECUTABLE)
+$(EXECUTABLE) : $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) 
+
+$(OBJDIR)/%.o: $(SOURCEDIR)/%.cpp
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+
+# DO NOT DELETE THIS LINE -- make depend needs i
+# Clean the project
+# running -f means it does not error on missing files
+RM=rm -f
+
+.PHONY: clean
+clean:
+	$(RM) *.o 
+	$(RM) $(OBJDIR)/*.o 
+	$(RM) $(EXECUTABLE)
+	$(RM) $(EXECUTABLE).exe
+	$(RM) $(EXECUTABLE).zip
+
+# Clean then build
+.PHONY: rebuild
+rebuild: clean $(EXECUTABLE)
