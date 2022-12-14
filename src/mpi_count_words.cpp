@@ -46,8 +46,24 @@ void InitLocks(std::vector<omp_lock_t> &locks);
 void DestroyLocks(std::vector<omp_lock_t> &locks);
 unsigned long Hash(const std::string &str);
 
-void SerializeMap (const std::unordered_map < std::string, int >&map, std::string &map_str);
-void DeserializeMap(const char* buffer, size_t buffer_size, std::unordered_map <std::string, int>&map); 
+void MapWordsToNodes(const std::vector<std::unordered_map<std::string, int>> &local_maps,
+                     std::vector<std::unordered_map<std::string, int>> &intermediate_maps);
+void SerializeMaps(std::vector<std::unordered_map<std::string, int>> &maps,
+                   std::vector<std::string> &buffers,
+                   std::vector<size_t> &buffer_sizes, int pid);
+void SerializeMap(const std::unordered_map<std::string, int> &map, std::string &map_str);
+void DeserializeMap(const char *buffer, size_t buffer_size, std::unordered_map<std::string, int> &map);
+void SendRecvBufSize(std::vector<size_t> &out_buffer_sizes, std::vector<size_t> &in_buffer_sizes,
+                     MPI_Request size_send_requests[], MPI_Request size_recv_requests[],
+                     int num_procs, int pid);
+void SendRecvBufs(MPI_Request size_recv_requests[], std::vector<char *> &in_buffers,
+                  std::vector<size_t> &in_buffer_sizes, MPI_Request data_recv_requests[],
+                  std::vector<std::string> &out_buffers, std::vector<size_t> &out_buffer_sizes,
+                  MPI_Request data_send_requests[], int num_procs, int pid);
+void Reduce(std::vector<char *> &in_buffers, std::vector<size_t> &in_buffer_sizes,
+            MPI_Request data_recv_requests[], std::unordered_map<std::string, int> &self_intr_map,
+            std::vector<std::unordered_map<std::string, int>> &reduced_maps,
+            int num_procs, int pid);
 
 int main(int argc, char *argv[])
 {
@@ -112,43 +128,45 @@ int main(int argc, char *argv[])
     }
 
     // Sanity check
-    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are set up
-    std::cout << "\n"
-              << "[" << pid << "] "
-              << "Hello!" << std::endl;
+    // MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are set up
+    // std::cout << "\n"
+    //           << "[" << pid << "] "
+    //           << "Hello!" << std::endl;
 
     // Create a map corresponding to each thread (mapper)
     std::vector<std::unordered_map<std::string, int>> local_maps(num_max_threads);
 
-    double parallel_runtime = 0;       // start parallel timer
-    double global_mapping_time = 0;    // start timer for all nodes to finish distribution + local mapping;
-    double local_work_time = 0;        // start timer for distribution + local mapping;
-    double work_distribution_time = 0; // start timer ;
-    double local_mapping_time = 0;
+    // double global_parallel_runtime = 0;       // start parallel timer
+    // double global_mapping_time = 0;    // start timer for all nodes to finish distribution + local mapping;
+    // double node_mapping_time = 0;        // start timer for distribution + local mapping;
+    // double work_distribution_time = 0; // start timer ;
+    // double local_mapping_time = 0;
 
-    MPI_Barrier(MPI_COMM_WORLD);           // Wait until all processes are set up
-    parallel_runtime -= MPI_Wtime();       // start parallel timer
-    global_mapping_time -= MPI_Wtime();    // start timer for all nodes to finish distribution + local mapping;
-    local_work_time -= MPI_Wtime();        // start timer for distribution + local mapping;
-    work_distribution_time -= MPI_Wtime(); // start timer ;
+    MPI_Barrier(MPI_COMM_WORLD);                   // Wait until all processes are set up
+    double global_parallel_runtime = -MPI_Wtime(); // start parallel timer
+    // double global_mapping_time = -MPI_Wtime(); // start timer for all nodes to finish distribution + local mapping;
+    double node_mapping_time = -MPI_Wtime(); // start timer for distribution + local mapping;
+    // double work_distribution_time = MPI_Wtime(); // start timer ;
 
     std::pair<int, int> local_input_files_range = GetFilesPerNode(pid, num_procs, num_input_files);
     int num_local_input_files = local_input_files_range.second - local_input_files_range.first;
     char **local_input_files = &input_files[local_input_files_range.first];
 
-    std::cout << "\n" << "[" << pid << "] " << "Number of files to map: " << num_local_input_files << std::endl;
+    // std::cout << "\n"
+    //           << "[" << pid << "] "
+    //           << "Number of files to map: " << num_local_input_files << std::endl;
     // for (int i = 0; i < num_local_input_files; i++)
     // {
     //     std::cout << "[" << pid << "] " << "  - " << local_input_files[i] << std::endl;
     // }
 
     // MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes know what files to work on
-    work_distribution_time += MPI_Wtime(); // stop timer
+    // work_distribution_time += MPI_Wtime(); // stop timer
 
-    local_mapping_time -= MPI_Wtime(); // start timer ;
+    // double local_mapping_time = -MPI_Wtime(); // start timer ;
 
     int num_files_already_assigned = 0;
-    int mapping_round = 0;
+    // int mapping_round = 0;
 
     // std::cout << "\n" << "[" << pid << "] " << "Starting to map files" << std::endl;
     while (true)
@@ -177,191 +195,59 @@ int main(int argc, char *argv[])
         std::vector<File> files(num_files_to_map);                                  // List of files (structs) to map
         std::vector<FileShard> file_shards(num_shards_per_file * num_files_to_map); // Vector to store file shards
 
-        // sharding_time -= omp_get_wtime(); // Start timer
         OpenAndShardFiles(&local_input_files[file_range.first], num_files_to_map, files, num_shards_per_file, file_shards);
-        // sharding_time += omp_get_wtime(); // Stop timer
 
-        // mapping_time -= omp_get_wtime(); // Start timer
         GetWordCountsFromShards(file_shards, local_maps);
-        // mapping_time += omp_get_wtime(); // Stop timer
 
         CloseFiles(files);
 
-        mapping_round++;
+        // mapping_round++;
     }
 
+    // Get intermediate maps
     std::vector<std::unordered_map<std::string, int>> intermediate_maps(num_procs);
+    MapWordsToNodes(local_maps, intermediate_maps);
 
-    // Create a lock corresponding to each intermediate map
-    std::vector<omp_lock_t> intermediate_map_locks(intermediate_maps.size());
-    InitLocks(intermediate_map_locks);
+    // local_mapping_time += MPI_Wtime(); // stop timer
+    node_mapping_time += MPI_Wtime(); // stop timer
 
-    #pragma omp parallel for
-    for (int i = 0; i < local_maps.size(); i++)
-    {
-        // Each reducer iterates over one local map
-        // and puts words into an intermediate map corresponding to each process
-        for (auto &it : local_maps[i])
-        {
-            int reducer_idx = Hash(it.first) % intermediate_maps.size();
+    // Serialize intermediate maps for sending
+    std::vector<std::string> out_buffers(num_procs);
+    std::vector<size_t> out_buffer_sizes(num_procs);
+    double serializing_time = -MPI_Wtime();
+    SerializeMaps(intermediate_maps, out_buffers, out_buffer_sizes, pid);
+    serializing_time += MPI_Wtime();
 
-            omp_set_lock(&(intermediate_map_locks[reducer_idx]));                               // get lock for map
-            UpdateWordCounts(intermediate_maps[reducer_idx], it.first, it.second); // insert into that map
-            omp_unset_lock(&(intermediate_map_locks[reducer_idx]));                             // release lock
-        }
-    }
-
-    // Release locks
-    DestroyLocks(intermediate_map_locks);
-
-    local_mapping_time += MPI_Wtime(); // stop timer
-    local_work_time += MPI_Wtime();    // stop timer
-
-    MPI_Barrier(MPI_COMM_WORLD);        // Wait until all processes are done with local mapping
-    global_mapping_time += MPI_Wtime(); // stop timer
+    // MPI_Barrier(MPI_COMM_WORLD);        // Wait until all processes are done with local mapping
+    // global_mapping_time += MPI_Wtime(); // stop timer
 
     // std::cout << "\n" << "[" << pid << "] " << "Work distribution time (s): " << work_distribution_time << std::endl;
     // std::cout << "\n" << "[" << pid << "] " << "Local mapping time (s): " << local_mapping_time << std::endl;
-    std::cout << "\n" << "[" << pid << "] " << "Work distribution + local mapping time (s): " << local_work_time << std::endl;
-    MPI_Barrier(MPI_COMM_WORLD); // To gather after prining
+    // MPI_Barrier(MPI_COMM_WORLD); // To gather after prining
 
-    // Serialize maps
-    
-
-    // Start reducing
-    double global_reduction_time = -MPI_Wtime(); // start timer for all nodes to finish distribution + local mapping;
-    double local_reduction_time = -MPI_Wtime();  // start timer for distribution + local mapping;
-
-    // serialize
-    std::vector<std::string> out_buffers (num_procs); 
-    std::vector<size_t> out_buffer_sizes(num_procs);
- 
-    // #pragma omp parallel for
-    for (int i = 0; i < intermediate_maps.size(); i++)
-    {
-        if (i != pid)
-        {
-            SerializeMap (intermediate_maps[i], out_buffers[i]);
-            out_buffer_sizes[i] = out_buffers[i].size() + 1;
-            // std::cout << "\n" << "[" << pid << "] " << "Serialized map " << i << ": "<< out_buffers[i] << std::endl;
-        }
-    }
-
-    // Post receives to receive size of intermediate maps from each process
+    double comm_setup_time = -MPI_Wtime(); // start timer for send/recv size + initiate data
     std::vector<size_t> in_buffer_sizes(num_procs);
     MPI_Request size_recv_requests[num_procs];
-    for (int i = 0; i < num_procs; i++)
-    {
-        if (i != pid)
-        {
-            // Use non-blocking recvs so that we can simply post and move on to sending
-            // Need to check status later to make sure we got it before processing 
-            MPI_Irecv(&in_buffer_sizes[i], 1, MPI_UNSIGNED_LONG, i, 1, MPI_COMM_WORLD, &size_recv_requests[i]);
-        }
-    }
-
-    // Send sizes
     MPI_Request size_send_requests[num_procs];
-    for (int i = pid + 1; i < pid + num_procs; i++)
-    {
-        int dest = i % num_procs;
-        // Use async non-blocking sends because intermd maps will be unchnaged later, safe to move on
-        MPI_Isend(&(out_buffer_sizes[dest]), 1, MPI_UNSIGNED_LONG, dest, 1, MPI_COMM_WORLD, &size_send_requests[dest]);
-        // std::cout << "\n" << "[" << pid << "] " << "Sent size = " << out_buffer_sizes[dest] << " to node " << dest << std::endl;
-    }
+    SendRecvBufSize(out_buffer_sizes, in_buffer_sizes, size_send_requests,
+                    size_recv_requests, num_procs, pid);
 
-    // Check if size recvd and post recv for data
-    std::vector<char*> in_buffers (num_procs);
+    std::vector<char *> in_buffers(num_procs);
     MPI_Request data_recv_requests[num_procs];
-    for (int i = 0; i < num_procs; i++)
-    {
-        if (i != pid)
-        {
-            MPI_Wait(&size_recv_requests[i], MPI_STATUS_IGNORE);
-            in_buffers[i] = new char[in_buffer_sizes[i]];
-            // std::cout << "\n" << "[" << pid << "] " << "Got size = " << in_buffer_sizes[i] << " from node " << i << std::endl;
-            MPI_Irecv(in_buffers[i], in_buffer_sizes[i], MPI_CHAR, i, 2, MPI_COMM_WORLD, &data_recv_requests[i]);
-        }
-    }
-
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    // Send the data 
     MPI_Request data_send_requests[num_procs];
-    for (int i = pid + 1; i < pid + num_procs; i++)
-    {
-        int dest = i % num_procs;
-        // Use async non-blocking sends because intermd maps will be unchnaged later, safe to move on
-        MPI_Isend(out_buffers[dest].data(), out_buffer_sizes[dest], MPI_CHAR, dest, 2, MPI_COMM_WORLD, &data_send_requests[dest]);
-        // std::cout << "\n" << "[" << pid << "] " << "Sent buffer to node " << dest << std::endl;
-        // std::cout << "\n" << "[" << pid << "] " << "Sent data: " << out_buffers[dest].data() << std::endl;
-    }
+    SendRecvBufs(size_recv_requests, in_buffers, in_buffer_sizes, data_recv_requests,
+                 out_buffers, out_buffer_sizes, data_send_requests, num_procs, pid);
+    comm_setup_time += MPI_Wtime();
 
-    for (int i = 0; i < num_procs; i++)
-    {
-        if (i != pid)
-        {
-            MPI_Wait(&data_recv_requests[i], MPI_STATUS_IGNORE);
-            // std::cout << "\n" << "[" << pid << "] " << " Got data from node " << i << std::endl;    
-            // std::cout << "[" << pid << "] " << "Received data: " << in_buffers[i] << std::endl;    
-        }
-    }
-
-    // Temp, deserialize 
-    std::vector<std::unordered_map<std::string, int>> received_maps(num_procs);
-    received_maps[pid] = intermediate_maps[pid];
-
-    for (int i = 0; i < received_maps.size(); i++)
-    {
-        if (i != pid)
-        {
-            DeserializeMap(in_buffers[i], in_buffer_sizes[i], received_maps[i]);
-            // std::cout << "\n" << "[" << pid << "] " << "Finished deserializing data from node " << i << std::endl; 
-            // std::cout << "[" << pid << "] " << "Deserialized data: " << std::endl; 
-            // for (auto &it : received_maps[i])
-            // {
-            //     std::cout << "[" << pid << "] " << it.first << " : " << it.second << std::endl; 
-            // } 
-
-        }
-    }
-
+    // Start reducing
     // As maps are received from each process start processing and reduce them into list of maps like omp
+    double node_reduction_time = -MPI_Wtime(); // start timer for send/recv data + reduction
     std::vector<std::unordered_map<std::string, int>> reduced_maps(num_max_threads);
- 
-    // // Create a lock corresponding to each reduced map
-    std::vector<omp_lock_t> reduced_map_locks(reduced_maps.size());
-    InitLocks(reduced_map_locks);
+    Reduce(in_buffers, in_buffer_sizes, data_recv_requests, intermediate_maps[pid],
+           reduced_maps, num_procs, pid);
+    node_reduction_time += MPI_Wtime(); // Time taken for this node to finish reducing
 
-    // // Use parallel for or tasks?
-    // // Use wait any and spawn tasks each time one 
-    #pragma omp parallel for
-    for (int i = 0; i < received_maps.size(); i++)
-    {
-        for (auto &it : received_maps[i])
-        {
-            int reducer_idx = Hash(it.first) % reduced_maps.size();
-
-            omp_set_lock(&(reduced_map_locks[reducer_idx]));                          // get lock for map
-            UpdateWordCounts(reduced_maps[reducer_idx], it.first, it.second); // insert into that map
-            omp_unset_lock(&(reduced_map_locks[reducer_idx]));                        // release lock
-        }
-    }
-
-    // // Release locks
-    DestroyLocks(reduced_map_locks);
-
-
-    // Free recv buffers
-    for (int i = 0; i < in_buffers.size(); i++)
-    {
-        if (i != pid)
-        {
-            delete[] in_buffers[i];
-        }
-    }
-
-    // Wait until all sends are complete 
+    // Wait until all sends are complete
     for (int i = 0; i < num_procs; i++)
     {
         if (i != pid)
@@ -371,28 +257,40 @@ int main(int argc, char *argv[])
         }
     }
 
-    local_reduction_time += MPI_Wtime();  // Time taken for this node to finish reducing
-    MPI_Barrier(MPI_COMM_WORLD);          // Wait until all processes are done reducing
-    global_reduction_time += MPI_Wtime(); // Time taken for all nodes to finish reducing
+    MPI_Barrier(MPI_COMM_WORLD); // Wait until all processes are done reducing
+    // global_reduction_time += MPI_Wtime(); // Time taken for all nodes to finish reducing
+    global_parallel_runtime += MPI_Wtime(); // stop parallel timer
 
-    parallel_runtime += MPI_Wtime(); // stop parallel timer
+    std::cout << "\n"
+              << "[" << pid << "] "
+              << "Serializing time (s): " << serializing_time << std::endl;
 
-    std::cout << "\n" << "[" << pid << "] " << "Reduction time: " << local_reduction_time << std::endl;
+    std::cout << "\n"
+              << "[" << pid << "] "
+              << "Sending and receiving buffer sizes time (s): " << comm_setup_time << std::endl;
+
+    std::cout << "\n"
+              << "[" << pid << "] "
+              << "Work distribution + local mapping time (s): " << node_mapping_time << std::endl;
+
+    std::cout << "\n"
+              << "[" << pid << "] "
+              << "Reduction time (s): " << node_reduction_time << std::endl;
 
     MPI_Barrier(MPI_COMM_WORLD); // To gather prints
 
     if (!pid)
     {
         // print out timings
-        std::cout << "\nParallel execution time (not including file writing): " << parallel_runtime << " seconds" << std::endl;
-        std::cout << "Time taken for all nodes to finish local mapping: " << global_mapping_time << " seconds ("
-                  << (global_mapping_time / parallel_runtime) * 100 << "%)" << std::endl;
-        std::cout << "Time taken for all nodes to finish reducing: " << global_reduction_time << " seconds ("
-                  << (global_reduction_time / parallel_runtime) * 100 << "%)" << std::endl;
+        std::cout << "\nParallel execution time (not including file writing): " << global_parallel_runtime << " seconds" << std::endl;
+        // std::cout << "Time taken for all nodes to finish local mapping: " << global_mapping_time << " seconds ("
+        //           << (global_mapping_time / global_parallel_runtime) * 100 << "%)" << std::endl;
+        // std::cout << "Time taken for all nodes to finish reducing: " << global_reduction_time << " seconds ("
+        //           << (global_reduction_time / global_parallel_runtime) * 100 << "%)" << std::endl;
         std::cout << std::endl;
     }
 
-    std::string output_filename  = "output_files/mpi_output" + std::to_string(pid) + ".txt"; 
+    std::string output_filename = "output_files/mpi_output" + std::to_string(pid) + ".txt";
     std::unordered_map<std::string, int> combined_map;
     JoinMaps(reduced_maps, combined_map);
     if (!SortAndWriteWordCountsToFile(combined_map, output_filename))
@@ -581,55 +479,266 @@ void DestroyLocks(std::vector<omp_lock_t> &locks)
     }
 }
 
-void SerializeMap (const std::unordered_map < std::string, int >&map, std::string &map_str)
+void MapWordsToNodes(const std::vector<std::unordered_map<std::string, int>> &local_maps,
+                     std::vector<std::unordered_map<std::string, int>> &intermediate_maps)
+{
+    // Create a lock corresponding to each intermediate map
+    std::vector<omp_lock_t> intermediate_map_locks(intermediate_maps.size());
+    InitLocks(intermediate_map_locks);
+
+#pragma omp parallel for
+    for (int i = 0; i < local_maps.size(); i++)
+    {
+        // Each reducer iterates over one local map
+        // and puts words into an intermediate map corresponding to each process
+        for (auto &it : local_maps[i])
+        {
+            int reducer_idx = Hash(it.first) % intermediate_maps.size();
+
+            omp_set_lock(&(intermediate_map_locks[reducer_idx]));                  // get lock for map
+            UpdateWordCounts(intermediate_maps[reducer_idx], it.first, it.second); // insert into that map
+            omp_unset_lock(&(intermediate_map_locks[reducer_idx]));                // release lock
+        }
+    }
+
+    // Release locks
+    DestroyLocks(intermediate_map_locks);
+}
+
+void SerializeMaps(std::vector<std::unordered_map<std::string, int>> &maps,
+                   std::vector<std::string> &buffers,
+                   std::vector<size_t> &buffer_sizes, int pid)
+{
+#pragma omp parallel for
+    for (int i = 0; i < maps.size(); i++)
+    {
+        if (i != pid)
+        {
+            SerializeMap(maps[i], buffers[i]);
+            buffer_sizes[i] = buffers[i].size() + 1;
+            // std::cout << "\n" << "[" << pid << "] " << "Serialized map " << i << ": "<< buffers[i] << std::endl;
+        }
+    }
+}
+
+void SerializeMap(const std::unordered_map<std::string, int> &map, std::string &map_str)
 {
     std::ostringstream oss;
-    for (auto& it : map) {
+    for (auto &it : map)
+    {
         oss << it.first << " " << it.second << " ";
     }
     map_str = oss.str();
 }
 
-void DeserializeMap(const char* buffer, size_t buffer_size, std::unordered_map <std::string, int>&map)
+void DeserializeMap(const char *buffer, size_t buffer_size, std::unordered_map<std::string, int> &map)
 {
     int i = 0;
     while (i < buffer_size - 1)
     {
-        const char* k = &buffer[i]; 
+        const char *k = &buffer[i];
         int key_size = -i;
-        while(buffer[i] != ' ')
+        while (buffer[i] != ' ')
         {
-            i++;    
+            i++;
         }
-        
-        key_size += i; 
-        std::string key(k, key_size); 
 
-        i++; 
+        key_size += i;
+        std::string key(k, key_size);
 
-        int val = 0; 
-        while(buffer[i] != ' ')
+        i++;
+
+        int val = 0;
+        while (buffer[i] != ' ')
         {
-            val *= 10; 
-            val += buffer[i] - '0'; 
-            i++; 
+            val *= 10;
+            val += buffer[i] - '0';
+            i++;
         }
-         
-        i++; 
-        
+
+        i++;
+
         map[key] = val;
-        
-        // std::cout << key << ":" << val; 
+
+        // std::cout << key << ":" << val;
         // std::cout << "#" << std::endl;
     }
 }
+
+void SendRecvBufSize(std::vector<size_t> &out_buffer_sizes, std::vector<size_t> &in_buffer_sizes,
+                     MPI_Request size_send_requests[], MPI_Request size_recv_requests[],
+                     int num_procs, int pid)
+{
+    for (int src = 0; src < num_procs; src++)
+    {
+        if (src != pid)
+        {
+            // Use non-blocking recvs so that we can simply post and move on to sending
+            // Need to check status later to make sure we got it before processing
+            MPI_Irecv(&in_buffer_sizes[src], 1, MPI_UNSIGNED_LONG, src, 1, MPI_COMM_WORLD, &size_recv_requests[src]);
+        }
+    }
+
+    // Send sizes
+    for (int i = pid + 1; i < pid + num_procs; i++)
+    {
+        int dest = i % num_procs;
+        // Use async non-blocking sends because intermd maps will be unchnaged later, safe to move on
+        MPI_Isend(&(out_buffer_sizes[dest]), 1, MPI_UNSIGNED_LONG, dest, 1, MPI_COMM_WORLD, &size_send_requests[dest]);
+        // std::cout << "\n" << "[" << pid << "] " << "Sent size = " << out_buffer_sizes[dest] << " to node " << dest << std::endl;
+    }
+}
+
+void SendRecvBufs(MPI_Request size_recv_requests[], std::vector<char *> &in_buffers,
+                  std::vector<size_t> &in_buffer_sizes, MPI_Request data_recv_requests[],
+                  std::vector<std::string> &out_buffers, std::vector<size_t> &out_buffer_sizes,
+                  MPI_Request data_send_requests[], int num_procs, int pid)
+{
+    // Check if size recvd and post recv for data
+    for (int i = 0; i < num_procs; i++)
+    {
+        if (i != pid)
+        {
+            MPI_Wait(&size_recv_requests[i], MPI_STATUS_IGNORE);
+            in_buffers[i] = new char[in_buffer_sizes[i]];
+            // std::cout << "\n" << "[" << pid << "] " << "Got size = " << in_buffer_sizes[i] << " from node " << i << std::endl;
+            MPI_Irecv(in_buffers[i], in_buffer_sizes[i], MPI_CHAR, i, 2, MPI_COMM_WORLD, &data_recv_requests[i]);
+        }
+    }
+
+    // Send the data
+    for (int i = pid + 1; i < pid + num_procs; i++)
+    {
+        int dest = i % num_procs;
+        // Use async non-blocking sends because intermd maps will be unchnaged later, safe to move on
+        MPI_Isend(out_buffers[dest].data(), out_buffer_sizes[dest], MPI_CHAR, dest, 2, MPI_COMM_WORLD, &data_send_requests[dest]);
+        // std::cout << "\n" << "[" << pid << "] " << "Sent buffer to node " << dest << std::endl;
+        // std::cout << "\n" << "[" << pid << "] " << "Sent data: " << out_buffers[dest].data() << std::endl;
+    }
+}
+
+void Reduce(std::vector<char *> &in_buffers, std::vector<size_t> &in_buffer_sizes,
+            MPI_Request data_recv_requests[], std::unordered_map<std::string, int> &self_intr_map,
+            std::vector<std::unordered_map<std::string, int>> &reduced_maps,
+            int num_procs, int pid)
+{
+    // Create a lock corresponding to each reduced map
+    std::vector<omp_lock_t> reduced_map_locks(reduced_maps.size());
+    InitLocks(reduced_map_locks);
+
+    /*
+    #pragma omp parallel
+    {
+
+        #pragma omp single
+        {
+            for (int i = 0; i < num_procs; i++)
+            {
+                #pragma omp task
+                {
+                   traverse_parallel(p->right, level + 1);
+                }
+            }
+        }
+    }
+    */
+
+    // Temp, deserialize
+    // std::vector<std::unordered_map<std::string, int>> received_maps(num_procs);
+    // received_maps[pid] = self_intr_map;
+
+    for (int i = 0; i < num_procs; i++)
+    {
+        if (i != pid)
+        {
+            MPI_Wait(&data_recv_requests[i], MPI_STATUS_IGNORE);
+            // std::cout << "\n" << "[" << pid << "] " << " Got data from node " << i << std::endl;
+            // std::cout << "[" << pid << "] " << "Received data: " << in_buffers[i] << std::endl;
+        }
+    }
+
+    #pragma omp parallel for
+    for (int j = 0; j < num_procs; j++)
+    {
+        if (j != pid)
+        {
+            // MPI_Wait(&data_recv_requests[j], MPI_STATUS_IGNORE);
+
+            // DeserializeMap(in_buffers[j], in_buffer_sizes[j], received_maps[j]);
+
+            char *buffer = in_buffers[j];
+            int i = 0;
+            while (i < in_buffer_sizes[j] - 1)
+            {
+                const char *k = &buffer[i];
+                int key_size = -i;
+                while (buffer[i] != ' ')
+                {
+                    i++;
+                }
+
+                key_size += i;
+                std::string key(k, key_size);
+
+                i++;
+
+                int val = 0;
+                while (buffer[i] != ' ')
+                {
+                    val *= 10;
+                    val += buffer[i] - '0';
+                    i++;
+                }
+
+                i++;
+
+                int reducer_idx = Hash(key) % reduced_maps.size();
+
+                omp_set_lock(&(reduced_map_locks[reducer_idx]));       // get lock for map
+                UpdateWordCounts(reduced_maps[reducer_idx], key, val); // insert into that map
+                omp_unset_lock(&(reduced_map_locks[reducer_idx]));     // release lock
+            }
+
+            // std::cout << "\n" << "[" << pid << "] " << "Finished deserializing data from node " << i << std::endl;
+            // std::cout << "[" << pid << "] " << "Deserialized data: " << std::endl;
+            // for (auto &it : received_maps[i])
+            // {
+            //     std::cout << "[" << pid << "] " << it.first << " : " << it.second << std::endl;
+            // }
+        }
+        else
+        {
+            for (auto &it : self_intr_map)
+            {
+                int reducer_idx = Hash(it.first) % reduced_maps.size();
+
+                omp_set_lock(&(reduced_map_locks[reducer_idx]));                  // get lock for map
+                UpdateWordCounts(reduced_maps[reducer_idx], it.first, it.second); // insert into that map
+                omp_unset_lock(&(reduced_map_locks[reducer_idx]));                // release lock
+            }
+        }
+    }
+
+    // // Release locks
+    DestroyLocks(reduced_map_locks);
+
+    // Free recv buffers
+    for (int i = 0; i < in_buffers.size(); i++)
+    {
+        if (i != pid)
+        {
+            delete[] in_buffers[i];
+        }
+    }
+}
+
 // For dynamic file assignment
-// Master knows how many times it will be called based on total number of files 
+// Master knows how many times it will be called based on total number of files
 // and how it will assign them
-// for ex. if 10 files and 2 threads 
-// it knows to always assign first 3, then 2, then 1 
+// for ex. if 10 files and 2 threads
+// it knows to always assign first 3, then 2, then 1
 // so it knows to expect 6 recvs deterministically
-// Use any source 
+// Use any source
 // Use blocking recvs
-// non-blocking sends? 
+// non-blocking sends?
 // or sendrecv (which is blocking exchange without deadlock)
