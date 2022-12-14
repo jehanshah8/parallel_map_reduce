@@ -110,6 +110,8 @@ int main(int argc, char *argv[])
     if (!pid)
     {
         // Program configuration
+        std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+        std::cout << std::endl;
         std::cout << "MPI Execution" << std::endl;
         std::cout << "Number of input file(s): " << num_input_files << std::endl;
         // std::cout << "\nInput file(s): " << std::endl;
@@ -211,12 +213,14 @@ int main(int argc, char *argv[])
     // local_mapping_time += MPI_Wtime(); // stop timer
     node_mapping_time += MPI_Wtime(); // stop timer
 
+    double comm_setup_time = -MPI_Wtime(); // start timer for send/recv size + initiate data
     // Serialize intermediate maps for sending
     std::vector<std::string> out_buffers(num_procs);
     std::vector<size_t> out_buffer_sizes(num_procs);
-    double serializing_time = -MPI_Wtime();
+    
+    // double serializing_time = -MPI_Wtime();
     SerializeMaps(intermediate_maps, out_buffers, out_buffer_sizes, pid);
-    serializing_time += MPI_Wtime();
+    // serializing_time += MPI_Wtime();
 
     // MPI_Barrier(MPI_COMM_WORLD);        // Wait until all processes are done with local mapping
     // global_mapping_time += MPI_Wtime(); // stop timer
@@ -225,7 +229,7 @@ int main(int argc, char *argv[])
     // std::cout << "\n" << "[" << pid << "] " << "Local mapping time (s): " << local_mapping_time << std::endl;
     // MPI_Barrier(MPI_COMM_WORLD); // To gather after prining
 
-    double comm_setup_time = -MPI_Wtime(); // start timer for send/recv size + initiate data
+   
     std::vector<size_t> in_buffer_sizes(num_procs);
     MPI_Request size_recv_requests[num_procs];
     MPI_Request size_send_requests[num_procs];
@@ -261,21 +265,13 @@ int main(int argc, char *argv[])
     // global_reduction_time += MPI_Wtime(); // Time taken for all nodes to finish reducing
     global_parallel_runtime += MPI_Wtime(); // stop parallel timer
 
-    std::cout << "\n"
-              << "[" << pid << "] "
-              << "Serializing time (s): " << serializing_time << std::endl;
+    // std::cout << "[" << pid << "] " << "Serializing time (s): " << serializing_time << std::endl;
 
-    std::cout << "\n"
-              << "[" << pid << "] "
-              << "Sending and receiving buffer sizes time (s): " << comm_setup_time << std::endl;
+    std::cout << "[" << pid << "] " << "Serialization + sending and receiving buffer sizes time (s): " << comm_setup_time << std::endl;
 
-    std::cout << "\n"
-              << "[" << pid << "] "
-              << "Work distribution + local mapping time (s): " << node_mapping_time << std::endl;
+    std::cout << "[" << pid << "] " << "Work distribution and mapping time (s): " << node_mapping_time << std::endl;
 
-    std::cout << "\n"
-              << "[" << pid << "] "
-              << "Reduction time (s): " << node_reduction_time << std::endl;
+    std::cout << "[" << pid << "] " << "Data transfer and reduction time (s): " << node_reduction_time << std::endl;
 
     MPI_Barrier(MPI_COMM_WORLD); // To gather prints
 
@@ -509,7 +505,7 @@ void SerializeMaps(std::vector<std::unordered_map<std::string, int>> &maps,
                    std::vector<std::string> &buffers,
                    std::vector<size_t> &buffer_sizes, int pid)
 {
-#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < maps.size(); i++)
     {
         if (i != pid)
