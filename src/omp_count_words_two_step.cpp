@@ -48,7 +48,7 @@ void InitLocks(std::vector<omp_lock_t> &locks);
 void DestroyLocks(std::vector<omp_lock_t> &locks);
 unsigned long Hash(const std::string &str);
 
-void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unordered_map<std::string, int> &combined_map);
+// void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unordered_map<std::string, int> &combined_map);
 
 int main(int argc, char *argv[])
 {
@@ -83,16 +83,16 @@ int main(int argc, char *argv[])
     //     std::cout << "  - " << input_files[i] << std::endl;
     // }
 
-    // std::string sorted_output_filename("sorted_combined_omp_wc.txt");
+    std::string sorted_output_filename("sorted_combined_omp_wc.txt");
     // std::cout << "\nCombined sorted output file: \n  - " << sorted_output_filename << std::endl;
 
     // std::cout << "\nOutput file(s): " << std::endl;
-    // std::vector<std::string> output_files(num_max_threads);
-    // for (int i = 0; i < output_files.size(); i++)
-    // {
-    //     output_files[i] = "output_files/output" + std::to_string(i) + ".txt";
-    //     std::cout << "  - " << output_files[i] << std::endl;
-    // }
+    std::vector<std::string> output_files(num_max_threads);
+    for (int i = 0; i < output_files.size(); i++)
+    {
+        output_files[i] = "output_files/omp_output" + std::to_string(i) + ".txt";
+        // std::cout << "  - " << output_files[i] << std::endl;
+    }
 
     // omp_sched_t mapper_schedule_type = omp_sched_guided;
     // omp_set_schedule(mapper_schedule_type, -1);
@@ -173,27 +173,27 @@ int main(int argc, char *argv[])
 
     // double writing_time = -omp_get_wtime(); // Start timer
     // Write to multiple files, one per reducer (thread)
-    // #pragma omp parallel for
-    // for (int i = 0; i < num_max_threads; i++)
-    // {
-    //     // if (!SortAndWriteWordCountsToFile(reduced_maps[i], output_files[i]))
-    //     if (!WriteWordCountsToFile(reduced_maps[i], output_files[i]))
-    //     {
-    //         std::cerr << "Failed write to " << output_files[i] << "!" << std::endl;
-    //         exit(1);
-    //     }
-    // }
+    #pragma omp parallel for
+    for (int i = 0; i < num_max_threads; i++)
+    {
+        if (!SortAndWriteWordCountsToFile(reduced_maps[i], output_files[i]))
+        // if (!WriteWordCountsToFile(reduced_maps[i], output_files[i]))
+        {
+            std::cerr << "Failed write to " << output_files[i] << "!" << std::endl;
+            exit(1);
+        }
+    }
     // writing_time += omp_get_wtime(); // Stop timer
 
     // Write to one file by appending (produces one file with outputs of previous files by appending)
     // Sorted before writing for convinienence in comparing with serial version
-    // std::unordered_map<std::string, int> combined_map;
-    // JoinMaps(reduced_maps, combined_map);
-    // if (!SortAndWriteWordCountsToFile(combined_map, sorted_output_filename))
-    // {
-    //     std::cerr << "Failed write to " << sorted_output_filename << "!" << std::endl;
-    //     exit(1);
-    // }
+    std::unordered_map<std::string, int> combined_map;
+    JoinMaps(reduced_maps, combined_map);
+    if (!SortAndWriteWordCountsToFile(combined_map, sorted_output_filename))
+    {
+        std::cerr << "Failed write to " << sorted_output_filename << "!" << std::endl;
+        exit(1);
+    }
 
     total_runtime += omp_get_wtime(); // Stop timer
     std::cout << "Total program runtime " << total_runtime << " seconds" << std::endl;
@@ -420,10 +420,3 @@ void DestroyLocks(std::vector<omp_lock_t> &locks)
     }
 }
 
-void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unordered_map<std::string, int> &combined_map)
-{
-    for (int i = 0; i < maps.size(); i++)
-    {
-        combined_map.insert(maps.at(i).begin(), maps.at(i).end());
-    }
-}

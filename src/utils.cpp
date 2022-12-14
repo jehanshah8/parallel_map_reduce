@@ -174,3 +174,11 @@ bool WriteWordCountsToFile(const std::unordered_map<std::string, int> &word_coun
     out_file.close();
     return true;
 }
+
+void JoinMaps(std::vector<std::unordered_map<std::string, int>> &maps, std::unordered_map<std::string, int> &combined_map)
+{
+    for (int i = 0; i < maps.size(); i++)
+    {
+        combined_map.insert(maps.at(i).begin(), maps.at(i).end());
+    }
+}
