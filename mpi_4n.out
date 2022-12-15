@@ -1,0 +1,104 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 240
+
+Program Configuration
+  - Number of MPI processes = 4
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[0] Serialization + sending and receiving buffer sizes time (s): 0.178141
+[0] Work distribution and mapping time (s): 0.656806
+[0] Data transfer and reduction time (s): 0.034806
+[2] Serialization + sending and receiving buffer sizes time (s): 0.00983596
+[2] Work distribution and mapping time (s): 0.825112
+
+Parallel execution time (not including file writing): 0.873183 seconds
+
+[1] Serialization + sending and receiving buffer sizes time (s): 0.217503
+[3] Serialization + sending and receiving buffer sizes time (s): 0.229916
+[2] Data transfer and reduction time (s): 0.036474
+[1] Work distribution and mapping time (s): 0.617455
+[1] Data transfer and reduction time (s): 0.0382361
+[3] Work distribution and mapping time (s): 0.605046
+[3] Data transfer and reduction time (s): 0.036041
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 480
+
+Program Configuration
+  - Number of MPI processes = 4
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[1] Serialization + sending and receiving buffer sizes time (s): 0.115572
+[3] Serialization + sending and receiving buffer sizes time (s): 0.120239
+[3] Work distribution and mapping time (s): 1.01707
+[3] Data transfer and reduction time (s): 0.0396869
+[0] Serialization + sending and receiving buffer sizes time (s): 0.0259571
+[0] Work distribution and mapping time (s): 1.10939
+[0] Data transfer and reduction time (s): 0.0355089
+
+Parallel execution time (not including file writing): 1.18137 seconds
+
+[2] Serialization + sending and receiving buffer sizes time (s): 0.0217459
+[1] Work distribution and mapping time (s): 1.02117
+[1] Data transfer and reduction time (s): 0.036727
+[2] Work distribution and mapping time (s): 1.11421
+[2] Data transfer and reduction time (s): 0.044497
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 960
+
+Program Configuration
+  - Number of MPI processes = 4
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[1] Serialization + sending and receiving buffer sizes time (s): 0.228239
+[3] Serialization + sending and receiving buffer sizes time (s): 0.0386319
+[0] Serialization + sending and receiving buffer sizes time (s): 0.271804
+[0] Work distribution and mapping time (s): 1.75368
+[0] Data transfer and reduction time (s): 0.042912
+
+Parallel execution time (not including file writing): 2.0722 seconds
+
+[2] Serialization + sending and receiving buffer sizes time (s): 0.022161
+[2] Work distribution and mapping time (s): 2.01258
+[2] Data transfer and reduction time (s): 0.0372899
+[1] Work distribution and mapping time (s): 1.79725
+[1] Data transfer and reduction time (s): 0.0465889
+[3] Work distribution and mapping time (s): 1.98401
+[3] Data transfer and reduction time (s): 0.0396311
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 1920
+
+Program Configuration
+  - Number of MPI processes = 4
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[3] Serialization + sending and receiving buffer sizes time (s): 0.0100002
+[1] Serialization + sending and receiving buffer sizes time (s): 0.209918
+[0] Serialization + sending and receiving buffer sizes time (s): 0.267156
+[0] Work distribution and mapping time (s): 3.27936
+[0] Data transfer and reduction time (s): 0.027452
+
+Parallel execution time (not including file writing): 3.59572 seconds
+
+[2] Serialization + sending and receiving buffer sizes time (s): 0.167014
+[2] Work distribution and mapping time (s): 3.38827
+[2] Data transfer and reduction time (s): 0.0398669
+[3] Work distribution and mapping time (s): 3.53372
+[3] Data transfer and reduction time (s): 0.0389199
+[1] Work distribution and mapping time (s): 3.33657
+[1] Data transfer and reduction time (s): 0.0311921

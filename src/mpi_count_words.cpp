@@ -267,9 +267,9 @@ int main(int argc, char *argv[])
 
     // std::cout << "[" << pid << "] " << "Serializing time (s): " << serializing_time << std::endl;
 
-    std::cout << "[" << pid << "] " << "Serialization + sending and receiving buffer sizes time (s): " << comm_setup_time << std::endl;
-
     std::cout << "[" << pid << "] " << "Work distribution and mapping time (s): " << node_mapping_time << std::endl;
+
+    std::cout << "[" << pid << "] " << "Serialization + sending and receiving buffer sizes time (s): " << comm_setup_time << std::endl;
 
     std::cout << "[" << pid << "] " << "Data transfer and reduction time (s): " << node_reduction_time << std::endl;
 

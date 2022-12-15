@@ -1,35 +1,32 @@
 #!/bin/bash
 # FILENAME:  mpi.sub
-#SBATCH --nodes=16                                                                                                                                        
+#SBATCH --nodes=2                                                                                                                                        
 #SBATCH --ntasks-per-node=20  
 #SBATCH --exclusive                                                                                                      
-#SBATCH -t 00:15:00 
+#SBATCH -t 00:05:00 
 #SBATCH -A scholar
 
-./serial_count_words `cat input_files_list_240.txt`
-srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_240.txt`
+# srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_240.txt`
+# srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_480.txt`
+# srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_960.txt`
+# srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_1920.txt`
+
 srun --mpi=pmi2 -n 2 ./mpi_count_words 16 `cat input_files_list_240.txt`
-srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_240.txt`
-srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_240.txt`
-srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_240.txt`
-
-./serial_count_words `cat input_files_list_480.txt`
-srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_480.txt`
 srun --mpi=pmi2 -n 2 ./mpi_count_words 16 `cat input_files_list_480.txt`
-srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_480.txt`
-srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_480.txt`
-srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_480.txt`
-
-./serial_count_words `cat input_files_list_960.txt`
-srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_960.txt`
 srun --mpi=pmi2 -n 2 ./mpi_count_words 16 `cat input_files_list_960.txt`
-srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_960.txt`
-srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_960.txt`
-srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_960.txt`
-
-./serial_count_words `cat input_files_list_1920.txt`
-srun --mpi=pmi2 -n 1 ./mpi_count_words 16 `cat input_files_list_1920.txt`
 srun --mpi=pmi2 -n 2 ./mpi_count_words 16 `cat input_files_list_1920.txt`
-srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_1920.txt`
+
+# srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_240.txt`
+# srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_480.txt`
+# srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_960.txt`
+# srun --mpi=pmi2 -n 4 ./mpi_count_words 16 `cat input_files_list_1920.txt`
+
+srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_240.txt`
+srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_480.txt`
+srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_960.txt`
 srun --mpi=pmi2 -n 8 ./mpi_count_words 16 `cat input_files_list_1920.txt`
-srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_1920.txt`
+
+# srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_240.txt`
+# srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_480.txt`
+# srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_960.txt`
+# srun --mpi=pmi2 -n 16 ./mpi_count_words 16 `cat input_files_list_1920.txt`

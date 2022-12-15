@@ -4,4 +4,4 @@
 #SBATCH --ntasks=20
 #SBATCH --time=00:01:00
 
-./omp_count_words 4 `cat input_files_list_960.txt`
+./omp_count_words 2 `cat input_files_list_1920.txt`

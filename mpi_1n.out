@@ -1,0 +1,68 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 240
+
+Program Configuration
+  - Number of MPI processes = 1
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[0] Serialization + sending and receiving buffer sizes time (s): 1.28746e-05
+[0] Work distribution and mapping time (s): 2.58676
+[0] Data transfer and reduction time (s): 0.064487
+
+Parallel execution time (not including file writing): 2.65132 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 480
+
+Program Configuration
+  - Number of MPI processes = 1
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[0] Serialization + sending and receiving buffer sizes time (s): 1.28746e-05
+[0] Work distribution and mapping time (s): 4.16789
+[0] Data transfer and reduction time (s): 0.067657
+
+Parallel execution time (not including file writing): 4.23557 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 960
+
+Program Configuration
+  - Number of MPI processes = 1
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[0] Serialization + sending and receiving buffer sizes time (s): 1.3113e-05
+[0] Work distribution and mapping time (s): 7.56154
+[0] Data transfer and reduction time (s): 0.066071
+
+Parallel execution time (not including file writing): 7.62764 seconds
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MPI Execution
+Number of input file(s): 1920
+
+Program Configuration
+  - Number of MPI processes = 1
+  - Number of threads per MPI process = 16
+  - Shards per thread per file = 4
+  - Target number of shards per file = 64
+  - Number of files to process concurrently = 8
+[0] Serialization + sending and receiving buffer sizes time (s): 1.28746e-05
+[0] Work distribution and mapping time (s): 13.6993
+[0] Data transfer and reduction time (s): 0.0669491
+
+Parallel execution time (not including file writing): 13.7663 seconds
+
